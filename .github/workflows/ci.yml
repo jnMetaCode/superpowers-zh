@@ -23,9 +23,10 @@ jobs:
         run: |
           ERRORS=0
           for dir in skills/*/; do
-            SKILL_FILE=$(find "$dir" -maxdepth 1 -name '*.md' | head -1)
-            if [ -z "$SKILL_FILE" ]; then
-              echo "::warning::No .md file in $dir"
+            SKILL_FILE="${dir}SKILL.md"
+            if [ ! -f "$SKILL_FILE" ]; then
+              echo "::error::Missing SKILL.md in $dir"
+              ERRORS=$((ERRORS + 1))
               continue
             fi
 
