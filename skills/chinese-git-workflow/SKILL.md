@@ -1,6 +1,6 @@
 ---
 name: chinese-git-workflow
-description: 适配国内 Git 平台和团队习惯的工作流规范——Gitee、Coding、极狐 GitLab 全覆盖
+description: 适配国内 Git 平台和团队习惯的工作流规范——Gitee、Coding、极狐 GitLab、CNB 全覆盖
 ---
 
 # 国内 Git 工作流规范
@@ -15,14 +15,14 @@ description: 适配国内 Git 平台和团队习惯的工作流规范——Gitee
 
 ### 平台对比
 
-| 特性 | Gitee | Coding.net | 极狐 GitLab | GitHub |
-|------|-------|------------|-------------|--------|
-| 国内访问 | 快 | 快 | 快 | 不稳定 |
-| 免费私有仓库 | 有 | 有 | 有 | 有 |
-| CI/CD | Gitee Go | Coding CI | 内置 GitLab CI | GitHub Actions |
-| 代码审查 | PR | MR | MR | PR |
-| 制品库 | 有限 | 完整 | 完整 | Packages |
-| 适合场景 | 开源/小团队 | 中大型团队 | 企业私有化 | 国际项目 |
+| 特性 | Gitee | Coding.net | 极狐 GitLab | CNB | GitHub |
+|------|-------|------------|-------------|-----|--------|
+| 国内访问 | 快 | 快 | 快 | 快 | 不稳定 |
+| 免费私有仓库 | 有 | 有 | 有 | 有 | 有 |
+| CI/CD | Gitee Go | Coding CI | 内置 GitLab CI | 内置（.cnb.yml） | GitHub Actions |
+| 代码审查 | PR | MR | MR | MR | PR |
+| 制品库 | 有限 | 完整 | 完整 | 完整 | Packages |
+| 适合场景 | 开源/小团队 | 中大型团队 | 企业私有化 | 云原生 / Docker 流水线 | 国际项目 |
 
 ### Gitee 特有配置
 
@@ -61,6 +61,17 @@ git remote add origin https://jihulab.com/<group>/<repo>.git
 
 # 或者企业内部部署
 git remote add origin https://gitlab.yourcompany.com/<group>/<repo>.git
+```
+
+### CNB（Cloud Native Build）特有配置
+
+```bash
+# CNB 仓库地址（仅支持 HTTPS，不提供 SSH 协议）
+git remote add origin https://cnb.cool/<org>/<repo>.git
+
+# HTTPS 认证：用户名固定为 cnb，密码为个人访问令牌（Access Token）
+# 在 CNB 平台 → 个人设置 → 访问令牌 中生成
+git config credential.helper store
 ```
 
 ## 工作流选择
@@ -372,16 +383,42 @@ variables:
   when: manual  # 生产环境手动触发
 ```
 
+### CNB（Cloud Native Build）
+
+```yaml
+# .cnb.yml — branch-first 结构，直接指定 Docker 镜像跑流水线
+main:
+  push:
+    - docker:
+        image: node:20
+      stages:
+        - npm ci
+        - npm test
+        - npm run build
+  pull_request:
+    - docker:
+        image: node:20
+      stages:
+        - npm run lint
+        - npm test
+```
+
+**特点：**
+- 每个流水线独立指定 Docker 镜像，天然云原生
+- 支持 `push` / `pull_request` 触发
+- 同一事件可并行多条流水线
+- `stages` 也支持 `- name: xxx` + `script:` 的展开形式，复杂场景见官方文档
+
 ### GitHub Actions 国内替代方案对照
 
-| GitHub Actions 功能 | Gitee Go | Coding CI | 极狐 GitLab CI |
-|---------------------|----------|-----------|----------------|
-| 触发条件 | triggers | Jenkinsfile triggers | only/rules |
-| 缓存依赖 | cache step | stash/unstash | cache |
-| 制品存储 | artifacts | 制品库 | artifacts |
-| 环境变量 | env | environment | variables |
-| 密钥管理 | 环境变量配置 | 凭据管理 | CI/CD Variables |
-| 手动触发 | 手动运行 | 手动触发 | when: manual |
+| GitHub Actions 功能 | Gitee Go | Coding CI | 极狐 GitLab CI | CNB |
+|---------------------|----------|-----------|----------------|-----|
+| 触发条件 | triggers | Jenkinsfile triggers | only/rules | push / pull_request |
+| 缓存依赖 | cache step | stash/unstash | cache | 见官方文档 |
+| 制品存储 | artifacts | 制品库 | artifacts | 见官方文档 |
+| 环境变量 | env | environment | variables | env |
+| 密钥管理 | 环境变量配置 | 凭据管理 | CI/CD Variables | Access Token |
+| 手动触发 | 手动运行 | 手动触发 | when: manual | 页面手动运行 |
 
 ## PR/MR 描述模板
 

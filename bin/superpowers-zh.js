@@ -56,6 +56,7 @@ const TARGETS = [
   { name: 'OpenCode',      dir: '.opencode/skills',          detect: '.opencode' },
   { name: 'Qwen Code',     dir: '.qwen/skills',             detect: '.qwen' },
   { name: 'Hermes Agent',  dir: '.hermes/skills',            detect: ['.hermes', 'HERMES.md', '.hermes.md'] },
+  { name: 'Claw Code',     dir: '.claw/skills',              detect: ['.claw', 'CLAW.md'] },
 ];
 
 function countDirs(dir) {
@@ -323,6 +324,9 @@ const TOOL_ALIASES = {
   'qwen-code':    'Qwen Code',
   'hermes':       'Hermes Agent',
   'hermes-agent': 'Hermes Agent',
+  'claw':         'Claw Code',
+  'claw-code':    'Claw Code',
+  'clawcode':     'Claw Code',
 };
 
 function showHelp() {
