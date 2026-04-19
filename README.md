@@ -225,13 +225,13 @@ cp -r superpowers-zh/skills /your/project/.claw/skills       # Claw Code（Rust 
 
 **五个项目组合使用，覆盖 AI 编程从"方法论 → 角色 → 协作 → 教程 → 安全"的完整链路。**
 
-| 项目 | 定位 | ⭐ | 一句话 |
-|------|------|:---:|-------|
-| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本项目） | 🧠 工作方法论 | ![](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=flat&label=) | 20 个 skills 教 AI **怎么干活** |
-| **[agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh)** | 🎭 专家角色库 | ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=) | **211 个即插即用 AI 专家**，含 46 中国原创（小红书/抖音/微信/飞书/钉钉） |
-| **[agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator)** | 🚀 编排引擎 | ![](https://img.shields.io/github/stars/jnMetaCode/agency-orchestrator?style=flat&label=) | **一句话调度 211 专家自动协作，几分钟出完整方案** |
-| **[ai-coding-guide](https://github.com/jnMetaCode/ai-coding-guide)** | 📖 实战教程 | ![](https://img.shields.io/github/stars/jnMetaCode/ai-coding-guide?style=flat&label=) | 66 个 Claude Code 技巧 + 9 款工具最佳实践 + 可复制配置模板 |
-| **[shellward](https://github.com/jnMetaCode/shellward)** | 🛡️ 安全中间件 | ![](https://img.shields.io/github/stars/jnMetaCode/shellward?style=flat&label=) | **8 层防御 + DLP 数据流**，注入检测 + MCP Server，零依赖 |
+| 项目 | 定位 | 一句话 |
+|------|------|-------|
+| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本项目） | 🧠 工作方法论 | 20 个 skills 教 AI **怎么干活** |
+| **[agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh)** ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=⭐) | 🎭 专家角色库 | **211 个即插即用 AI 专家**，含 46 中国原创（小红书/抖音/微信/飞书/钉钉） |
+| **[agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator)** | 🚀 编排引擎 | **一句话调度 211 专家自动协作，几分钟出完整方案** |
+| **[ai-coding-guide](https://github.com/jnMetaCode/ai-coding-guide)** | 📖 实战教程 | 66 个 Claude Code 技巧 + 9 款工具最佳实践 + 可复制配置模板 |
+| **[shellward](https://github.com/jnMetaCode/shellward)** | 🛡️ 安全中间件 | **8 层防御 + DLP 数据流**，注入检测 + MCP Server，零依赖 |
 
 ---
 
