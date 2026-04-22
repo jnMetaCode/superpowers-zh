@@ -299,6 +299,49 @@ ${skillList}
   }
 }
 
+function generateClaudeCodeBootstrap(projectDir) {
+  const skillEntries = scanSkillEntries(SKILLS_SRC);
+  const skillList = skillEntries.map(s => `- **${s.name}**: ${s.desc}`).join('\n');
+
+  const content = `# Superpowers-ZH 中文增强版
+
+本项目已安装 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+
+## 核心规则
+
+1. **收到任务时，先检查是否有匹配的 skill** — 哪怕只有 1% 的可能性也要检查
+2. **设计先于编码** — 收到功能需求时，先用 brainstorming skill 做需求分析
+3. **测试先于实现** — 写代码前先写测试（TDD）
+4. **验证先于完成** — 声称完成前必须运行验证命令
+
+## 可用 Skills
+
+Skills 位于 \`.claude/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+
+${skillList}
+
+## 如何使用
+
+当任务匹配某个 skill 时，使用 \`Skill\` 工具加载对应 skill 并严格遵循其流程。绝不要用 Read 工具读取 SKILL.md 文件。
+
+如果你认为哪怕只有 1% 的可能性某个 skill 适用于你正在做的事情，你必须调用该 skill 检查。
+`;
+
+  const mdPath = resolve(projectDir, 'CLAUDE.md');
+  if (existsSync(mdPath)) {
+    const existing = readFileSync(mdPath, 'utf8');
+    if (!existing.includes('superpowers-zh')) {
+      writeFileSync(mdPath, existing + '\n\n' + content, 'utf8');
+      console.log(`  ✅ Claude Code: 追加 skills 引用 -> ${mdPath}`);
+    } else {
+      console.log(`  ✅ Claude Code: CLAUDE.md 已包含 superpowers-zh 引用`);
+    }
+  } else {
+    writeFileSync(mdPath, content, 'utf8');
+    console.log(`  ✅ Claude Code: bootstrap -> ${mdPath}`);
+  }
+}
+
 // 工具名称别名映射（用户输入 -> TARGETS.name）
 const TOOL_ALIASES = {
   'claude':       'Claude Code',
@@ -390,10 +433,13 @@ function installForTarget(target) {
     generateHermesBootstrap(PROJECT_DIR);
   }
 
-  if (target.name === 'Claude Code' && existsSync(AGENTS_SRC)) {
-    const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
-    mkdirSync(agentsDest, { recursive: true });
-    copyDirSync(AGENTS_SRC, agentsDest);
+  if (target.name === 'Claude Code') {
+    generateClaudeCodeBootstrap(PROJECT_DIR);
+    if (existsSync(AGENTS_SRC)) {
+      const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
+      mkdirSync(agentsDest, { recursive: true });
+      copyDirSync(AGENTS_SRC, agentsDest);
+    }
   }
 }
 
@@ -444,6 +490,8 @@ function install(forceToolName) {
     mkdirSync(dest, { recursive: true });
     copyDirSync(SKILLS_SRC, dest);
     console.log(`  ✅ 默认安装: ${countDirs(dest)} 个 skills -> ${dest}`);
+
+    generateClaudeCodeBootstrap(PROJECT_DIR);
 
     if (existsSync(AGENTS_SRC)) {
       const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
