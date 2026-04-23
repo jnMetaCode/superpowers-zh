@@ -1,4 +1,5 @@
 ---
+name: brainstorm
 description: "已弃用 - 请改用 superpowers:brainstorming 技能"
 ---
 

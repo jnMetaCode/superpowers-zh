@@ -1,4 +1,5 @@
 ---
+name: execute-plan
 description: "已弃用 - 请改用 superpowers:executing-plans 技能"
 ---
 

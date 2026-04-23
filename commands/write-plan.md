@@ -1,4 +1,5 @@
 ---
+name: write-plan
 description: "已弃用 - 请改用 superpowers:writing-plans 技能"
 ---
 
