@@ -2,7 +2,7 @@
   "name": "superpowers-zh",
   "version": "1.1.8",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "description": "AI 编程超能力中文增强版 — superpowers（99k+ ⭐）完整汉化 + 6 个中国原创 skills，支持 Claude Code / Copilot CLI / Hermes Agent / Cursor / Claw Code / Windsurf / Kiro / Gemini CLI 等 17 款工具",
   "type": "module",
