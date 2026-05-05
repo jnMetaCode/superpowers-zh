@@ -88,6 +88,15 @@ function scanSkillEntries(skillsDir) {
   return entries;
 }
 
+// 段落哨兵：v1.2.1+ 安装时把追加内容包在两条 HTML 注释之间，
+// 让卸载可以精确切除，无需依赖标题层级猜测段尾。
+const SENTINEL_BEGIN = '<!-- superpowers-zh:begin (do not edit between these markers) -->';
+const SENTINEL_END = '<!-- superpowers-zh:end -->';
+
+function wrapWithSentinel(body) {
+  return `${SENTINEL_BEGIN}\n${body.replace(/\n+$/, '')}\n${SENTINEL_END}\n`;
+}
+
 function generateTraeBootstrapRule(projectDir) {
   const rulesDir = resolve(projectDir, '.trae', 'rules');
   mkdirSync(rulesDir, { recursive: true });
@@ -192,13 +201,13 @@ ${skillList}
   if (existsSync(convPath)) {
     const existing = readFileSync(convPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
-      writeFileSync(convPath, existing + '\n\n' + content, 'utf8');
+      writeFileSync(convPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
       console.log(`  ✅ Aider: 追加 skills 引用 -> ${convPath}`);
     } else {
       console.log(`  ✅ Aider: CONVENTIONS.md 已包含 superpowers-zh 引用`);
     }
   } else {
-    writeFileSync(convPath, content, 'utf8');
+    writeFileSync(convPath, wrapWithSentinel(content), 'utf8');
     console.log(`  ✅ Aider: bootstrap -> ${convPath}`);
   }
 }
@@ -234,13 +243,13 @@ ${skillList}
   if (existsSync(geminiPath)) {
     const existing = readFileSync(geminiPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
-      writeFileSync(geminiPath, existing + '\n\n' + content, 'utf8');
+      writeFileSync(geminiPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
       console.log(`  ✅ Gemini CLI: 追加 skills 引用 -> ${geminiPath}`);
     } else {
       console.log(`  ✅ Gemini CLI: GEMINI.md 已包含 superpowers-zh 引用`);
     }
   } else {
-    writeFileSync(geminiPath, content, 'utf8');
+    writeFileSync(geminiPath, wrapWithSentinel(content), 'utf8');
     console.log(`  ✅ Gemini CLI: bootstrap -> ${geminiPath}`);
   }
 }
@@ -290,13 +299,13 @@ ${skillList}
   if (existsSync(hermesPath)) {
     const existing = readFileSync(hermesPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
-      writeFileSync(hermesPath, existing + '\n\n' + content, 'utf8');
+      writeFileSync(hermesPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
       console.log(`  ✅ Hermes Agent: 追加 skills 引用 -> ${hermesPath}`);
     } else {
       console.log(`  ✅ Hermes Agent: HERMES.md 已包含 superpowers-zh 引用`);
     }
   } else {
-    writeFileSync(hermesPath, content, 'utf8');
+    writeFileSync(hermesPath, wrapWithSentinel(content), 'utf8');
     console.log(`  ✅ Hermes Agent: bootstrap -> ${hermesPath}`);
   }
 }
@@ -333,13 +342,13 @@ ${skillList}
   if (existsSync(mdPath)) {
     const existing = readFileSync(mdPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
-      writeFileSync(mdPath, existing + '\n\n' + content, 'utf8');
+      writeFileSync(mdPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
       console.log(`  ✅ Claude Code: 追加 skills 引用 -> ${mdPath}`);
     } else {
       console.log(`  ✅ Claude Code: CLAUDE.md 已包含 superpowers-zh 引用`);
     }
   } else {
-    writeFileSync(mdPath, content, 'utf8');
+    writeFileSync(mdPath, wrapWithSentinel(content), 'utf8');
     console.log(`  ✅ Claude Code: bootstrap -> ${mdPath}`);
   }
 }
@@ -451,11 +460,11 @@ function installForTarget(target) {
 }
 
 function isHomeDir(p) {
+  const home = homedir();
+  if (!home) return false;
   try {
-    const a = realpathSync(p);
-    const b = realpathSync(homedir());
-    return a === b;
-  } catch { return resolve(p) === resolve(homedir()); }
+    return realpathSync(p) === realpathSync(home);
+  } catch { return resolve(p) === resolve(home); }
 }
 
 // 卸载支持：完整删除的 bootstrap 文件、需要清理段落的 bootstrap 文件
@@ -474,25 +483,73 @@ const BOOTSTRAP_SECTION_MARKERS = [
   '# Superpowers-ZH 工作方法论',
 ];
 
+// v1.1.x 安装的旧 bootstrap 没有 sentinel，只能凭模板末尾固定句子识别段尾。
+// 这些短语必须出现在 superpowers 段最后一行，且足够独特不易在用户内容里重合。
+const FALLBACK_TAIL_HINTS = [
+  '你必须调用该 skill 检查。',
+  '严格遵循其流程。',
+];
+
+function writeOrDelete(filePath, head, tail) {
+  const headTrim = head.replace(/\s+$/, '');
+  const tailTrim = tail.replace(/^\s+/, '');
+  let body = headTrim;
+  if (headTrim && tailTrim) body += '\n\n' + tailTrim;
+  else body += tailTrim;
+  body = body.replace(/\s+$/, '');
+  if (body.length === 0) {
+    rmSync(filePath);
+  } else {
+    writeFileSync(filePath, body + '\n', 'utf8');
+  }
+}
+
 function cleanBootstrapSection(filePath) {
   if (!existsSync(filePath)) return false;
   const content = readFileSync(filePath, 'utf8');
+
+  // 1. 哨兵模式（v1.2.1+）— 精确切除
+  const sBegin = content.indexOf(SENTINEL_BEGIN);
+  if (sBegin !== -1) {
+    const sEnd = content.indexOf(SENTINEL_END, sBegin + SENTINEL_BEGIN.length);
+    if (sEnd !== -1) {
+      writeOrDelete(filePath, content.slice(0, sBegin), content.slice(sEnd + SENTINEL_END.length));
+      return true;
+    }
+  }
+
+  // 2. 标题 marker（v1.1.x 安装的）— 找下一个 \n# 一级标题做段尾
   let idx = -1;
   for (const marker of BOOTSTRAP_SECTION_MARKERS) {
     const i = content.indexOf(marker);
     if (i !== -1 && (idx === -1 || i < idx)) idx = i;
   }
   if (idx === -1) return false;
-  // 段落结束：下一个一级标题（行首 "# "）或文件末尾
-  let end = content.length;
-  const after = content.indexOf('\n# ', idx + 1);
-  if (after !== -1) end = after + 1;
-  const cleaned = (content.slice(0, idx) + content.slice(end)).replace(/\s+$/, '') + '\n';
-  if (cleaned.trim().length === 0) {
-    rmSync(filePath);
-  } else {
-    writeFileSync(filePath, cleaned, 'utf8');
+
+  let end = -1;
+  const nextHeading = content.indexOf('\n# ', idx + 1);
+  if (nextHeading !== -1) end = nextHeading + 1;
+
+  // 3. 一级标题找不到 — 用末尾固定短语做兜底
+  if (end === -1) {
+    for (const hint of FALLBACK_TAIL_HINTS) {
+      const i = content.lastIndexOf(hint);
+      if (i > idx) {
+        const nl = content.indexOf('\n', i + hint.length);
+        const after = nl !== -1 ? nl + 1 : content.length;
+        if (after > end) end = after;
+      }
+    }
   }
+
+  // 4. 都找不到 — 数据安全，跳过 + 警告
+  if (end === -1) {
+    console.warn(`  ⚠️  ${filePath}: 无法可靠识别 superpowers-zh 段尾，已跳过以避免数据丢失。`);
+    console.warn(`     请手动编辑此文件并删除以 "${BOOTSTRAP_SECTION_MARKERS[0]}" 开头的整段。`);
+    return false;
+  }
+
+  writeOrDelete(filePath, content.slice(0, idx), content.slice(end));
   return true;
 }
 
