@@ -11,20 +11,23 @@
     "superpowers-zh": "bin/superpowers-zh.js"
   },
   "scripts": {
-    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .cursor-plugin/plugin.json"
+    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .cursor-plugin/plugin.json .codex-plugin/plugin.json"
   },
   "files": [
     "bin/",
     "skills/",
-    "agents/",
-    "commands/",
     "hooks/",
+    "assets/",
     ".claude-plugin/",
     ".cursor-plugin/",
     ".codex/INSTALL.md",
+    ".codex-plugin/",
     ".opencode/INSTALL.md",
     ".opencode/plugins/",
+    "CLAUDE.md",
     "GEMINI.md",
+    "RELEASE-NOTES.md",
+    "RELEASE-NOTES.zh.md",
     "gemini-extension.json",
     "docs/",
     "README.md",

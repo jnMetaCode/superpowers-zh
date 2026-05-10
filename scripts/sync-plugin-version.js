@@ -10,6 +10,7 @@ const pkg = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
 const targets = [
   '.claude-plugin/plugin.json',
   '.cursor-plugin/plugin.json',
+  '.codex-plugin/plugin.json',
 ];
 
 let touched = 0;

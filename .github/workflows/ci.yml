@@ -53,18 +53,6 @@ jobs:
           fi
           echo "All skills validated successfully"
 
-      - name: Validate agents
-        run: |
-          ERRORS=0
-          for file in agents/*.md; do
-            [ -f "$file" ] || continue
-            if ! head -1 "$file" | grep -q '^---'; then
-              echo "::error file=$file::Missing frontmatter"
-              ERRORS=$((ERRORS + 1))
-            fi
-          done
-          exit $ERRORS
-
       - name: Check package.json
         run: |
           node -e "

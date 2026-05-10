@@ -39,8 +39,12 @@ function copyDirSync(src, dest) {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG = JSON.parse(readFileSync(resolve(__dirname, '..', 'package.json'), 'utf8'));
 const SKILLS_SRC = resolve(__dirname, '..', 'skills');
-const AGENTS_SRC = resolve(__dirname, '..', 'agents');
 const PROJECT_DIR = process.cwd();
+
+// 历史遗留 agent 文件名 — 用于 --uninstall 清理已装用户机器上的残留。
+// 上游 v5.1.0 把 agents/code-reviewer.md 上升进 requesting-code-review skill，
+// agents/ 目录已删，但旧版本装过的用户机器上仍有残留文件需要清理。
+const LEGACY_AGENT_FILENAMES = ['code-reviewer.md'];
 
 const TARGETS = [
   { name: 'Claude Code',   dir: '.claude/skills',           detect: '.claude' },
@@ -451,11 +455,6 @@ function installForTarget(target) {
 
   if (target.name === 'Claude Code') {
     generateClaudeCodeBootstrap(PROJECT_DIR);
-    if (existsSync(AGENTS_SRC)) {
-      const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
-      mkdirSync(agentsDest, { recursive: true });
-      copyDirSync(AGENTS_SRC, agentsDest);
-    }
   }
 }
 
@@ -597,18 +596,18 @@ function uninstall() {
     }
   }
 
-  // 顺带清理 .claude/agents 下我们装过的 agent（agents 源是平铺的文件，例如 code-reviewer.md）
+  // 清理 .claude/agents 下旧版本装过的 legacy agent（v1.2.x 及之前会装 code-reviewer.md，
+  // v1.3.0 起跟随上游 v5.1.0 移除）。即使 agents/ 源目录已删，已装用户跑 --uninstall 仍应能清干净。
   const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
-  if (existsSync(AGENTS_SRC) && existsSync(agentsDest)) {
-    const srcAgentNames = new Set(readdirSync(AGENTS_SRC).filter(n => n !== '.DS_Store'));
+  if (existsSync(agentsDest)) {
     let agentsRemoved = 0;
     for (const entry of readdirSync(agentsDest)) {
-      if (srcAgentNames.has(entry)) {
+      if (LEGACY_AGENT_FILENAMES.includes(entry)) {
         rmSync(resolve(agentsDest, entry), { recursive: true, force: true });
         agentsRemoved++;
       }
     }
-    if (agentsRemoved > 0) console.log(`  ✅ Claude Code agents: 移除 ${agentsRemoved} 个 -> ${agentsDest}`);
+    if (agentsRemoved > 0) console.log(`  ✅ Claude Code agents: 移除 ${agentsRemoved} 个旧版残留 -> ${agentsDest}`);
     try {
       const left = readdirSync(agentsDest).filter(n => n !== '.DS_Store');
       if (left.length === 0) rmSync(agentsDest, { recursive: true, force: true });
@@ -709,13 +708,6 @@ function install(forceToolName, force) {
     console.log(`  ✅ 默认安装: ${countDirs(dest)} 个 skills -> ${dest}`);
 
     generateClaudeCodeBootstrap(PROJECT_DIR);
-
-    if (existsSync(AGENTS_SRC)) {
-      const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
-      mkdirSync(agentsDest, { recursive: true });
-      copyDirSync(AGENTS_SRC, agentsDest);
-      console.log(`  ✅ 默认安装: agents -> ${agentsDest}`);
-    }
   }
 
   console.log('\n  安装完成！重启你的 AI 编程工具即可生效。\n');
