@@ -11,7 +11,7 @@
     "superpowers-zh": "bin/superpowers-zh.js"
   },
   "scripts": {
-    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .cursor-plugin/plugin.json .codex-plugin/plugin.json"
+    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .codex-plugin/plugin.json"
   },
   "files": [
     "bin/",
