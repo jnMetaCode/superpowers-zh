@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "description": "AI 编程超能力中文增强版 — superpowers（159k+ ⭐）完整汉化 + 6 个中国原创 skills，支持 Claude Code / Copilot CLI / Hermes Agent / Cursor / Claw Code / Windsurf / Kiro / Gemini CLI 等 17 款工具",
+  "description": "AI 编程超能力中文增强版 — superpowers（159k+ ⭐）完整汉化 + 4 个中国原创 skills，支持 Claude Code / Copilot CLI / Hermes Agent / Cursor / Claw Code / Windsurf / Kiro / Gemini CLI 等 17 款工具",
   "type": "module",
   "main": ".opencode/plugins/superpowers.js",
   "bin": {
