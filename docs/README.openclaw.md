@@ -62,11 +62,14 @@ OpenClaw 与 Claude Code 使用相同的工具名称，skills 无需额外适配
 
 ## 使用
 
-安装完成后重启 OpenClaw，所有 skills 会自动生效。你可以：
+安装完成后重启 OpenClaw，所有 skills 会自动生效。AI 会按任务上下文自动调用对应 skill：
 
-- 输入 `/brainstorming` 开始头脑风暴
-- 输入 `/commit` 使用中文提交规范
-- 在任何编码任务中，skills 会被自动调用
+- 新任务 / 新功能 → `brainstorming`（头脑风暴）
+- 写 commit message → `chinese-commit-conventions`（中文 commit 规范）
+- 调试问题 → `systematic-debugging`
+- 完成任务后 → `requesting-code-review`（请求代码审查）
+
+无需手动 slash command 触发 —— AI 通过 skill frontmatter 的 `description` 字段自主选择匹配的 skill。如果想强制触发某个 skill，直接在指令里点名："用 brainstorming 帮我想一下 X 怎么做"。
 
 ## 全局 Skills
 
