@@ -6,6 +6,84 @@
 
 ---
 
+## v1.4.0 (2026-05-12)
+
+本版本核心目标：**修复全量质量审计发现的所有上游漂移 P0 缺陷**。改动全部是"主站有的同步过来"性质，不引入主站没有的新功能。
+
+### 🔴 上游同步：v5.0.6 brainstorm server 拆分（PR #30）
+
+上游 v5.0.6（commit 9e3ed21）把 brainstorm server 的内容目录拆成 `CONTENT_DIR` + `STATE_DIR` peer 结构，但我们的 server 脚本还停在旧 `SCREEN_DIR` 单目录版本，导致 visual brainstorming 教程指向新路径但 server 用旧结构卡死。
+
+- `skills/brainstorming/scripts/server.cjs` — 81 行 cherry-pick 同步
+- `skills/brainstorming/scripts/start-server.sh` — 36 行同步
+- `skills/brainstorming/scripts/stop-server.sh` — 29 行同步
+
+**修复后：所有 visual brainstorming 用户路径解析正常。**
+
+### 🔴 上游同步：v5.1.0 Code Review 整合（PR #30）
+
+上游 v5.1.0 PR #1299 把 reviewer persona + checklist + dispatch 模板整合到单一 `code-reviewer.md` 实现 self-contained，并把 SKILL.md 里的 `superpowers:code-reviewer` 命名子代理引用改成 `general-purpose` Task + 模板路径形式。我们的版本停留在 v5.0.x 拆分式。
+
+- `skills/requesting-code-review/SKILL.md` 改 4 处：3 处 `superpowers:code-reviewer` 引用清零；占位符从 5 个精简到 4 个对齐上游；"执行计划" 集成段从 "每批（3 个任务）后审查" 改为 "每个任务完成后或在自然 checkpoint 审查"（对齐上游 v5.1.0 subagent 节奏调整）
+- `skills/requesting-code-review/code-reviewer.md` 完整重写为 v5.1.0 self-contained 版（H header 6/6 对齐上游）
+
+**修复后：所有走 review 流程的用户得到的指令指向 `general-purpose` Task 而非已废弃的命名子代理。**
+
+### 🔴 上游同步：v5.1.0 worktree 安全修复（PR #28）
+
+上游 v5.1.0 [#991](https://github.com/obra/superpowers/issues/991) 修复了两类 worktree 安全问题：subagent 嵌套创建 + cleanup 误删 harness-managed workspace。
+
+- `skills/using-git-worktrees/SKILL.md` 全面重构：新增 Step 0 检测现有隔离（GIT_DIR/GIT_COMMON + submodule 守卫 + 同意流程）；Step 1 重组为 1a Native Tools + 1b Git Worktree Fallback + 沙盒回退；删除旧"示例工作流"段（含 `/Users/jesse` 硬编码）
+- `skills/finishing-a-development-branch/SKILL.md` 全面重构：新增 Step 2 检测环境（三态表）；旧 Step 2-5 重编号为 3-6；Step 4 新增分离 HEAD 3 选项变体；Step 5 Option 1 重写（MAIN_ROOT cwd safety + merge→verify→cleanup→delete 严格排序）；Step 6 清理范围限定在 `.worktrees/` / `worktrees/` / `~/.config/superpowers/worktrees/`，外部 harness-managed workspace 一律不动
+
+**修复后：subagent 不再嵌套创建 worktree；清理不会误删 harness-managed workspace。**
+
+### 🔴 平台兼容性修复：Windows Cursor hook 回归（PR #30）
+
+`hooks/hooks-cursor.json` 的 command 之前被本地改成直接调 unix shell `./hooks/session-start`，丢失上游的 polyglot wrapper `./hooks/run-hook.cmd session-start`，Windows + Cursor 组合用户 hook 完全不触发。
+
+- 1 行恢复上游 polyglot wrapper
+
+**修复后：Windows Cursor 用户 hook 正常触发。**
+
+### 🆕 防回归基建：CI 自动漂移检测（PR #31）
+
+新增 `scripts/audit.sh` + `.github/workflows/audit.yml`，每次 PR 自动跑 4 类共 90+ 项检查：
+
+1. 静态校验（JSON parse / SKILL.md frontmatter / symlink / hook 可执行性）
+2. Installer 功能（17 款工具装/重装/卸载全跑）
+3. 上游对齐（hooks 4 文件 + brainstorm scripts 3 文件 + 14 翻译 skill 结构层级 + code-reviewer.md self-contained 结构）
+4. 交叉引用（README → docs/ 链接 + skill 间引用 + 装完后 .claude/skills/using-superpowers/SKILL.md 路径解析）
+
+WARN（不阻塞）vs FAIL（阻塞）分级：本次"4 个 P0 漂"事件如果当时有这个 audit 在 CI 跑，PR 阶段就会被拦下。
+
+**未来意义：维护者下次手抖把 `hooks-cursor.json` 改坏 / 上游同步漏一项，CI 立刻拦下。**
+
+### 🔧 工具链小修
+
+- `scripts/sync-plugin-version.js` 加入 `gemini-extension.json`（之前漏掉，导致 gemini extension manifest 卡在 1.1.6 老版本）
+- `package.json` 的 `version` 钩子 git add 列表同步更新
+
+### 安装路径方针澄清
+
+本版本明确：**有官方 plugin marketplace 的工具（Claude Code / Codex CLI / OpenCode / VS Code）首选 marketplace 路径**，npx `superpowers-zh` 主要服务没有 marketplace 的工具（Cursor / Trae / Kiro / Gemini CLI / Hermes / Aider / Antigravity / Windsurf / Qwen / Claw / OpenClaw / DeerFlow 共 13 款）。fork 不再尝试给 marketplace 工具加 npx 路径的"完整支持"——它们走主站路径即可。
+
+### 不在本版本范围
+
+- `executing-plans/SKILL.md` 我们扩写了 105 行中文示例（主动选择，保留——是 fork 的中文优化，非漂移）
+- `using-superpowers/SKILL.md` 的"中国特色技能路由"段（fork 增量，保留）
+- 各 reviewer-prompt.md 翻译差异（结构对齐，纯翻译漂移，无行为 bug）
+- open issues #18/#21/#26/#20（fork 增量需求，按方针延后）
+
+### Refs
+
+- PR #28（worktree 安全修复）
+- PR #30（brainstorm scripts + code-reviewer 整合 + hooks-cursor + SKILL.md 引用）
+- PR #31（audit script + CI workflow）
+- issue #19 跟踪上游 v5.0.6 / v5.1.0 同步 → 关键项目全部覆盖
+
+---
+
 ## v1.3.0 (2026-05-10)
 
 ### 跟上游对齐 (v5.1.0)

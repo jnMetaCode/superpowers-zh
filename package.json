@@ -1,6 +1,6 @@
 {
   "name": "superpowers-zh",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -11,7 +11,7 @@
     "superpowers-zh": "bin/superpowers-zh.js"
   },
   "scripts": {
-    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .codex-plugin/plugin.json"
+    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .codex-plugin/plugin.json gemini-extension.json"
   },
   "files": [
     "bin/",

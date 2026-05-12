@@ -1,0 +1,29 @@
+name: Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    name: 上游对齐 + 交叉引用 + Installer 功能 全量审计
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/obra/superpowers.git
+          git fetch upstream main --depth=50
+
+      - name: Run audit
+        run: bash scripts/audit.sh
