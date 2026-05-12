@@ -2,7 +2,7 @@
   "name": "superpowers-zh",
   "displayName": "Superpowers 中文版",
   "description": "AI 编程超能力中文增强版：20 个 skills（14 翻译 + 6 中国原创），支持 Cursor / Claude Code / Hermes Agent / Claw Code 等 17 款工具",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": {
     "name": "jnMetaCode",
     "url": "https://github.com/jnMetaCode"

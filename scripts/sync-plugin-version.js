@@ -18,6 +18,7 @@ const TARGETS = [
   { path: '.cursor-plugin/plugin.json',      field: 'version' },
   { path: '.codex-plugin/plugin.json',       field: 'version' },
   { path: '.claude-plugin/marketplace.json', field: 'plugins.0.version' },
+  { path: 'gemini-extension.json',           field: 'version' },
 ];
 
 function buildPattern(field) {

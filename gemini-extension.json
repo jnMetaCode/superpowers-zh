@@ -1,6 +1,6 @@
 {
   "name": "superpowers-zh",
   "description": "AI 编程超能力中文版 — TDD、调试、代码审查等经过实战验证的工作方法论",
-  "version": "1.1.6",
+  "version": "1.4.0",
   "contextFileName": "GEMINI.md"
 }
