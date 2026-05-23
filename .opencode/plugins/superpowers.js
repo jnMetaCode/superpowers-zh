@@ -83,32 +83,36 @@ ${toolMapping}
       }
 
       // ---- (2) Non-blocking auto-update ----
-      // Delay 2 seconds then run npx -y superpowers-zh in the background.
-      // Toast only when skills actually changed or update failed.
+      // Check remote version, only run npx when a newer version is available.
+      // Toast only on actual update or failure — silent when already latest.
       setTimeout(async () => {
-        // Snapshot skills mtime before update
-        const skillsDir = path.join(directory, '.opencode', 'skills');
-        const getMtime = () => {
-          try {
-            const files = fs.readdirSync(skillsDir, { recursive: true });
-            return Math.max(0, ...files.map(f => {
-              try { return fs.statSync(path.join(skillsDir, f)).mtimeMs; } catch { return 0; }
-            }));
-          } catch { return 0; }
-        };
-        const before = getMtime();
+        const versionFile = path.join(directory, '.opencode', '.superpowers-version');
 
+        // Get remote latest version (silently skip on network error)
+        let remoteVer;
+        try {
+          const { stdout } = await execAsync('npm view superpowers-zh version', { timeout: 10000 });
+          remoteVer = stdout.trim();
+        } catch {
+          return; // Network unavailable, skip silently
+        }
+        if (!remoteVer) return;
+
+        // Compare with locally recorded version
+        let localVer = '';
+        try { localVer = fs.readFileSync(versionFile, 'utf8').trim(); } catch {}
+        if (remoteVer === localVer) return; // Already latest, silent
+
+        // Run update
         try {
           await execAsync('npx -y superpowers-zh > /dev/null 2>&1', {
             cwd: directory,
             timeout: 120000,
           });
-          // Only toast when skills were actually updated
-          if (getMtime() > before) {
-            client.tui.showToast({
-              body: { variant: 'success', title: 'superpowers-zh', message: '中文 Skills 更新完成', duration: 3000 },
-            }).catch(() => {});
-          }
+          fs.writeFileSync(versionFile, remoteVer);
+          client.tui.showToast({
+            body: { variant: 'success', title: 'superpowers-zh', message: '中文 Skills 更新完成', duration: 3000 },
+          }).catch(() => {});
         } catch {
           client.tui.showToast({
             body: { variant: 'warning', title: 'superpowers-zh 更新', message: '自动更新未成功，可手动执行 npx superpowers-zh', duration: 5000 },
