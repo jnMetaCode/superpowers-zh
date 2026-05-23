@@ -1,15 +1,20 @@
 /**
  * Superpowers plugin for OpenCode.ai
  *
- * Injects superpowers bootstrap context via user message transform.
- * Auto-registers skills directory via config hook (no symlinks needed).
+ * Features:
+ * 1. Injects superpowers bootstrap context via user message transform.
+ * 2. Auto-registers skills directory via config hook (no symlinks needed).
+ * 3. Auto-updates superpowers-zh skills on startup (non-blocking).
  */
 
 import path from 'path';
 import fs from 'fs';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const execAsync = promisify(exec);
 
 // Simple frontmatter extraction (avoid dependency on skills-core for bootstrap)
 const extractAndStripFrontmatter = (content) => {
@@ -70,11 +75,43 @@ ${toolMapping}
     // This works because Config.get() returns a cached singleton — modifications
     // here are visible when skills are lazily discovered later.
     config: async (config) => {
+      // ---- (1) Register skills path ----
       config.skills = config.skills || {};
       config.skills.paths = config.skills.paths || [];
       if (!config.skills.paths.includes(superpowersSkillsDir)) {
         config.skills.paths.push(superpowersSkillsDir);
       }
+
+      // ---- (2) Non-blocking auto-update ----
+      // Delay 2 seconds then run npx -y superpowers-zh in the background.
+      // All errors are caught silently — never blocks OpenCode startup.
+      setTimeout(async () => {
+        try {
+          await execAsync('npx -y superpowers-zh', {
+            cwd: directory,
+            timeout: 120000,
+          });
+          // Notify success (toast failure does NOT affect update result)
+          client.tui.showToast({
+            body: {
+              variant: 'success',
+              title: 'superpowers-zh',
+              message: '中文 Skills 更新完成',
+              duration: 3000,
+            },
+          }).catch(() => {});
+        } catch {
+          // Notify failure (toast failure does NOT throw uncaught exception)
+          client.tui.showToast({
+            body: {
+              variant: 'warning',
+              title: 'superpowers-zh 更新',
+              message: '自动更新未成功，可手动执行 npx superpowers-zh',
+              duration: 5000,
+            },
+          }).catch(() => {});
+        }
+      }, 2000);
     },
 
     // Inject bootstrap into the first user message of each session.
