@@ -84,31 +84,34 @@ ${toolMapping}
 
       // ---- (2) Non-blocking auto-update ----
       // Delay 2 seconds then run npx -y superpowers-zh in the background.
-      // All errors are caught silently — never blocks OpenCode startup.
+      // Toast only when skills actually changed or update failed.
       setTimeout(async () => {
+        // Snapshot skills mtime before update
+        const skillsDir = path.join(directory, '.opencode', 'skills');
+        const getMtime = () => {
+          try {
+            const files = fs.readdirSync(skillsDir, { recursive: true });
+            return Math.max(0, ...files.map(f => {
+              try { return fs.statSync(path.join(skillsDir, f)).mtimeMs; } catch { return 0; }
+            }));
+          } catch { return 0; }
+        };
+        const before = getMtime();
+
         try {
-          await execAsync('npx -y superpowers-zh', {
+          await execAsync('npx -y superpowers-zh > /dev/null 2>&1', {
             cwd: directory,
             timeout: 120000,
           });
-          // Notify success (toast failure does NOT affect update result)
-          client.tui.showToast({
-            body: {
-              variant: 'success',
-              title: 'superpowers-zh',
-              message: '中文 Skills 更新完成',
-              duration: 3000,
-            },
-          }).catch(() => {});
+          // Only toast when skills were actually updated
+          if (getMtime() > before) {
+            client.tui.showToast({
+              body: { variant: 'success', title: 'superpowers-zh', message: '中文 Skills 更新完成', duration: 3000 },
+            }).catch(() => {});
+          }
         } catch {
-          // Notify failure (toast failure does NOT throw uncaught exception)
           client.tui.showToast({
-            body: {
-              variant: 'warning',
-              title: 'superpowers-zh 更新',
-              message: '自动更新未成功，可手动执行 npx superpowers-zh',
-              duration: 5000,
-            },
+            body: { variant: 'warning', title: 'superpowers-zh 更新', message: '自动更新未成功，可手动执行 npx superpowers-zh', duration: 5000 },
           }).catch(() => {});
         }
       }, 2000);
