@@ -26,11 +26,6 @@ CREATE TABLE IF NOT EXISTS ods.ods_mysql_trade_order_di (
 )
 COMMENT '交易域-订单表-日增量'
 PARTITIONED BY (ds STRING COMMENT '业务日期 yyyy-MM-dd')
-STORED AS ORC
-TBLPROPERTIES (
-    'orc.compress' = 'SNAPPY',
-    'lifecycle' = '180'   -- 保留180天
-);
 ```
 
 ## 二、DWD 明细宽表模板
@@ -69,11 +64,6 @@ CREATE TABLE IF NOT EXISTS dwd.dwd_trade_order_detail_di (
 )
 COMMENT '交易域-订单明细-日增量'
 PARTITIONED BY (ds STRING COMMENT '业务日期 yyyy-MM-dd')
-STORED AS ORC
-TBLPROPERTIES (
-    'orc.compress' = 'SNAPPY',
-    'lifecycle' = '730'   -- 保留2年
-);
 ```
 
 ### DWD ETL 模板（ODS → DWD）
@@ -138,31 +128,6 @@ CREATE TABLE IF NOT EXISTS dim.dim_user_info_df (
 )
 COMMENT '用户域-用户维度表-日全量'
 PARTITIONED BY (ds STRING COMMENT '快照日期 yyyy-MM-dd')
-STORED AS ORC
-TBLPROPERTIES ('lifecycle' = '365');
-```
-
-### SCD Type 2 拉链表
-
-```sql
--- DIM 维度表：拉链表（SCD Type 2，保留历史变更）
-CREATE TABLE IF NOT EXISTS dim.dim_product_info_zipper (
-    product_id      BIGINT          COMMENT '商品ID（业务键）',
-    product_sk      BIGINT          COMMENT '代理键',
-    product_name    STRING          COMMENT '商品名称',
-    category1_name  STRING          COMMENT '一级类目',
-    category2_name  STRING          COMMENT '二级类目',
-    brand_name      STRING          COMMENT '品牌名称',
-    price           DECIMAL(18,2)   COMMENT '价格',
-    status          STRING          COMMENT '状态',
-    start_dt        STRING          COMMENT '生效日期',
-    end_dt          STRING          COMMENT '失效日期（9999-12-31表示当前有效）',
-    is_current      TINYINT         COMMENT '是否当前版本 0否1是',
-    etl_time        TIMESTAMP       COMMENT 'ETL处理时间'
-)
-COMMENT '商品域-商品维度拉链表'
-STORED AS ORC
-TBLPROPERTIES ('lifecycle' = '9999');
 ```
 
 ### 拉链表更新 DML
@@ -219,7 +184,6 @@ CREATE TABLE IF NOT EXISTS dws.dws_trade_user_1d_df (
 )
 COMMENT '交易域-用户粒度-近1天汇总-日全量'
 PARTITIONED BY (ds STRING COMMENT '统计日期 yyyy-MM-dd')
-STORED AS ORC;
 ```
 
 ### DWS ETL 模板
@@ -283,7 +247,6 @@ CREATE TABLE IF NOT EXISTS ads.ads_sales_daily_report (
     etl_time            TIMESTAMP       COMMENT 'ETL处理时间'
 )
 COMMENT '销售日报-省份类目粒度'
-STORED AS ORC;
 
 -- ADS ETL
 INSERT OVERWRITE TABLE ads.ads_sales_daily_report
