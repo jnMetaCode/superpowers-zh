@@ -7,7 +7,7 @@
 ```sql
 -- ODS 贴源层建表
 -- 特点：原样保留源数据，按天分区，定义生命周期
-CREATE TABLE IF NOT EXISTS ods_mysql_trade_order_di (
+CREATE TABLE IF NOT EXISTS ods.ods_mysql_trade_order_di (
     id              BIGINT          COMMENT '主键ID',
     order_id        STRING          COMMENT '订单编号',
     user_id         BIGINT          COMMENT '用户ID',
@@ -38,7 +38,7 @@ TBLPROPERTIES (
 ```sql
 -- DWD 明细层建表
 -- 特点：清洗后标准化数据，维度退化，保持最细粒度
-CREATE TABLE IF NOT EXISTS dwd_trade_order_detail_di (
+CREATE TABLE IF NOT EXISTS dwd.dwd_trade_order_detail_di (
     order_detail_id     STRING          COMMENT '订单明细唯一标识',
     order_id            STRING          COMMENT '订单编号',
     user_id             BIGINT          COMMENT '用户ID',
@@ -80,7 +80,7 @@ TBLPROPERTIES (
 
 ```sql
 -- DWD ETL: 清洗 + 维度退化
-INSERT OVERWRITE TABLE dwd_trade_detail_di PARTITION (ds = '${bizdate}')
+INSERT OVERWRITE TABLE dwd.dwd_trade_detail_di PARTITION (ds = '${bizdate}')
 SELECT
     -- 生成明细唯一标识
     CONCAT(o.order_id, '_', o.sku_id) AS order_detail_id,
@@ -106,7 +106,7 @@ SELECT
     o.order_time,
     o.pay_time,
     CURRENT_TIMESTAMP() AS etl_time
-FROM ods_mysql_trade_order_di o
+FROM ods.ods_mysql_trade_order_di o
 LEFT JOIN dim_user_info_df dim_u ON o.user_id = dim_u.user_id AND dim_u.ds = '${bizdate}'
 LEFT JOIN dim_product_info_df dim_p ON o.product_id = dim_p.product_id AND dim_p.ds = '${bizdate}'
 WHERE o.ds = '${bizdate}'
@@ -121,7 +121,7 @@ WHERE o.ds = '${bizdate}'
 
 ```sql
 -- DIM 维度表：全量快照（适合维度数据量不大的场景）
-CREATE TABLE IF NOT EXISTS dim_user_info_df (
+CREATE TABLE IF NOT EXISTS dim.dim_user_info_df (
     user_id         BIGINT          COMMENT '用户ID',
     user_name       STRING          COMMENT '用户名',
     phone           STRING          COMMENT '手机号（脱敏）',
@@ -146,7 +146,7 @@ TBLPROPERTIES ('lifecycle' = '365');
 
 ```sql
 -- DIM 维度表：拉链表（SCD Type 2，保留历史变更）
-CREATE TABLE IF NOT EXISTS dim_product_info_zipper (
+CREATE TABLE IF NOT EXISTS dim.dim_product_info_zipper (
     product_id      BIGINT          COMMENT '商品ID（业务键）',
     product_sk      BIGINT          COMMENT '代理键',
     product_name    STRING          COMMENT '商品名称',
@@ -169,14 +169,14 @@ TBLPROPERTIES ('lifecycle' = '9999');
 
 ```sql
 -- Step 1: 关闭旧记录
-INSERT OVERWRITE TABLE dim_product_info_zipper
+INSERT OVERWRITE TABLE dim.dim_product_info_zipper
 SELECT
     product_id, product_sk, product_name,
     category1_name, category2_name, brand_name, price,
     status, start_dt,
-    CASE WHEN product_id IN (SELECT product_id FROM ods_product WHERE ds = '${bizdate}')
+    CASE WHEN product_id IN (SELECT product_id FROM ods.ods_product WHERE ds = '${bizdate}')
          THEN '${bizdate}' ELSE end_dt END AS end_dt,
-    CASE WHEN product_id IN (SELECT product_id FROM ods_product WHERE ds = '${bizdate}')
+    CASE WHEN product_id IN (SELECT product_id FROM ods.ods_product WHERE ds = '${bizdate}')
          THEN 0 ELSE is_current END AS is_current,
     etl_time
 FROM dim_product_info_zipper
@@ -193,7 +193,7 @@ SELECT
     '9999-12-31' AS end_dt,
     1 AS is_current,
     CURRENT_TIMESTAMP() AS etl_time
-FROM ods_product p
+FROM ods.ods_product p
 WHERE p.ds = '${bizdate}'
 ;
 ```
@@ -202,7 +202,7 @@ WHERE p.ds = '${bizdate}'
 
 ```sql
 -- DWS 汇总层：用户粒度 + 近1天交易汇总
-CREATE TABLE IF NOT EXISTS dws_trade_user_1d_df (
+CREATE TABLE IF NOT EXISTS dws.dws_trade_user_1d_df (
     user_id             BIGINT          COMMENT '用户ID',
     order_cnt           BIGINT          COMMENT '下单次数',
     order_product_cnt   BIGINT          COMMENT '下单商品件数',
@@ -226,7 +226,7 @@ STORED AS ORC;
 
 ```sql
 -- DWS ETL: 多表聚合 → 用户粒度汇总
-INSERT OVERWRITE TABLE dws_trade_user_1d_df PARTITION (ds = '${bizdate}')
+INSERT OVERWRITE TABLE dws.dws_trade_user_1d_df PARTITION (ds = '${bizdate}')
 SELECT
     t.user_id,
     -- 订单指标
@@ -267,7 +267,7 @@ LEFT JOIN (...) cpn ON t.user_id = cpn.user_id
 
 ```sql
 -- ADS 应用层：销售日报
-CREATE TABLE IF NOT EXISTS ads_sales_daily_report (
+CREATE TABLE IF NOT EXISTS ads.ads_sales_daily_report (
     stat_date           STRING          COMMENT '统计日期',
     province_code       STRING          COMMENT '省份编码',
     province_name       STRING          COMMENT '省份名称',
@@ -286,7 +286,7 @@ COMMENT '销售日报-省份类目粒度'
 STORED AS ORC;
 
 -- ADS ETL
-INSERT OVERWRITE TABLE ads_sales_daily_report
+INSERT OVERWRITE TABLE ads.ads_sales_daily_report
 SELECT
     '${bizdate}' AS stat_date,
     province_code,
