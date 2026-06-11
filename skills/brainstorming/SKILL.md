@@ -1,6 +1,11 @@
 ---
 name: brainstorming
 description: "在任何创造性工作之前必须使用此技能——创建功能、构建组件、添加功能或修改行为。在实现之前先探索用户意图、需求和设计。"
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [design, planning]
 ---
 
 # 头脑风暴：将想法转化为设计

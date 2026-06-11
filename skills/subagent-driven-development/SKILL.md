@@ -1,6 +1,11 @@
 ---
 name: subagent-driven-development
 description: 当在当前会话中执行包含独立任务的实现计划时使用
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [agents, development]
 ---
 
 # 子智能体驱动开发

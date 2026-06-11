@@ -1,6 +1,11 @@
 ---
 name: using-superpowers
 description: 在开始任何对话时使用——确立如何查找和使用技能，要求在任何响应（包括澄清性问题）之前调用 Skill 工具
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [meta, getting-started]
 ---
 
 <SUBAGENT-STOP>

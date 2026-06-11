@@ -1,6 +1,11 @@
 ---
 name: requesting-code-review
 description: 完成任务、实现重要功能或合并前使用，用于验证工作成果是否符合要求
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [code-review]
 ---
 
 # 请求代码审查

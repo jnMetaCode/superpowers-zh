@@ -1,6 +1,11 @@
 ---
 name: executing-plans
 description: 当你有一份书面实现计划需要在单独的会话中执行，并设有审查检查点时使用
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [execution, planning]
 ---
 
 # 执行计划

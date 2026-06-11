@@ -1,6 +1,11 @@
 ---
 name: finishing-a-development-branch
 description: 当实现完成、所有测试通过、需要决定如何集成工作时使用——通过提供合并、PR 或清理等结构化选项来引导开发工作的收尾
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [git, workflow]
 ---
 
 # 完成开发分支

@@ -1,6 +1,11 @@
 ---
 name: workflow-runner
 description: "在 Claude Code / OpenClaw / Cursor 中直接运行 agency-orchestrator YAML 工作流——无需 API key，使用当前会话的 LLM 作为执行引擎。当用户提供 .yaml 工作流文件或要求多角色协作完成任务时触发。"
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [execution, workflow]
 ---
 
 # 工作流执行器：在 AI 工具内运行多角色编排

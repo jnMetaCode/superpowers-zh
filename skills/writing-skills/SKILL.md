@@ -1,6 +1,11 @@
 ---
 name: writing-skills
 description: 当创建新技能、编辑现有技能或在部署前验证技能是否有效时使用
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [skills, documentation]
 ---
 
 # 编写技能

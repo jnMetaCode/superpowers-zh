@@ -1,6 +1,11 @@
 ---
 name: receiving-code-review
 description: 收到代码审查反馈后、实施建议之前使用，尤其当反馈不明确或技术上有疑问时——需要技术严谨性和验证，而非敷衍附和或盲目执行
+version: "1.0.0"
+license: MIT
+metadata:
+  hermes:
+    tags: [code-review]
 ---
 
 # 接收代码审查
