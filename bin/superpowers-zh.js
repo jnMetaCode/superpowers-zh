@@ -53,7 +53,7 @@ const TARGETS = [
   { name: 'Kiro',          dir: '.kiro/steering',            detect: '.kiro' },
   { name: 'DeerFlow',      dir: 'skills/custom',             detect: 'deer_flow' },
   { name: 'Trae',          dir: '.trae/skills',              detect: '.trae' },
-  { name: 'Antigravity',   dir: '.antigravity/skills',       detect: '.antigravity' },
+  { name: 'Antigravity',   dir: '.agents/skills',            detect: '.agents' },
   { name: 'VS Code',       dir: '.github/superpowers',       detect: '.github/copilot-instructions.md' },
   { name: 'OpenClaw',      dir: 'skills',                     detect: '.openclaw' },
   { name: 'Windsurf',      dir: '.windsurf/skills',          detect: '.windsurf' },
@@ -204,17 +204,17 @@ function generateAntigravityBootstrap(projectDir) {
 
 ## 可用 Skills
 
-Skills 位于 \`.antigravity/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+Skills 位于 \`.agents/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
 
 ${skillList}
 
 ## 如何使用
 
-当任务匹配某个 skill 时，读取对应的 \`.antigravity/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。
+当任务匹配某个 skill 时，读取对应的 \`.agents/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。
 `;
 
-  // 写入 .antigravity/rules.md（不覆盖用户已有的 GEMINI.md / AGENTS.md）
-  const rulePath = resolve(projectDir, '.antigravity', 'rules.md');
+  // 写入 .agents/rules.md（不覆盖用户已有的 GEMINI.md / AGENTS.md）
+  const rulePath = resolve(projectDir, '.agents', 'rules.md');
   writeFileSync(rulePath, content, 'utf8');
   console.log(`  ✅ Antigravity: bootstrap rule -> ${rulePath}`);
 }
@@ -521,7 +521,7 @@ function isHomeDir(p) {
 const BOOTSTRAP_DELETE = [
   '.trae/rules/superpowers-zh.md',
   '.qoder/rules/superpowers-zh.md',
-  '.antigravity/rules.md',
+  '.agents/rules.md',
 ];
 const BOOTSTRAP_CLEAN_SECTION = [
   'CLAUDE.md',
