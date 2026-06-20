@@ -320,14 +320,14 @@ function layout({ lang, base, title, desc, body, langHref, extraHead = '' }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:type" content="website">
-<link rel="icon" href="${base}assets/app-icon.png">
-<link rel="stylesheet" href="${base}styles.css?v=${cssVer}">
+<link rel="icon" href="/assets/app-icon.png">
+<link rel="stylesheet" href="/styles.css?v=${cssVer}">
 <script>(function(){try{var m=localStorage.getItem('sp-theme');if(m==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
 ${extraHead}</head>
 <body>
 <header class="nav">
   <a class="brand" href="${base}index.html">
-    <img src="${base}assets/superpowers-small.svg" alt="" width="26" height="26">
+    <img src="/assets/superpowers-small.svg" alt="" width="26" height="26">
     <span>superpowers<b>-zh</b></span>
   </a>
   <nav>
@@ -345,8 +345,8 @@ ${body}
   <div class="foot-qr">
     <h4 class="qr-title">${t.followUs}</h4>
     <div class="qr-row">
-      <figure class="qr-card"><img src="${base}assets/qr-wechat.jpg" alt="${esc(t.qrWechat)}" width="158" loading="lazy"><figcaption>${t.qrWechat}</figcaption></figure>
-      <figure class="qr-card"><img src="${base}assets/qr-douyin.jpg" alt="${esc(t.qrDouyin)}" width="158" loading="lazy"><figcaption>${t.qrDouyin}</figcaption></figure>
+      <figure class="qr-card"><img src="/assets/qr-wechat.jpg" alt="${esc(t.qrWechat)}" width="158" loading="lazy"><figcaption>${t.qrWechat}</figcaption></figure>
+      <figure class="qr-card"><img src="/assets/qr-douyin.jpg" alt="${esc(t.qrDouyin)}" width="158" loading="lazy"><figcaption>${t.qrDouyin}</figcaption></figure>
     </div>
   </div>
   <div class="foot-inner foot-cols">
@@ -358,7 +358,7 @@ ${body}
   </div>
   <p class="copyright">${t.copyright}</p>
 </footer>
-<script src="${base}app.js?v=${jsVer}"></script>
+<script src="/app.js?v=${jsVer}"></script>
 </body>
 </html>`;
 }
