@@ -46,24 +46,37 @@ const PROJECT_DIR = process.cwd();
 // agents/ 目录已删，但旧版本装过的用户机器上仍有残留文件需要清理。
 const LEGACY_AGENT_FILENAMES = ['code-reviewer.md'];
 
+// 每个工具：项目级 dir（相对 cwd）+ 可选 global 配置。
+// global 存在 = 该工具有稳定的「用户级 skills 目录」，可全局安装（所有项目共享）：
+//   global.dir     用户级 skills 目录（相对 home）
+//   global.detect  home 下用于自动检测该工具是否安装的标记目录
+//   global.boot    可选，用户级 bootstrap 文件（相对 home）；无则仅靠 skill 自动发现
+// 无 global 的工具（Cursor/Kiro/Trae/Aider/DeerFlow/VS Code/Hermes/Claw）规则是项目级、
+// 或存在于应用内设置，没有稳定的用户级 skills 加载路径 —— --global 会明确拒绝而非写无效路径。
 const TARGETS = [
-  { name: 'Claude Code',   dir: '.claude/skills',           detect: '.claude' },
+  { name: 'Claude Code',   dir: '.claude/skills',           detect: '.claude',                        global: { dir: '.claude/skills',         detect: '.claude',         boot: '.claude/CLAUDE.md' } },
   { name: 'Cursor',        dir: '.cursor/skills',           detect: ['.cursor', '.cursorrules'] },
-  { name: 'Codex CLI',     dir: '.codex/skills',            detect: '.codex' },
+  // Codex 全局：docs 确认 Codex 启动时扫描 ~/.agents/skills/（不是 ~/.codex/skills），
+  // 直接把每个 skill 复制到 ~/.agents/skills/<skill>/ 正好命中它的扁平扫描。
+  { name: 'Codex CLI',     dir: '.codex/skills',            detect: '.codex',                         global: { dir: '.agents/skills',         detect: '.codex' } },
   { name: 'Kiro',          dir: '.kiro/steering',            detect: '.kiro' },
   { name: 'DeerFlow',      dir: 'skills/custom',             detect: 'deer_flow' },
   { name: 'Trae',          dir: '.trae/skills',              detect: '.trae' },
+  // Antigravity 无 global：其全局 skills 加载路径未在 docs 证实（全局规则走 ~/.gemini/GEMINI.md），
+  // 不确认能生效就不写，避免「装了不生效」。用户用项目级安装。
   { name: 'Antigravity',   dir: '.agents/skills',            detect: '.agents' },
   { name: 'VS Code',       dir: '.github/superpowers',       detect: '.github/copilot-instructions.md' },
-  { name: 'OpenClaw',      dir: 'skills',                     detect: '.openclaw' },
-  { name: 'Windsurf',      dir: '.windsurf/skills',          detect: '.windsurf' },
+  { name: 'OpenClaw',      dir: 'skills',                     detect: '.openclaw',                     global: { dir: '.openclaw/skills',       detect: '.openclaw' } },
+  { name: 'Windsurf',      dir: '.windsurf/skills',          detect: '.windsurf',                      global: { dir: '.windsurf/skills',       detect: '.windsurf' } },
+  // Gemini 无 global：其全局加载是「扩展目录」~/.gemini/extensions/*/skills/ + gemini-extension.json，
+  // 不是简单复制到 ~/.gemini/skills，通用 --global 覆盖不了。见 docs/README.gemini-cli.md。
   { name: 'Gemini CLI',    dir: '.gemini/skills',            detect: 'GEMINI.md' },
   { name: 'Aider',         dir: '.aider/skills',             detect: '.aider' },
-  { name: 'OpenCode',      dir: '.opencode/skills',          detect: '.opencode' },
-  { name: 'Qwen Code',     dir: '.qwen/skills',             detect: '.qwen' },
+  { name: 'OpenCode',      dir: '.opencode/skills',          detect: '.opencode',                      global: { dir: '.config/opencode/skills', detect: '.config/opencode' } },
+  { name: 'Qwen Code',     dir: '.qwen/skills',             detect: '.qwen',                           global: { dir: '.qwen/skills',           detect: '.qwen' } },
   { name: 'Hermes Agent',  dir: '.hermes/skills',            detect: ['.hermes', 'HERMES.md', '.hermes.md'] },
   { name: 'Claw Code',     dir: '.claw/skills',              detect: ['.claw', 'CLAW.md'] },
-  { name: 'Qoder',         dir: '.qoder/skills',             detect: '.qoder' },
+  { name: 'Qoder',         dir: '.qoder/skills',             detect: '.qoder',                         global: { dir: '.qoder/skills',          detect: '.qoder' } },
 ];
 
 function countDirs(dir) {
@@ -142,12 +155,14 @@ ${skillTable}
   console.log(`  ✅ Trae: bootstrap rule -> ${rulePath}`);
 }
 
-function generateQoderBootstrap(projectDir) {
-  const rulesDir = resolve(projectDir, '.qoder', 'rules');
+function generateQoderBootstrap(baseDir, isGlobal) {
+  const rulesDir = resolve(baseDir, '.qoder', 'rules');
   mkdirSync(rulesDir, { recursive: true });
 
   const skillEntries = scanSkillEntries(SKILLS_SRC);
   const skillTable = skillEntries.map(s => `| ${s.name} | ${s.desc} |`).join('\n');
+  const scope = isGlobal ? '你已全局加载 superpowers-zh 技能框架，所有项目共享' : '你已加载 superpowers-zh 技能框架';
+  const skillsRef = isGlobal ? '~/.qoder/skills/' : '.qoder/skills/';
 
   // Qoder rules schema（来源：社区实际样本，docs.qoder.com/zh/user-guide/rules 没公开）
   // trigger: always_on  → "始终生效"，适用于所有智能会话和内联对话
@@ -160,7 +175,7 @@ alwaysApply: true
 
 # Superpowers-ZH 中文增强版
 
-你已加载 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+${scope}（${skillEntries.length} 个 skills）。
 
 ## 核心规则
 
@@ -171,7 +186,7 @@ alwaysApply: true
 
 ## 可用 Skills
 
-Skills 位于 \`.qoder/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+Skills 位于 \`${skillsRef}\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
 
 | Skill | 触发条件 |
 |-------|---------|
@@ -179,7 +194,7 @@ ${skillTable}
 
 ## 如何使用
 
-当任务匹配某个 skill 的触发条件时，读取对应的 \`.qoder/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。也可输入 \`/<skill-name>\` 显式调用。
+当任务匹配某个 skill 的触发条件时，读取对应的 \`${skillsRef}<skill-name>/SKILL.md\` 并严格遵循其流程。也可输入 \`/<skill-name>\` 显式调用。
 `;
 
   const rulePath = resolve(rulesDir, 'superpowers-zh.md');
@@ -187,13 +202,15 @@ ${skillTable}
   console.log(`  ✅ Qoder: bootstrap rule -> ${rulePath}`);
 }
 
-function generateAntigravityBootstrap(projectDir) {
+function generateAntigravityBootstrap(baseDir, isGlobal) {
   const skillEntries = scanSkillEntries(SKILLS_SRC);
   const skillList = skillEntries.map(s => `- **${s.name}**: ${s.desc}`).join('\n');
+  const scope = isGlobal ? '已全局安装 superpowers-zh 技能框架，所有项目共享' : '本项目已安装 superpowers-zh 技能框架';
+  const skillsRef = isGlobal ? '~/.agents/skills/' : '.agents/skills/';
 
   const content = `# Superpowers-ZH 中文增强版
 
-本项目已安装 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+${scope}（${skillEntries.length} 个 skills）。
 
 ## 核心规则
 
@@ -204,17 +221,17 @@ function generateAntigravityBootstrap(projectDir) {
 
 ## 可用 Skills
 
-Skills 位于 \`.agents/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+Skills 位于 \`${skillsRef}\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
 
 ${skillList}
 
 ## 如何使用
 
-当任务匹配某个 skill 时，读取对应的 \`.agents/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。
+当任务匹配某个 skill 时，读取对应的 \`${skillsRef}<skill-name>/SKILL.md\` 并严格遵循其流程。
 `;
 
-  // 写入 .agents/rules.md（不覆盖用户已有的 GEMINI.md / AGENTS.md）
-  const rulePath = resolve(projectDir, '.agents', 'rules.md');
+  // 写入 .agents/rules.md（不覆盖用户已有的 GEMINI.md / AGENTS.md）；全局装到 ~/.agents/rules.md
+  const rulePath = resolve(baseDir, '.agents', 'rules.md');
   writeFileSync(rulePath, content, 'utf8');
   console.log(`  ✅ Antigravity: bootstrap rule -> ${rulePath}`);
 }
@@ -262,13 +279,15 @@ ${skillList}
   }
 }
 
-function generateGeminiBootstrap(projectDir) {
+function generateGeminiBootstrap(baseDir, isGlobal) {
   const skillEntries = scanSkillEntries(SKILLS_SRC);
   const skillList = skillEntries.map(s => `- **${s.name}**: ${s.desc}`).join('\n');
+  const scope = isGlobal ? '已全局安装 superpowers-zh 技能框架，所有项目共享' : '本项目已安装 superpowers-zh 技能框架';
+  const skillsRef = isGlobal ? '~/.gemini/skills/' : '.gemini/skills/';
 
   const content = `# Superpowers-ZH 中文增强版
 
-本项目已安装 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+${scope}（${skillEntries.length} 个 skills）。
 
 ## 核心规则
 
@@ -279,17 +298,18 @@ function generateGeminiBootstrap(projectDir) {
 
 ## 可用 Skills
 
-Skills 位于 \`.gemini/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+Skills 位于 \`${skillsRef}\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
 
 ${skillList}
 
 ## 如何使用
 
-当任务匹配某个 skill 时，读取对应的 \`.gemini/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。
+当任务匹配某个 skill 时，读取对应的 \`${skillsRef}<skill-name>/SKILL.md\` 并严格遵循其流程。
 `;
 
-  // 写入 GEMINI.md（如果已存在则追加）
-  const geminiPath = resolve(projectDir, 'GEMINI.md');
+  // 写入 GEMINI.md（如果已存在则追加）；全局装到 ~/.gemini/GEMINI.md
+  const geminiPath = isGlobal ? resolve(baseDir, '.gemini', 'GEMINI.md') : resolve(baseDir, 'GEMINI.md');
+  mkdirSync(dirname(geminiPath), { recursive: true });
   if (existsSync(geminiPath)) {
     const existing = readFileSync(geminiPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
@@ -360,13 +380,15 @@ ${skillList}
   }
 }
 
-function generateClaudeCodeBootstrap(projectDir) {
+function generateClaudeCodeBootstrap(baseDir, isGlobal) {
   const skillEntries = scanSkillEntries(SKILLS_SRC);
   const skillList = skillEntries.map(s => `- **${s.name}**: ${s.desc}`).join('\n');
+  const scope = isGlobal ? '已全局安装 superpowers-zh 技能框架，所有项目共享' : '本项目已安装 superpowers-zh 技能框架';
+  const skillsRef = isGlobal ? '~/.claude/skills/' : '.claude/skills/';
 
   const content = `# Superpowers-ZH 中文增强版
 
-本项目已安装 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+${scope}（${skillEntries.length} 个 skills）。
 
 ## 核心规则
 
@@ -377,7 +399,7 @@ function generateClaudeCodeBootstrap(projectDir) {
 
 ## 可用 Skills
 
-Skills 位于 \`.claude/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+Skills 位于 \`${skillsRef}\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
 
 ${skillList}
 
@@ -388,7 +410,8 @@ ${skillList}
 如果你认为哪怕只有 1% 的可能性某个 skill 适用于你正在做的事情，你必须调用该 skill 检查。
 `;
 
-  const mdPath = resolve(projectDir, 'CLAUDE.md');
+  const mdPath = isGlobal ? resolve(baseDir, '.claude', 'CLAUDE.md') : resolve(baseDir, 'CLAUDE.md');
+  mkdirSync(dirname(mdPath), { recursive: true });
   if (existsSync(mdPath)) {
     const existing = readFileSync(mdPath, 'utf8');
     if (!existing.includes('superpowers-zh')) {
@@ -440,31 +463,37 @@ function showHelp() {
   superpowers-zh v${PKG.version} — AI 编程超能力中文版
 
   用法：
-    npx superpowers-zh                   自动检测工具并安装
+    npx superpowers-zh                   项目级：自动检测工具并装到当前目录
+    npx superpowers-zh --global          全局：装到 ~/，所有项目共享（推荐多项目用户）
     npx superpowers-zh --tool cursor     指定工具安装（检测不到时使用）
-    npx superpowers-zh --uninstall       卸载当前目录下的 superpowers-zh
-    npx superpowers-zh --force           允许在用户主目录(~)安装（默认拒绝）
+    npx superpowers-zh --global -t claude 全局 + 指定工具
+    npx superpowers-zh --uninstall       卸载当前目录（加 --global 卸载全局）
+    npx superpowers-zh --force           允许在用户主目录(~)做项目级安装（默认拒绝）
     npx superpowers-zh --help            显示帮助
     npx superpowers-zh --version         显示版本
 
   支持的工具名：
     ${Object.keys(TOOL_ALIASES).join(', ')}
 
-  说明：
-    自动检测当前项目使用的 AI 编程工具，将 ${countDirs(SKILLS_SRC)} 个 skills 安装到对应目录。
-    如果自动检测不到，请用 --tool 指定你的工具，例如：
-      npx superpowers-zh --tool cursor
-      npx superpowers-zh --tool trae
+  支持全局安装的工具（其余工具规则为项目级，--global 会提示改用项目级）：
+    ${TARGETS.filter(t => t.global).map(t => t.name).join('、')}
 
-    误装到主目录可以这样清理：
-      cd ~ && npx superpowers-zh --uninstall
+  说明：
+    项目级：把 ${countDirs(SKILLS_SRC)} 个 skills 装到当前项目对应目录（如 .claude/skills）。
+    全局：把 skills 装到用户级目录（如 ~/.claude/skills），一次安装所有项目可用，
+          skills 更新时也只需重装一次。项目级优先、全局兜底，二者可共存。
+
+    卸载：
+      npx superpowers-zh --uninstall            清理当前项目
+      npx superpowers-zh --global --uninstall   清理全局安装
 
   项目：https://github.com/jnMetaCode/superpowers-zh
 `);
 }
 
-function installForTarget(target) {
-  const dest = resolve(PROJECT_DIR, target.dir);
+function installForTarget(target, baseDir, isGlobal) {
+  const relDir = isGlobal ? target.global.dir : target.dir;
+  const dest = resolve(baseDir, relDir);
   const srcCount = countDirs(SKILLS_SRC);
   mkdirSync(dest, { recursive: true });
   copyDirSync(SKILLS_SRC, dest);
@@ -478,34 +507,35 @@ function installForTarget(target) {
       `    3. 或手动克隆复制: 见 https://github.com/jnMetaCode/superpowers-zh#方式二手动安装`
     );
   }
-  console.log(`  ✅ ${target.name}: ${srcCount} 个 skills -> ${dest}`);
+  const scopeTag = isGlobal ? '[全局]' : '[项目]';
+  console.log(`  ✅ ${target.name} ${scopeTag}: ${srcCount} 个 skills -> ${dest}`);
 
   if (target.name === 'Trae') {
-    generateTraeBootstrapRule(PROJECT_DIR);
+    generateTraeBootstrapRule(baseDir);
   }
 
   if (target.name === 'Qoder') {
-    generateQoderBootstrap(PROJECT_DIR);
+    generateQoderBootstrap(baseDir, isGlobal);
   }
 
   if (target.name === 'Antigravity') {
-    generateAntigravityBootstrap(PROJECT_DIR);
+    generateAntigravityBootstrap(baseDir, isGlobal);
   }
 
   if (target.name === 'Aider') {
-    generateAiderBootstrap(PROJECT_DIR);
+    generateAiderBootstrap(baseDir);
   }
 
   if (target.name === 'Gemini CLI') {
-    generateGeminiBootstrap(PROJECT_DIR);
+    generateGeminiBootstrap(baseDir, isGlobal);
   }
 
   if (target.name === 'Hermes Agent') {
-    generateHermesBootstrap(PROJECT_DIR);
+    generateHermesBootstrap(baseDir);
   }
 
   if (target.name === 'Claude Code') {
-    generateClaudeCodeBootstrap(PROJECT_DIR);
+    generateClaudeCodeBootstrap(baseDir, isGlobal);
   }
 }
 
@@ -604,8 +634,16 @@ function cleanBootstrapSection(filePath) {
   return true;
 }
 
-function uninstallForTarget(target, srcSkillNames) {
-  const dest = resolve(PROJECT_DIR, target.dir);
+// 全局安装的 bootstrap 文件（相对 home）— 与 install 全局分支写入的路径对应。
+// 仅 Claude Code（~/.claude/CLAUDE.md，全局记忆已证实）和 Qoder（~/.qoder/rules/，镜像其项目机制）
+// 会写全局 bootstrap；其余全局工具靠 skill 自动发现，无 bootstrap 需清理。
+const GLOBAL_BOOTSTRAP_DELETE = ['.qoder/rules/superpowers-zh.md'];
+const GLOBAL_BOOTSTRAP_CLEAN_SECTION = ['.claude/CLAUDE.md'];
+
+function uninstallForTarget(target, srcSkillNames, baseDir, isGlobal) {
+  const relDir = isGlobal ? (target.global && target.global.dir) : target.dir;
+  if (!relDir) return 0;
+  const dest = resolve(baseDir, relDir);
   if (!existsSync(dest)) return 0;
   let removed = 0;
   for (const entry of readdirSync(dest, { withFileTypes: true })) {
@@ -624,9 +662,10 @@ function uninstallForTarget(target, srcSkillNames) {
   return removed;
 }
 
-function uninstall() {
-  console.log(`\n  superpowers-zh v${PKG.version} — 卸载\n`);
-  console.log(`  目标项目: ${PROJECT_DIR}\n`);
+function uninstall(isGlobal) {
+  const baseDir = isGlobal ? homedir() : PROJECT_DIR;
+  console.log(`\n  superpowers-zh v${PKG.version} — 卸载（${isGlobal ? '全局' : '项目级'}）\n`);
+  console.log(`  目标: ${baseDir}\n`);
 
   if (!existsSync(SKILLS_SRC)) {
     console.error('  ❌ 错误：skills 源目录不存在，无法识别要卸载的 skill 名单。');
@@ -639,18 +678,20 @@ function uninstall() {
       .map(e => e.name)
   );
 
+  const pool = isGlobal ? GLOBAL_TARGETS : TARGETS;
   let totalSkills = 0;
-  for (const target of TARGETS) {
-    const removed = uninstallForTarget(target, srcSkillNames);
+  for (const target of pool) {
+    const removed = uninstallForTarget(target, srcSkillNames, baseDir, isGlobal);
     if (removed > 0) {
-      console.log(`  ✅ ${target.name}: 移除 ${removed} 个 skills <- ${resolve(PROJECT_DIR, target.dir)}`);
+      const relDir = isGlobal ? target.global.dir : target.dir;
+      console.log(`  ✅ ${target.name}: 移除 ${removed} 个 skills <- ${resolve(baseDir, relDir)}`);
       totalSkills += removed;
     }
   }
 
   // 清理 .claude/agents 下旧版本装过的 legacy agent（v1.2.x 及之前会装 code-reviewer.md，
   // v1.3.0 起跟随上游 v5.1.0 移除）。即使 agents/ 源目录已删，已装用户跑 --uninstall 仍应能清干净。
-  const agentsDest = resolve(PROJECT_DIR, '.claude', 'agents');
+  const agentsDest = resolve(baseDir, '.claude', 'agents');
   if (existsSync(agentsDest)) {
     let agentsRemoved = 0;
     for (const entry of readdirSync(agentsDest)) {
@@ -666,17 +707,19 @@ function uninstall() {
     } catch {}
   }
 
+  const deleteList = isGlobal ? GLOBAL_BOOTSTRAP_DELETE : BOOTSTRAP_DELETE;
+  const cleanList = isGlobal ? GLOBAL_BOOTSTRAP_CLEAN_SECTION : BOOTSTRAP_CLEAN_SECTION;
   let bootstrapsRemoved = 0;
-  for (const rel of BOOTSTRAP_DELETE) {
-    const full = resolve(PROJECT_DIR, rel);
+  for (const rel of deleteList) {
+    const full = resolve(baseDir, rel);
     if (existsSync(full)) {
       rmSync(full);
       console.log(`  ✅ 删除 bootstrap: ${full}`);
       bootstrapsRemoved++;
     }
   }
-  for (const rel of BOOTSTRAP_CLEAN_SECTION) {
-    const full = resolve(PROJECT_DIR, rel);
+  for (const rel of cleanList) {
+    const full = resolve(baseDir, rel);
     if (cleanBootstrapSection(full)) {
       console.log(`  ✅ 清理 bootstrap: ${full}`);
       bootstrapsRemoved++;
@@ -684,13 +727,16 @@ function uninstall() {
   }
 
   if (totalSkills === 0 && bootstrapsRemoved === 0) {
-    console.log('  ⚠️  未在当前目录找到 superpowers-zh 安装痕迹。');
+    console.log(`  ⚠️  未在${isGlobal ? '用户主目录' : '当前目录'}找到 superpowers-zh 安装痕迹。`);
   } else {
     console.log(`\n  卸载完成。共移除 ${totalSkills} 个 skill 目录、${bootstrapsRemoved} 个 bootstrap 文件。\n`);
   }
 }
 
-function install(forceToolName, force) {
+// 支持全局安装的工具（有稳定的用户级 skills 目录）
+const GLOBAL_TARGETS = TARGETS.filter(t => t.global);
+
+function install(forceToolName, force, isGlobal) {
  try {
   console.log(`\n  superpowers-zh v${PKG.version} — AI 编程超能力中文版\n`);
 
@@ -699,29 +745,34 @@ function install(forceToolName, force) {
     process.exit(1);
   }
 
-  if (!force && isHomeDir(PROJECT_DIR)) {
+  const baseDir = isGlobal ? homedir() : PROJECT_DIR;
+
+  // 项目级安装（默认）：拒绝在 home 根目录乱装（会污染所有项目）。
+  // 全局安装（--global）：本就写到 ~/.claude/skills 等用户级目录，是正当行为，跳过该护栏。
+  if (!isGlobal && !force && isHomeDir(PROJECT_DIR)) {
     console.error(
 `  ⚠️  当前目录是用户主目录: ${PROJECT_DIR}
 
-  superpowers-zh 应该装到具体项目目录，而不是 ~/。
+  superpowers-zh 项目级安装应该装到具体项目目录，而不是 ~/。
   在主目录安装会把 skills 和 bootstrap 文件（CLAUDE.md / HERMES.md 等）
   写入你的 home，污染所有项目。
 
-  请先 cd 到项目目录：
-    cd /path/to/your/project
-    npx superpowers-zh
+  如果你想让 skills 对所有项目生效，用全局安装（推荐）：
+    npx superpowers-zh --global            # 自动检测已装工具
+    npx superpowers-zh --global --tool claude
 
-  如果你确实要在主目录安装（不推荐），加 --force：
+  或先 cd 到项目目录做项目级安装：
+    cd /path/to/your/project && npx superpowers-zh
+
+  如果你确实要在主目录做项目级安装（不推荐），加 --force：
     npx superpowers-zh --force
-
-  如果你已经在主目录误装过，可以用 --uninstall 清理：
-    npx superpowers-zh --uninstall
 `);
     process.exit(1);
   }
 
   console.log(`  源: ${countDirs(SKILLS_SRC)} 个 skills`);
-  console.log(`  目标项目: ${PROJECT_DIR}\n`);
+  console.log(`  模式: ${isGlobal ? '全局（所有项目共享，装到 ~/）' : '项目级'}`);
+  console.log(`  目标: ${baseDir}\n`);
 
   // --tool 指定安装
   if (forceToolName) {
@@ -730,19 +781,36 @@ function install(forceToolName, force) {
       console.error(`  ❌ 未知工具: ${forceToolName}`);
       process.exit(1);
     }
-    installForTarget(target);
+    if (isGlobal && !target.global) {
+      // 部分工具（如 Gemini CLI 的扩展目录）有专属全局方式，但与通用 --global 复制机制不同，
+      // 指向对应 docs；其余工具规则为项目级或存于应用内设置，无稳定用户级路径。
+      const docSlug = { 'Gemini CLI': 'gemini-cli', 'Antigravity': 'antigravity', 'Trae': 'trae', 'Aider': 'aider', 'Hermes Agent': 'hermes', 'Kiro': 'kiro' }[target.name];
+      console.error(
+`  ❌ ${target.name} 不支持通用全局安装（--global）。
+
+  该工具没有通用 --global 能覆盖的稳定用户级 skills 路径${docSlug ? `（可能有专属全局方式，见 docs/README.${docSlug}.md）` : '（规则为项目级或存于应用内设置）'}。
+  请改用项目级安装：
+    cd /path/to/your/project && npx superpowers-zh --tool ${forceToolName.toLowerCase().replace(/ .*/, '')}
+
+  支持通用全局安装的工具：${GLOBAL_TARGETS.map(t => t.name).join('、')}
+`);
+      process.exit(1);
+    }
+    installForTarget(target, baseDir, isGlobal);
     console.log('\n  安装完成！重启你的 AI 编程工具即可生效。\n');
     return;
   }
 
   // 自动检测
   let installed = 0;
+  const pool = isGlobal ? GLOBAL_TARGETS : TARGETS;
 
-  for (const target of TARGETS) {
-    const detects = Array.isArray(target.detect) ? target.detect : [target.detect];
-    const found = detects.some(d => existsSync(resolve(PROJECT_DIR, d)));
+  for (const target of pool) {
+    const detectMarker = isGlobal ? target.global.detect : target.detect;
+    const detects = Array.isArray(detectMarker) ? detectMarker : [detectMarker];
+    const found = detects.some(d => existsSync(resolve(baseDir, d)));
     if (found) {
-      installForTarget(target);
+      installForTarget(target, baseDir, isGlobal);
       installed++;
     }
   }
@@ -751,13 +819,21 @@ function install(forceToolName, force) {
     // 检测落空时不再静默装 Claude Code —— 否则 Antigravity / Trae 等
     // 不会在项目里留下检测目录的工具，会被误装成 Claude（见 issue #33）。
     // 改为明确报错并教用户用 --tool 显式指定。
-    console.log('  ⚠️  未在当前目录检测到任何已知 AI 编程工具的项目标记。\n');
+    const where = isGlobal ? '你的用户主目录(~)' : '当前目录';
+    const flag = isGlobal ? '--global ' : '';
+    console.log(`  ⚠️  未在${where}检测到任何已知 AI 编程工具的标记。\n`);
     console.log('  为避免装错工具，未做任何安装。请用 --tool 显式指定你的工具，例如：\n');
-    console.log('    npx superpowers-zh --tool claude        # Claude Code / Copilot CLI');
-    console.log('    npx superpowers-zh --tool antigravity   # Google Antigravity');
-    console.log('    npx superpowers-zh --tool trae          # Trae');
-    console.log('    npx superpowers-zh --tool cursor        # Cursor\n');
-    console.log(`  全部可用别名：${Object.keys(TOOL_ALIASES).join(', ')}\n`);
+    console.log(`    npx superpowers-zh ${flag}--tool claude        # Claude Code / Copilot CLI`);
+    if (isGlobal) {
+      console.log(`    npx superpowers-zh ${flag}--tool codex         # Codex CLI`);
+      console.log(`    npx superpowers-zh ${flag}--tool qoder         # Qoder\n`);
+      console.log(`  支持全局安装的工具：${GLOBAL_TARGETS.map(t => t.name).join('、')}\n`);
+    } else {
+      console.log(`    npx superpowers-zh ${flag}--tool antigravity   # Google Antigravity`);
+      console.log(`    npx superpowers-zh ${flag}--tool trae          # Trae`);
+      console.log(`    npx superpowers-zh ${flag}--tool cursor        # Cursor\n`);
+      console.log(`  全部可用别名：${Object.keys(TOOL_ALIASES).join(', ')}\n`);
+    }
     process.exit(1);
   }
 
@@ -774,14 +850,19 @@ const versionIdx = args.findIndex(a => a === '--version' || a === '-v');
 const toolIdx = args.findIndex(a => a === '--tool' || a === '-t');
 const uninstallIdx = args.findIndex(a => a === '--uninstall' || a === '-u');
 const forceIdx = args.findIndex(a => a === '--force' || a === '-f');
+const globalIdx = args.findIndex(a => a === '--global' || a === '-g');
 const force = forceIdx !== -1;
+const isGlobal = globalIdx !== -1;
+
+// 已知无参数值的开关，用于校验未知参数（--tool 后面跟工具名不算未知参数）
+const KNOWN_FLAGS = new Set(['--help', '-h', '--version', '-v', '--uninstall', '-u', '--force', '-f', '--global', '-g', '--tool', '-t']);
 
 if (helpIdx !== -1) {
   showHelp();
 } else if (versionIdx !== -1) {
   console.log(PKG.version);
 } else if (uninstallIdx !== -1) {
-  uninstall();
+  uninstall(isGlobal);
 } else if (toolIdx !== -1) {
   const toolArg = args[toolIdx + 1];
   if (!toolArg) {
@@ -795,11 +876,14 @@ if (helpIdx !== -1) {
     console.error(`  支持的工具: ${Object.keys(TOOL_ALIASES).join(', ')}\n`);
     process.exit(1);
   }
-  install(toolName, force);
-} else if (args.length > 0 && args[0].startsWith('-') && forceIdx === -1) {
-  console.warn(`  未知参数: ${args[0]}\n`);
-  showHelp();
-  process.exit(1);
+  install(toolName, force, isGlobal);
 } else {
-  install(undefined, force);
+  // 校验未知参数（--tool 的值已在上面分支处理，走到这里说明没有 --tool）
+  const unknown = args.find(a => a.startsWith('-') && !KNOWN_FLAGS.has(a));
+  if (unknown) {
+    console.warn(`  未知参数: ${unknown}\n`);
+    showHelp();
+    process.exit(1);
+  }
+  install(undefined, force, isGlobal);
 }

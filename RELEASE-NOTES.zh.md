@@ -6,6 +6,24 @@
 
 ---
 
+## v1.7.0 (2026-07-12)
+
+### 🌍 全局安装（关 #21）
+
+新增 `npx superpowers-zh --global`，一次安装、所有项目共享，解决多项目用户需要逐个项目重复安装的痛点。
+
+- **项目级（默认）不变**：装到 `process.cwd()` 下工具目录（如 `.claude/skills`），仅当前项目生效。
+- **全局（`--global`）**：装到工具的**用户级目录**（如 `~/.claude/skills`），所有项目自动共享，更新只需重装一次。**项目级优先、全局兜底**，二者可共存。
+- 支持全局的工具（**逐一核对各工具 docs 声明的真实加载路径，不臆造**）：**Claude Code / Codex CLI / Qoder / Windsurf / Qwen Code / OpenClaw / OpenCode**。其中 Codex 全局装到 `~/.agents/skills`（docs 确认 Codex 启动扫描该目录，而非 `~/.codex/skills`）；Claude Code 全局 bootstrap 写 `~/.claude/CLAUDE.md`。
+- **Gemini CLI / Antigravity 有意不纳入通用 `--global`**：Gemini 全局走扩展目录 `~/.gemini/extensions/*/skills/` + manifest、Antigravity 全局 skills 路径未在 docs 证实，通用复制机制覆盖不了 —— `--global` 会报错并指向各自 `docs/README.*.md`，避免「装了不生效」。
+- 其余工具（Cursor / Kiro / Trae / Aider / DeerFlow / VS Code / Hermes / Claw）规则是项目级或存于应用内设置，`--global` 明确报错并提示改用项目级，绝不写入无效路径。
+- 卸载对称支持：`--global --uninstall` 从用户级目录移除 skills 并按哨兵精确清理全局 bootstrap。
+- home 目录护栏调整：项目级仍拒绝在 `~` 下裸装（污染所有项目），并在提示里引导改用 `--global`；全局模式本就写用户级目录，跳过该护栏。
+
+### 📊 文案刷新
+
+- 上游 star 数 233k+ → 250k+（站点、README、package.json description 同步，实测上游已达 252k+）。
+
 ## v1.6.1 (2026-07-06)
 
 对齐上游 **v6.1.0 / v6.1.1** 中与我们架构相关的部分。Gemini CLI 移除是上游这两个版本里改动面最大的一项，但它牵涉我们自己的营销文案（"18 款工具"）和安装器逻辑，评估后判定为独立决策，本版本**不包含**，留待单独讨论。

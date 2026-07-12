@@ -157,12 +157,32 @@ AI：在开始实现之前，我需要了解几个关键问题：
 
 ### 方式一：npm 安装（推荐）
 
+**项目级**（默认，装到当前项目）：
+
 ```bash
 cd /your/project
 npx superpowers-zh
 ```
 
-> ⚠️ **不要在主目录（`~`）下跑**。v1.2.1 起会拒绝并提示，老版本会把 skills 和 `CLAUDE.md` 等 bootstrap 文件写到你的 home 目录，污染所有项目。如已误装见下文「卸载 / 误装清理」。
+> ⚠️ **项目级安装不要在主目录（`~`）下跑**。v1.2.1 起会拒绝并提示，老版本会把 skills 和 `CLAUDE.md` 等 bootstrap 文件写到你的 home 目录，污染所有项目。如已误装见下文「卸载 / 误装清理」。想让 skills 对所有项目生效，请用下面的**全局安装**，而不是在 `~` 下跑项目级。
+
+**全局安装**（v1.7.0+，装到用户目录，所有项目共享，适合同时维护多个项目）：
+
+```bash
+npx superpowers-zh --global                 # 自动检测已装工具
+npx superpowers-zh --global --tool claude   # 或指定工具
+```
+
+全局安装把 skills 装到工具的**用户级目录**（如 `~/.claude/skills`），一次安装所有项目自动可用，更新时也只需重装一次。**项目级优先、全局兜底**，二者可共存。
+
+支持通用全局安装的工具（均为 docs 已证实的用户级加载路径）：**Claude Code · Codex CLI · Qoder · Windsurf · Qwen Code · OpenClaw · OpenCode**。其中 **Codex CLI** 全局装到 `~/.agents/skills`（Codex 启动扫描目录）。其余工具（Cursor / Kiro / Trae / Aider / DeerFlow / VS Code / Hermes / Claw）规则是项目级或存于应用内设置，`--global` 会提示改用项目级；**Gemini CLI / Antigravity** 有各自专属的全局方式（Gemini 走扩展目录），见对应 `docs/README.*.md`。
+
+| | 项目级（默认） | 全局（`--global`） |
+|---|---|---|
+| 安装位置 | `<项目>/.claude/skills` 等 | `~/.claude/skills` 等用户级目录 |
+| 生效范围 | 仅当前项目 | 所有项目 |
+| 适合 | 单项目、需项目内版本固定 | 多项目、想一次装好到处可用 |
+| 卸载 | `npx superpowers-zh --uninstall` | `npx superpowers-zh --global --uninstall` |
 
 ### 方式二：手动安装（low-fidelity，仅作备选）
 
