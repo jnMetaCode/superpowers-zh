@@ -78,6 +78,10 @@ const TARGETS = [
   { name: 'Claw Code',     dir: '.claw/skills',              detect: ['.claw', 'CLAW.md'] },
   { name: 'Qoder',         dir: '.qoder/skills',             detect: '.qoder',                         global: { dir: '.qoder/skills',          detect: '.qoder' } },
   { name: 'CodeBuddy',     dir: '.codebuddy/skills',         detect: ['.codebuddy', 'CODEBUDDY.md'] },
+  // 华为云码道（CodeArts Doer）：skills 放 .codeartsdoer/skills/（用户在 #20 确认）。
+  // 仅 skills-only —— 其 bootstrap/指令文件约定未证实，靠 CodeArts 自身 skill 发现；
+  // 若不自动触发需在对话里手动点名 skill（docs 已说明）。
+  { name: 'CodeArts',      dir: '.codeartsdoer/skills',      detect: '.codeartsdoer' },
 ];
 
 function countDirs(dir) {
@@ -503,6 +507,10 @@ const TOOL_ALIASES = {
   'codebuddy-code': 'CodeBuddy',
   'codebuddycode': 'CodeBuddy',
   'codebuddy-cn': 'CodeBuddy',
+  'codearts':     'CodeArts',
+  'codeartsdoer': 'CodeArts',
+  'codearts-doer': 'CodeArts',
+  'huawei':       'CodeArts',
 };
 
 function showHelp() {
