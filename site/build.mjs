@@ -140,9 +140,6 @@ const T = {
     bookDesc: '《AI 编程实战 · 方法论三卷书》—— 10 个 AI 编程工具完整教程 + 真实踩坑。在线书 + PDF，永久免费。',
     bookBtn: '免费阅读 ↗',
     aiolaolaBtn: '免费学 AI 编程 · aiOlaOla ↗',
-    sponsorTitle: '赞助商',
-    sponsorDesc: '稳定高速的 API 中继服务，为 Claude Code、Codex 等平台提供 API 中继与 AI 生图服务。',
-    sponsorCta: '🙏 想出现在这里？联系 <b>jnMetaCode@qq.com</b>',
     ctaTitle: '准备好让 AI 真正会干活了吗？',
     ctaDesc: '一条命令，{n} 个实战方法论装进你的工具。免费、开源、零依赖。',
     ctaBtn1: '查看安装命令', ctaBtn2: '⭐ Star on GitHub',
@@ -227,9 +224,6 @@ const T = {
     bookDesc: '"AI Coding in Practice · The Three-Volume Methodology" — full tutorials for 10 AI coding tools plus real-world pitfalls. Online book + PDF, free forever.',
     bookBtn: 'Read free ↗',
     aiolaolaBtn: 'Learn AI coding free · aiOlaOla ↗',
-    sponsorTitle: 'Sponsors',
-    sponsorDesc: 'A fast, reliable API relay for Claude Code, Codex and more — API relay and AI image generation.',
-    sponsorCta: '🙏 Want to appear here? Contact <b>jnMetaCode@qq.com</b>',
     ctaTitle: 'Ready to make your AI actually ship?',
     ctaDesc: 'One command installs {n} battle-tested skills into your tool. Free, open-source, zero-dependency.',
     ctaBtn1: 'Get the command', ctaBtn2: '⭐ Star on GitHub',
@@ -495,15 +489,6 @@ function renderLanding(skills, lang) {
     <a class="btn btn-ghost" href="https://book.aibuzhiyu.com/" target="_blank" rel="noopener">${t.bookBtn}</a>
   </div></div></section>
 
-  <section class="sponsor">
-    <h2 class="section-title">${t.sponsorTitle}</h2>
-    <a class="sponsor-card" href="https://www.5cookie.cc/sign-up?aff=Pj7u" target="_blank" rel="noopener">
-      <img src="assets/sponsors/5cookie-code.png" alt="5Cookie Code" width="160">
-      <div><b>5Cookie Code</b><span>${t.sponsorDesc}</span></div>
-    </a>
-    <p class="sponsor-cta">${t.sponsorCta}</p>
-  </section>
-
   <section class="cta"><div class="cta-inner">
     <h2>${t.ctaTitle}</h2><p>${fill(t.ctaDesc, { n: total })}</p>
     <div class="cta-cmd" data-copy="npx superpowers-zh"><code>$ npx superpowers-zh</code><button class="copy-btn">${t.copy}</button></div>
@@ -551,7 +536,7 @@ function renderDetail(skill, lang) {
 function build() {
   const skills = loadSkills();
   rmSync(DIST, { recursive: true, force: true });
-  mkdirSync(join(DIST, 'assets', 'sponsors'), { recursive: true });
+  mkdirSync(join(DIST, 'assets'), { recursive: true });
   mkdirSync(join(DIST, 'skills'), { recursive: true });
   mkdirSync(join(DIST, 'en', 'skills'), { recursive: true });
 
@@ -560,7 +545,6 @@ function build() {
   copyFileSync(join(TEMPLATE, 'app.js'), join(DIST, 'app.js'));
   copyFileSync(join(ROOT, 'assets', 'app-icon.png'), join(DIST, 'assets', 'app-icon.png'));
   copyFileSync(join(ROOT, 'assets', 'superpowers-small.svg'), join(DIST, 'assets', 'superpowers-small.svg'));
-  copyFileSync(join(ROOT, 'assets', 'sponsors', '5cookie-code.png'), join(DIST, 'assets', 'sponsors', '5cookie-code.png'));
   copyFileSync(join(TEMPLATE, 'assets', 'qr-wechat.jpg'), join(DIST, 'assets', 'qr-wechat.jpg'));
   copyFileSync(join(TEMPLATE, 'assets', 'qr-douyin.jpg'), join(DIST, 'assets', 'qr-douyin.jpg'));
 

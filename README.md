@@ -20,20 +20,7 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 |:---:|:---:|:---:|
 | **14** | **6** | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder** |
 
----
-
-## ❤️ 赞助商 &nbsp;<sub>🙏 想出现在这里？联系 **jnMetaCode@qq.com** 赞助</sub>
-
-<table>
-<tr>
-<td width="200" align="center">
-<a href="https://www.5cookie.cc/sign-up?aff=Pj7u"><img src="assets/sponsors/5cookie-code.png" width="180" alt="5Cookie Code"></a>
-</td>
-<td>
-<a href="https://www.5cookie.cc/sign-up?aff=Pj7u"><b>5Cookie Code</b></a> 是一家稳定高速的 API 中继服务提供商，为 Claude Code、Codex 等平台或模型提供 API 中继服务。面向个人、团队和企业用户提供 AI 编码服务和 AI 生图服务。
-</td>
-</tr>
-</table>
+> 🙏 **想赞助支持本项目？** 联系 **jnMetaCode@qq.com**
 
 ---
 

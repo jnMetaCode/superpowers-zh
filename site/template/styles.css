@@ -218,7 +218,7 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px; }
 .tool-name { font-weight: 600; font-size: 14px; }
 .tool-type { font-size: 11px; color: var(--text-faint); border: 1px solid var(--border); padding: 1px 7px; border-radius: 5px; }
 
-/* ---------- 书 / 赞助 ---------- */
+/* ---------- 书 ---------- */
 .book-inner {
   background: linear-gradient(135deg, rgba(124,108,255,0.12), rgba(77,214,200,0.08));
   border: 1px solid var(--border); border-radius: 18px; padding: 44px;
@@ -226,18 +226,6 @@ section { max-width: var(--maxw); margin: 0 auto; padding: 80px 24px; }
 }
 .book-inner h2 { font-size: 26px; margin-bottom: 12px; }
 .book-inner p { color: var(--text-dim); margin-bottom: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
-
-.sponsor-card {
-  display: flex; align-items: center; gap: 24px; max-width: 620px; margin: 0 auto;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 24px; transition: border-color .2s;
-}
-.sponsor-card:hover { border-color: var(--accent); }
-.sponsor-card img { border-radius: 10px; flex-shrink: 0; }
-.sponsor-card b { display: block; font-size: 17px; margin-bottom: 6px; }
-.sponsor-card span { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; }
-.sponsor-cta { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-faint); }
-.sponsor-cta b { color: var(--accent-2); }
 
 /* ---------- 页脚 ---------- */
 footer { border-top: 1px solid var(--border-soft); margin-top: 40px; padding: 40px 24px; }
@@ -267,7 +255,6 @@ footer { border-top: 1px solid var(--border-soft); margin-top: 40px; padding: 40
   .nav nav a:nth-child(1), .nav nav a:nth-child(2) { display: none; }
   .compare-grid { grid-template-columns: 1fr; }
   .stats { gap: 28px; }
-  .sponsor-card { flex-direction: column; text-align: center; }
   .foot-inner { flex-direction: column; align-items: flex-start; }
 }
 

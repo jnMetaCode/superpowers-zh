@@ -18,7 +18,7 @@ dist/
   skills/<name>.html      # 中文 skill 详情（操作文档）× 20
   en/skills/<name>.html   # 英文 skill 详情 × 20
   styles.css  app.js      # 深/浅主题 + 交互（原生 JS，零依赖）
-  assets/                 # 图标 + 赞助商 logo
+  assets/                 # 图标 + 公众号/抖音二维码
   _headers                # Cloudflare Pages 缓存策略
 ```
 
