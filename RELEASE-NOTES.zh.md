@@ -6,7 +6,23 @@
 
 ---
 
-## v1.7.0 (2026-07-12)
+## v1.7.0 (2026-07-13)
+
+### 🆕 新增两款国产 IDE 工具支持（工具数 18 → 20）
+
+- **CodeBuddy**（腾讯 AI IDE，关 #18 / #75）：`.codebuddy/skills/` + `CODEBUDDY.md` bootstrap，加载机制类似 Claude Code。仅项目级（用户级加载路径未证实，暂不做全局）。
+- **华为云码道 CodeArts**（关 #20）：`.codeartsdoer/skills/`，**skills-only** 适配（其 bootstrap/指令文件约定未证实，靠 CodeArts 自身 skill 发现；docs 已说明，不自动触发可手动点名 skill）。
+- 两者均**逐一核对配置来源**（owner 核实 / 用户实测），不臆造无效路径。工具计数在 README / 站点 / package / FAQ / audit 全量同步。
+
+### 🌐 官网 + README 多语言（新增繁体）
+
+- **官网**（#100）重构为 `LANGS` 语言列表驱动，新增**繁体中文站**（zh-Hant）：63 页（3 语言 × (首页 + 20 skill 详情)），语言切换器 / hreflang / sitemap 齐全；以后加语言只需加一项 + 一个翻译对象。
+- **README**（#101）加语言切换栏，新增完整 `README.zh-Hant.md`（353 行对齐，台港自然术语）。
+- 繁体均**手写**（台港术语：程式碼 / 專案 / 除錯 / 全域 / 檔案 等），不引入 OpenCC 依赖。日文按定位不纳入本仓库（应作独立 `superpowers-ja`）。
+
+### 🧹 官网下架赞助商展示
+
+- 移除官网与 README 的赞助商板块（含 5Cookie Code 展示卡 / logo / 样式 / 资源），仅保留一行赞助联系方式；官网切自定义域名 `sp.aiolaola.com`。
 
 ### 🌍 全局安装（关 #21）
 
