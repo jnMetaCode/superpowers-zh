@@ -95,7 +95,7 @@ if [ "$QUICK" != "1" ]; then
 hdr "Category 2: Installer 功能测试（18 款工具）"
 #==============================================================================
 
-declare -a TOOLS=(claude cursor codex kiro deerflow trae antigravity vscode openclaw windsurf gemini aider opencode qwen hermes claw copilot qoder codebuddy)
+declare -a TOOLS=(claude cursor codex kiro deerflow trae antigravity vscode openclaw windsurf gemini aider opencode qwen hermes claw copilot qoder codebuddy codearts)
 
 for tool in "${TOOLS[@]}"; do
   TMP=$(mktemp -d)
