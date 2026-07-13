@@ -77,6 +77,7 @@ const TARGETS = [
   { name: 'Hermes Agent',  dir: '.hermes/skills',            detect: ['.hermes', 'HERMES.md', '.hermes.md'] },
   { name: 'Claw Code',     dir: '.claw/skills',              detect: ['.claw', 'CLAW.md'] },
   { name: 'Qoder',         dir: '.qoder/skills',             detect: '.qoder',                         global: { dir: '.qoder/skills',          detect: '.qoder' } },
+  { name: 'CodeBuddy',     dir: '.codebuddy/skills',         detect: ['.codebuddy', 'CODEBUDDY.md'] },
 ];
 
 function countDirs(dir) {
@@ -426,6 +427,49 @@ ${skillList}
   }
 }
 
+// CodeBuddy（腾讯 AI IDE）—— 加载机制类似 Claude Code：项目根 CODEBUDDY.md 作 bootstrap，
+// skills 放 .codebuddy/skills/。仅项目级（其用户级 skills 加载路径未证实，暂不做全局）。
+function generateCodeBuddyBootstrap(baseDir) {
+  const skillEntries = scanSkillEntries(SKILLS_SRC);
+  const skillList = skillEntries.map(s => `- **${s.name}**: ${s.desc}`).join('\n');
+
+  const content = `# Superpowers-ZH 中文增强版
+
+本项目已安装 superpowers-zh 技能框架（${skillEntries.length} 个 skills）。
+
+## 核心规则
+
+1. **收到任务时，先检查是否有匹配的 skill** — 哪怕只有 1% 的可能性也要检查
+2. **设计先于编码** — 收到功能需求时，先用 brainstorming skill 做需求分析
+3. **测试先于实现** — 写代码前先写测试（TDD）
+4. **验证先于完成** — 声称完成前必须运行验证命令
+
+## 可用 Skills
+
+Skills 位于 \`.codebuddy/skills/\` 目录，每个 skill 有独立的 \`SKILL.md\` 文件。
+
+${skillList}
+
+## 如何使用
+
+当任务匹配某个 skill 时，读取对应的 \`.codebuddy/skills/<skill-name>/SKILL.md\` 并严格遵循其流程。
+`;
+
+  const mdPath = resolve(baseDir, 'CODEBUDDY.md');
+  if (existsSync(mdPath)) {
+    const existing = readFileSync(mdPath, 'utf8');
+    if (!existing.includes('superpowers-zh')) {
+      writeFileSync(mdPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
+      console.log(`  ✅ CodeBuddy: 追加 skills 引用 -> ${mdPath}`);
+    } else {
+      console.log(`  ✅ CodeBuddy: CODEBUDDY.md 已包含 superpowers-zh 引用`);
+    }
+  } else {
+    writeFileSync(mdPath, wrapWithSentinel(content), 'utf8');
+    console.log(`  ✅ CodeBuddy: bootstrap -> ${mdPath}`);
+  }
+}
+
 // 工具名称别名映射（用户输入 -> TARGETS.name）
 const TOOL_ALIASES = {
   'claude':       'Claude Code',
@@ -455,6 +499,10 @@ const TOOL_ALIASES = {
   'claw-code':    'Claw Code',
   'clawcode':     'Claw Code',
   'qoder':        'Qoder',
+  'codebuddy':    'CodeBuddy',
+  'codebuddy-code': 'CodeBuddy',
+  'codebuddycode': 'CodeBuddy',
+  'codebuddy-cn': 'CodeBuddy',
 };
 
 function showHelp() {
@@ -537,6 +585,10 @@ function installForTarget(target, baseDir, isGlobal) {
   if (target.name === 'Claude Code') {
     generateClaudeCodeBootstrap(baseDir, isGlobal);
   }
+
+  if (target.name === 'CodeBuddy') {
+    generateCodeBuddyBootstrap(baseDir);
+  }
 }
 
 function isHomeDir(p) {
@@ -558,6 +610,7 @@ const BOOTSTRAP_CLEAN_SECTION = [
   'GEMINI.md',
   'HERMES.md',
   'CONVENTIONS.md',
+  'CODEBUDDY.md',
 ];
 const BOOTSTRAP_SECTION_MARKERS = [
   '# Superpowers-ZH 中文增强版',
