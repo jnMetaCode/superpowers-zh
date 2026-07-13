@@ -52,7 +52,7 @@ Cloudflare Dashboard → Pages → 连接 GitHub 仓库 `jnMetaCode/superpowers-
 - **Build command**：`node site/build.mjs`
 - **Build output directory**：`site/dist`
 
-之后每次 push 自动重建发布。绑自定义域名（建议 `superpowers.aibuzhiyu.com`）。
+之后每次 push 自动重建发布。绑自定义域名（当前线上：`sp.aiolaola.com`）。
 
 ### 方式 B — 命令行一键发布
 
