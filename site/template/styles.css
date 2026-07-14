@@ -247,6 +247,8 @@ footer { border-top: 1px solid var(--border-soft); margin-top: 40px; padding: 40
 .qr-card { margin: 0; }
 .qr-card img { width: 158px; height: auto; border-radius: 12px; background: #fff; display: block; border: 1px solid var(--border-soft); }
 .qr-card figcaption { margin-top: 10px; font-size: 12.5px; color: var(--text-faint); }
+.qr-card a { color: inherit; text-decoration: none; }
+.qr-card a:hover { text-decoration: underline; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 720px) {

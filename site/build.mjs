@@ -153,7 +153,7 @@ const T = {
     ],
     footTag: 'AI 编程超能力 · 中文增强版 · MIT License',
     copyright: '© 2026 superpowers-zh · MIT License',
-    followUs: '扫码关注', qrWechat: '公众号 · AI不止语', qrDouyin: '抖音 · @AI不止语（AIBZY）',
+    followUs: '扫码关注', qrWechat: '公众号 · AI不止语', qrDouyin: '抖音 · @AI不止语（AIBZY）', qrX: 'X / Twitter · @jnMetaCode',
     copy: '复制', copied: '已复制 ✓',
     backToSkills: '← 返回全部 Skill',
     detailInstall: '安装此 skill',
@@ -237,7 +237,7 @@ const T = {
     ],
     footTag: 'AI coding superpowers · Chinese-enhanced · MIT License',
     copyright: '© 2026 superpowers-zh · MIT License',
-    followUs: 'Follow us', qrWechat: 'WeChat · AI不止语', qrDouyin: 'Douyin · @AI不止语 (AIBZY)',
+    followUs: 'Follow us', qrWechat: 'WeChat · AI不止语', qrDouyin: 'Douyin · @AI不止语 (AIBZY)', qrX: 'X / Twitter · @jnMetaCode',
     copy: 'Copy', copied: 'Copied ✓',
     backToSkills: '← Back to all skills',
     detailInstall: 'Install this skill set',
@@ -321,7 +321,7 @@ const T = {
     ],
     footTag: 'AI 編程超能力 · 中文增強版 · MIT License',
     copyright: '© 2026 superpowers-zh · MIT License',
-    followUs: '掃碼關注', qrWechat: '公眾號 · AI不止語', qrDouyin: '抖音 · @AI不止語（AIBZY）',
+    followUs: '掃碼關注', qrWechat: '公眾號 · AI不止語', qrDouyin: '抖音 · @AI不止語（AIBZY）', qrX: 'X / Twitter · @jnMetaCode',
     copy: '複製', copied: '已複製 ✓',
     backToSkills: '← 返回全部 Skill',
     detailInstall: '安裝此 skill',
@@ -463,6 +463,7 @@ ${body}
     <div class="qr-row">
       <figure class="qr-card"><img src="/assets/qr-wechat.jpg" alt="${esc(t.qrWechat)}" width="158" loading="lazy"><figcaption>${t.qrWechat}</figcaption></figure>
       <figure class="qr-card"><img src="/assets/qr-douyin.jpg" alt="${esc(t.qrDouyin)}" width="158" loading="lazy"><figcaption>${t.qrDouyin}</figcaption></figure>
+      <figure class="qr-card"><a href="https://x.com/jnMetaCode" target="_blank" rel="noopener"><img src="/assets/qr-x.png" alt="${esc(t.qrX)}" width="158" loading="lazy"></a><figcaption><a href="https://x.com/jnMetaCode" target="_blank" rel="noopener">${t.qrX}</a></figcaption></figure>
     </div>
   </div>
   <div class="foot-inner foot-cols">
@@ -650,6 +651,7 @@ function build() {
   copyFileSync(join(ROOT, 'assets', 'superpowers-small.svg'), join(DIST, 'assets', 'superpowers-small.svg'));
   copyFileSync(join(TEMPLATE, 'assets', 'qr-wechat.jpg'), join(DIST, 'assets', 'qr-wechat.jpg'));
   copyFileSync(join(TEMPLATE, 'assets', 'qr-douyin.jpg'), join(DIST, 'assets', 'qr-douyin.jpg'));
+  copyFileSync(join(TEMPLATE, 'assets', 'qr-x.png'), join(DIST, 'assets', 'qr-x.png'));
 
   // ---- 每种语言生成首页 + 全部 skill 详情页 ----
   for (const L of LANGS) {
