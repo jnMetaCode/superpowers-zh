@@ -25,7 +25,20 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 |:---:|:---:|:---:|
 | **14** | **6** | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder / CodeBuddy（腾讯）/ CodeArts（华为云码道）** |
 
-> 🙏 **想赞助支持本项目？** 联系 **jnMetaCode@qq.com**
+---
+
+## ❤️ 赞助商 &nbsp;<sub>🙏 想出现在这里？联系 **jnMetaCode@qq.com** 赞助</sub>
+
+<table>
+<tr>
+<td width="400" align="center">
+<a href="https://passport.compshare.cn/register?referral_code=ETD3L5JBM13CtKARkMORot&ytag=GPU_YY_YX_git_agency-agents"><img src="assets/sponsors/compshare.jpg" width="380" alt="优云智算 by UCloud — 热门国产模型按次调用套餐包"></a>
+</td>
+<td>
+感谢 <a href="https://passport.compshare.cn/register?referral_code=ETD3L5JBM13CtKARkMORot&ytag=GPU_YY_YX_git_agency-agents"><b>优云智算</b></a> 赞助本项目！优云智算是 UCloud 旗下 AI 云平台，主打包月、按次的高性价比国模 Agent Plan 套餐，低至 <b>49 元/月</b>起，同时提供官转稳定海外模型。支持接入 Claude Code、Codex 及 API 调用，支持企业高并发、7×24 技术支持、自助开票。🎁 通过<a href="https://passport.compshare.cn/register?referral_code=ETD3L5JBM13CtKARkMORot&ytag=GPU_YY_YX_git_agency-agents">此链接</a>注册的用户，可得<b>免费 5 元平台体验金</b>！
+</td>
+</tr>
+</table>
 
 ---
 
