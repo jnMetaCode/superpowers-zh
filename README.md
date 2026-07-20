@@ -120,6 +120,7 @@ AI：在开始实现之前，我需要了解几个关键问题：
 | [Antigravity](https://github.com/anthropics/antigravity) | CLI | `npx superpowers-zh` | `.agents/skills/` |
 | [Claw Code](https://github.com/ultraworkers/claw-code) | CLI (Rust) | `npx superpowers-zh` | `.claw/skills/` |
 | [Qoder](https://qoder.com) (阿里 AI IDE) | IDE | `npx superpowers-zh` | `.qoder/skills/` + `.qoder/rules/` |
+| Qoder CN（Qoder 中文版） | IDE | `npx superpowers-zh --tool qoder-cn` | `.qoder-cn/skills/` + `.qoder-cn/rules/` |
 | [CodeBuddy](https://copilot.tencent.com) (腾讯 AI IDE) | IDE | `npx superpowers-zh` | `.codebuddy/skills/` + `CODEBUDDY.md` |
 | [华为云码道 CodeArts](https://www.huaweicloud.com/product/codeartsdoer.html) | IDE | `npx superpowers-zh` | `.codeartsdoer/skills/` |
 
@@ -182,7 +183,7 @@ npx superpowers-zh --global --tool claude   # 或指定工具
 
 全局安装把 skills 装到工具的**用户级目录**（如 `~/.claude/skills`），一次安装所有项目自动可用，更新时也只需重装一次。**项目级优先、全局兜底**，二者可共存。
 
-支持通用全局安装的工具（均为 docs 已证实的用户级加载路径）：**Claude Code · Codex CLI · Qoder · Windsurf · Qwen Code · OpenClaw · OpenCode**。其中 **Codex CLI** 全局装到 `~/.agents/skills`（Codex 启动扫描目录）。其余工具（Cursor / Kiro / Trae / Aider / DeerFlow / VS Code / Hermes / Claw）规则是项目级或存于应用内设置，`--global` 会提示改用项目级；**Gemini CLI / Antigravity** 有各自专属的全局方式（Gemini 走扩展目录），见对应 `docs/README.*.md`。
+支持通用全局安装的工具（均为 docs 已证实的用户级加载路径）：**Claude Code · Codex CLI · Qoder · Qoder CN · Windsurf · Qwen Code · OpenClaw · OpenCode**。其中 **Codex CLI** 全局装到 `~/.agents/skills`（Codex 启动扫描目录）。其余工具（Cursor / Kiro / Trae / Aider / DeerFlow / VS Code / Hermes / Claw）规则是项目级或存于应用内设置，`--global` 会提示改用项目级；**Gemini CLI / Antigravity** 有各自专属的全局方式（Gemini 走扩展目录），见对应 `docs/README.*.md`。
 
 | | 项目级（默认） | 全局（`--global`） |
 |---|---|---|
@@ -223,6 +224,7 @@ cp -r superpowers-zh/skills /your/project/.opencode/skills   # OpenCode
 cp -r superpowers-zh/skills /your/project/.qwen/skills       # Qwen Code
 cp -r superpowers-zh/skills /your/project/.claw/skills       # Claw Code（Rust 版）
 cp -r superpowers-zh/skills /your/project/.qoder/skills      # Qoder（阿里 AI IDE）
+cp -r superpowers-zh/skills /your/project/.qoder-cn/skills   # Qoder CN（Qoder 中文版）
 ```
 
 ### 方式三：在配置文件中引用
@@ -249,6 +251,7 @@ cp -r superpowers-zh/skills /your/project/.qoder/skills      # Qoder（阿里 AI
 | Qwen Code | `.qwen/skills/*/SKILL.md` | 项目级 skills 目录 |
 | Claw Code | `.claw/skills/*/SKILL.md` | Rust 版 CLI agent，兼容 Claude Code 的 SKILL.md 格式 |
 | Qoder | `.qoder/skills/*/SKILL.md` + `.qoder/rules/superpowers-zh.md` | 阿里 AI IDE，自动生成 `trigger: always_on` 的 bootstrap rule |
+| Qoder CN | `.qoder-cn/skills/*/SKILL.md` + `.qoder-cn/rules/superpowers-zh.md` | Qoder 中文版，同样自动生成 bootstrap rule |
 
 > **详细安装指南**：[Kiro](docs/README.kiro.md) · [DeerFlow](docs/README.deerflow.md) · [Trae](docs/README.trae.md) · [Antigravity](docs/README.antigravity.md) · [VS Code](docs/README.vscode.md) · [Codex](docs/README.codex.md) · [OpenCode](docs/README.opencode.md) · [OpenClaw](docs/README.openclaw.md) · [Windsurf](docs/README.windsurf.md) · [Gemini CLI](docs/README.gemini-cli.md) · [Aider](docs/README.aider.md) · [Qwen Code](docs/README.qwen.md) · [Hermes Agent](docs/README.hermes.md) · [Qoder](docs/README.qoder.md) · [CodeBuddy](docs/README.codebuddy.md) · [华为云码道](docs/README.codearts.md) · [Kimi Code](docs/README.kimi.md) · [Pi](docs/README.pi.md)
 
@@ -262,7 +265,7 @@ npx superpowers-zh@latest --uninstall
 会做这些：
 
 - 删除所有装过的 skill 目录（`.claude/skills/`、`.trae/skills/` 等）
-- 删除独立 bootstrap 文件（`.trae/rules/superpowers-zh.md`、`.qoder/rules/superpowers-zh.md`、`.agents/rules.md`）
+- 删除独立 bootstrap 文件（`.trae/rules/superpowers-zh.md`、`.qoder/rules/superpowers-zh.md`、`.qoder-cn/rules/superpowers-zh.md`、`.agents/rules.md`）
 - 清理追加到 `CLAUDE.md` / `HERMES.md` / `GEMINI.md` / `CONVENTIONS.md` 里的 superpowers-zh 段，**保留你自己写的内容**
 
 数据安全说明：v1.2.1 起，安装会把追加内容包在 `<!-- superpowers-zh:begin/end -->` 哨兵注释之间，卸载按哨兵精确切除。识别不可靠时跳过 + 警告，**绝不会误删用户内容**。
