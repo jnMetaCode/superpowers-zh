@@ -77,6 +77,7 @@ const TARGETS = [
   { name: 'Hermes Agent',  dir: '.hermes/skills',            detect: ['.hermes', 'HERMES.md', '.hermes.md'] },
   { name: 'Claw Code',     dir: '.claw/skills',              detect: ['.claw', 'CLAW.md'] },
   { name: 'Qoder',         dir: '.qoder/skills',             detect: '.qoder',                         global: { dir: '.qoder/skills',          detect: '.qoder' } },
+  { name: 'Qoder CN',      dir: '.qoder-cn/skills',          detect: '.qoder-cn',                      global: { dir: '.qoder-cn/skills',       detect: '.qoder-cn' } },
   { name: 'CodeBuddy',     dir: '.codebuddy/skills',         detect: ['.codebuddy', 'CODEBUDDY.md'] },
   // 华为云码道（CodeArts Doer）：skills 放 .codeartsdoer/skills/（用户在 #20 确认）。
   // 仅 skills-only —— 其 bootstrap/指令文件约定未证实，靠 CodeArts 自身 skill 发现；
@@ -160,14 +161,18 @@ ${skillTable}
   console.log(`  ✅ Trae: bootstrap rule -> ${rulePath}`);
 }
 
-function generateQoderBootstrap(baseDir, isGlobal) {
-  const rulesDir = resolve(baseDir, '.qoder', 'rules');
-  mkdirSync(rulesDir, { recursive: true });
-
+function generateQoderBootstrap(baseDir, isGlobal, targetName) {
+  // 仅向触发安装的变体写入，避免为未使用的变体创建空骨架目录
+  const variant = targetName === 'Qoder CN' ? '.qoder-cn' : '.qoder';
   const skillEntries = scanSkillEntries(SKILLS_SRC);
   const skillTable = skillEntries.map(s => `| ${s.name} | ${s.desc} |`).join('\n');
-  const scope = isGlobal ? '你已全局加载 superpowers-zh 技能框架，所有项目共享' : '你已加载 superpowers-zh 技能框架';
-  const skillsRef = isGlobal ? '~/.qoder/skills/' : '.qoder/skills/';
+
+  // 对全局安装，baseDir 已为 homedir()
+  const rulesDir = resolve(baseDir, variant, 'rules');
+  mkdirSync(rulesDir, { recursive: true });
+
+  const scope = isGlobal ? `你已全局加载 superpowers-zh 技能框架（${variant} 变体），所有项目共享` : `你已加载 superpowers-zh 技能框架（${variant} 变体）`;
+  const skillsRef = isGlobal ? `~/${variant}/skills/` : `${variant}/skills/`;
 
   // Qoder rules schema（来源：社区实际样本，docs.qoder.com/zh/user-guide/rules 没公开）
   // trigger: always_on  → "始终生效"，适用于所有智能会话和内联对话
@@ -503,6 +508,7 @@ const TOOL_ALIASES = {
   'claw-code':    'Claw Code',
   'clawcode':     'Claw Code',
   'qoder':        'Qoder',
+  'qoder-cn':        'Qoder CN',
   'codebuddy':    'CodeBuddy',
   'codebuddy-code': 'CodeBuddy',
   'codebuddycode': 'CodeBuddy',
@@ -570,8 +576,8 @@ function installForTarget(target, baseDir, isGlobal) {
     generateTraeBootstrapRule(baseDir);
   }
 
-  if (target.name === 'Qoder') {
-    generateQoderBootstrap(baseDir, isGlobal);
+  if (target.name === 'Qoder' || target.name === 'Qoder CN') {
+    generateQoderBootstrap(baseDir, isGlobal, target.name);
   }
 
   if (target.name === 'Antigravity') {
@@ -611,6 +617,7 @@ function isHomeDir(p) {
 const BOOTSTRAP_DELETE = [
   '.trae/rules/superpowers-zh.md',
   '.qoder/rules/superpowers-zh.md',
+  '.qoder-cn/rules/superpowers-zh.md',
   '.agents/rules.md',
 ];
 const BOOTSTRAP_CLEAN_SECTION = [
@@ -696,9 +703,9 @@ function cleanBootstrapSection(filePath) {
 }
 
 // 全局安装的 bootstrap 文件（相对 home）— 与 install 全局分支写入的路径对应。
-// 仅 Claude Code（~/.claude/CLAUDE.md，全局记忆已证实）和 Qoder（~/.qoder/rules/，镜像其项目机制）
+// 仅 Claude Code（~/.claude/CLAUDE.md，全局记忆已证实）和 Qoder/Qoder CN（~/.qoder[−cn]/rules/，镜像其项目机制）
 // 会写全局 bootstrap；其余全局工具靠 skill 自动发现，无 bootstrap 需清理。
-const GLOBAL_BOOTSTRAP_DELETE = ['.qoder/rules/superpowers-zh.md'];
+const GLOBAL_BOOTSTRAP_DELETE = ['.qoder/rules/superpowers-zh.md', '.qoder-cn/rules/superpowers-zh.md'];
 const GLOBAL_BOOTSTRAP_CLEAN_SECTION = ['.claude/CLAUDE.md'];
 
 function uninstallForTarget(target, srcSkillNames, baseDir, isGlobal) {
