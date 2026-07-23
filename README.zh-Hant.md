@@ -12,6 +12,8 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 
+> 📖 **免費配套學習** → [從零學會 AI 編程](https://aiolaola.com/zh-Hant?utm_source=github&utm_campaign=superpowers-tw)(180 節)＋ [AI 智能體課程](https://aiolaola.com/zh-Hant/course/agents?utm_source=github&utm_campaign=superpowers-tw)(40 節)— 繁體中文實作課程,免費
+
 > 📖 **免費配套學習** → [從零學會 AI 編程](https://aiolaola.com/?utm_source=github&utm_campaign=superpowers)：180 節免費實操課 + 《AI 編程實戰三卷書》線上閱讀 + 實戰社群 · superpowers 裝好後配上方法論效率翻倍 · 永久免費
 
 > 🆕 **v1.7.0 更新亮點**（[完整 Release Notes →](RELEASE-NOTES.zh.md)）
