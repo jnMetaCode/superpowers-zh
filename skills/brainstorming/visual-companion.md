@@ -70,6 +70,15 @@ scripts/start-server.sh --project-dir /path/to/project
 scripts/start-server.sh --project-dir /path/to/project
 ```
 
+**Copilot CLI：**
+```bash
+# 用后台 shell 会话启动，让服务器跨会话轮次常驻、并立即交回控制权：
+# 有 bash 工具就设 async: true，用 powershell 工具就设 detach: true。
+# 脚本是 .sh，请经 bash 运行（PowerShell 环境下走 Git Bash）。
+# 结束后运行 scripts/stop-server.sh 收尾。
+scripts/start-server.sh --project-dir /path/to/project --foreground
+```
+
 **Gemini CLI：**
 ```bash
 # 使用 --foreground 并在 shell 工具调用上设置 is_background: true，
