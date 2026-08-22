@@ -1,15 +1,20 @@
 /**
  * Superpowers plugin for OpenCode.ai
  *
- * Injects superpowers bootstrap context via user message transform.
- * Auto-registers skills directory via config hook (no symlinks needed).
+ * Features:
+ * 1. Injects superpowers bootstrap context via user message transform.
+ * 2. Auto-registers skills directory via config hook (no symlinks needed).
+ * 3. Auto-updates superpowers-zh skills on startup (non-blocking).
  */
 
 import path from 'path';
 import fs from 'fs';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const execAsync = promisify(exec);
 
 // Simple frontmatter extraction (avoid dependency on skills-core for bootstrap)
 const extractAndStripFrontmatter = (content) => {
@@ -70,11 +75,50 @@ ${toolMapping}
     // This works because Config.get() returns a cached singleton — modifications
     // here are visible when skills are lazily discovered later.
     config: async (config) => {
+      // ---- (1) Register skills path ----
       config.skills = config.skills || {};
       config.skills.paths = config.skills.paths || [];
       if (!config.skills.paths.includes(superpowersSkillsDir)) {
         config.skills.paths.push(superpowersSkillsDir);
       }
+
+      // ---- (2) Non-blocking auto-update ----
+      // Check remote version, only run npx when a newer version is available.
+      // Toast only on actual update or failure — silent when already latest.
+      setTimeout(async () => {
+        const versionFile = path.join(directory, '.opencode', '.superpowers-version');
+
+        // Get remote latest version (silently skip on network error)
+        let remoteVer;
+        try {
+          const { stdout } = await execAsync('npm view superpowers-zh version', { timeout: 10000 });
+          remoteVer = stdout.trim();
+        } catch {
+          return; // Network unavailable, skip silently
+        }
+        if (!remoteVer) return;
+
+        // Compare with locally recorded version
+        let localVer = '';
+        try { localVer = fs.readFileSync(versionFile, 'utf8').trim(); } catch {}
+        if (remoteVer === localVer) return; // Already latest, silent
+
+        // Run update
+        try {
+          await execAsync('npx -y superpowers-zh > /dev/null 2>&1', {
+            cwd: directory,
+            timeout: 120000,
+          });
+          fs.writeFileSync(versionFile, remoteVer);
+          client.tui.showToast({
+            body: { variant: 'success', title: 'superpowers-zh', message: '中文 Skills 更新完成', duration: 3000 },
+          }).catch(() => {});
+        } catch {
+          client.tui.showToast({
+            body: { variant: 'warning', title: 'superpowers-zh 更新', message: '自动更新未成功，可手动执行 npx superpowers-zh', duration: 5000 },
+          }).catch(() => {});
+        }
+      }, 2000);
     },
 
     // Inject bootstrap into the first user message of each session.
