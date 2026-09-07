@@ -1,6 +1,6 @@
 ---
 name: chinese-commit-conventions
-description: 中文 commit 与 changelog 配置参考——Conventional Commits 中文适配、commitlint/husky/commitizen 中文模板、conventional-changelog 中文配置。仅在用户显式 /chinese-commit-conventions 时调用，不要根据上下文自动触发。
+description: 中文 commit 与 changelog 配置参考——Conventional Commits 中文适配、commitlint/husky/commitizen 中文模板、conventional-changelog 中文配置。检测到中文项目编写 git commit message 时，必须优先调用此技能；用户显式 /chinese-commit-conventions 时同样调用；除这两种情况外，不要依据上下文自动触发。
 version: "1.0.0"
 license: MIT
 metadata:
