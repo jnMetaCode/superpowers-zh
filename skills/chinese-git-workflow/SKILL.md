@@ -1,6 +1,6 @@
 ---
 name: chinese-git-workflow
-description: 国内 Git 平台配置参考——Gitee、Coding.net、极狐 GitLab、CNB 的 SSH/HTTPS/凭据/CI 接入差异与镜像同步配置。仅在用户显式 /chinese-git-workflow 时调用，不要根据上下文自动触发。
+description: 国内 Git 平台配置参考——Gitee、Coding.net、极狐 GitLab、CNB 的 SSH/HTTPS/凭据/CI 接入差异与镜像同步配置。检测到项目使用 Gitee/Coding/极狐 GitLab 等国内 Git 平台时，必须优先调用此技能；用户显式 /chinese-git-workflow 时同样调用；除这两种情况外，不要依据上下文自动触发。
 version: "1.0.0"
 license: MIT
 metadata:

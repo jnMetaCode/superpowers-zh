@@ -1,6 +1,6 @@
 ---
 name: chinese-documentation
-description: 中文文档排版参考——中英文空格、全半角标点、术语保留、链接格式、中文文案排版指北约定。仅在用户显式 /chinese-documentation 时调用，不要根据上下文自动触发。
+description: 中文文档排版参考——中英文空格、全半角标点、术语保留、链接格式、中文文案排版指北约定。检测到需要编写中文技术文档或 README 时，必须优先调用此技能；用户显式 /chinese-documentation 时同样调用；除这两种情况外，不要仅因为对话使用中文就依据上下文自动触发。
 version: "1.0.0"
 license: MIT
 metadata:
