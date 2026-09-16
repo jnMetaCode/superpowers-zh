@@ -2,9 +2,9 @@
 
 🌐 **简体中文** | [繁體中文](README.zh-Hant.md) | [English (upstream)](https://github.com/obra/superpowers)
 
-> 🦸 **superpowers（250k+ ⭐）完整汉化 + 4 个中国原创 skills** — 让 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Qoder 等 **26 款 AI 编程工具**真正会干活。从头脑风暴到代码审查，从 TDD 到调试，每个 skill 都是经过实战验证的工作方法论。
+> 🦸 **superpowers（250k+ ⭐）完整汉化 + 5 个中国原创 skills** — 让 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Qoder 等 **26 款 AI 编程工具**真正会干活。从头脑风暴到代码审查，从 TDD 到调试，每个 skill 都是经过实战验证的工作方法论。
 
-Chinese community edition of [superpowers](https://github.com/obra/superpowers) — 20 skills across 26 AI coding tools, including full translations and China-specific development skills.
+Chinese community edition of [superpowers](https://github.com/obra/superpowers) — 21 skills across 26 AI coding tools, including full translations and China-specific development skills.
 
 [![官网 sp.aiolaola.com](https://img.shields.io/badge/🌐_官网-sp.aiolaola.com-F59E0B)](https://sp.aiolaola.com)
 [![GitHub stars](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=social)](https://github.com/jnMetaCode/superpowers-zh)
@@ -20,7 +20,7 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 
 | 📦 翻译 Skills | 🇨🇳 中国原创 Skills | 🤖 支持工具 |
 |:---:|:---:|:---:|
-| **14** | **4**<br><sub>另有 2 个上游历史保留</sub> | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder / CodeBuddy（腾讯）/ CodeArts（华为云码道）/ Cline / Kilo Code / Crush** |
+| **14** | **5**<br><sub>另有 2 个上游历史保留</sub> | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder / CodeBuddy（腾讯）/ CodeArts（华为云码道）/ Cline / Kilo Code / Crush** |
 
 ---
 
@@ -191,7 +191,7 @@ AI：在开始实现之前，我需要了解几个关键问题：
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh) | CLI | `npx superpowers-zh` | `.dsh/skills/` + `AGENTS.md` |
 | [Reasonix](https://reasonix.io/) | CLI | `npx superpowers-zh` | `.reasonix/skills/` + `REASONIX.md`（全局 Windows 为 `%APPDATA%\reasonix\skills`） |
 
-> 运行 `npx superpowers-zh` 会自动检测你项目中使用的工具，将 20 个 skills 安装到正确位置。
+> 运行 `npx superpowers-zh` 会自动检测你项目中使用的工具，将 21 个 skills 安装到正确位置。
 
 ### 翻译的 Skills（14 个）
 
@@ -212,12 +212,12 @@ AI：在开始实现之前，我需要了解几个关键问题：
 | **编写 Skills** (writing-skills) | 创建新 skill 的方法论 |
 | **使用 Superpowers** (using-superpowers) | 元技能：如何调用和优先使用 skills |
 
-### 🇨🇳 中国原创 Skills（4 个）· 上游历史保留（2 个）
+### 🇨🇳 中国原创 Skills（5 个）· 上游历史保留（2 个）
 
 > ⚠️ **下表前 4 个 chinese-\* 为「手动调用」skill**——不会自动触发，需在对话中显式输入 `/chinese-xxx` 才会加载。
 > 设计为参考资料而非工作流，避免污染上游 skill 的自动调度（如 `requesting-code-review`、`brainstorming` 等）。
 >
-> ⚠️ **表格最后两个（mcp-builder / workflow-runner）不是中国原创** —— 它们来自上游，上游后来移除了，本 fork 保留下来继续维护。全仓 20 个 skill = 14 翻译 + 4 中国原创 + 2 上游历史保留。
+> ⚠️ **表格最后两个（mcp-builder / workflow-runner）不是中国原创** —— 它们来自上游，上游后来移除了，本 fork 保留下来继续维护。全仓 21 个 skill = 14 翻译 + 5 中国原创 + 2 上游历史保留。
 
 | Skill | 用途 | 调用方式 | 上游有吗？ |
 |-------|------|---------|:---:|
@@ -225,6 +225,7 @@ AI：在开始实现之前，我需要了解几个关键问题：
 | **中文 Git 工作流** (chinese-git-workflow) | 适配 Gitee/Coding/极狐 GitLab/CNB | `/chinese-git-workflow`（手动） | 无 |
 | **中文技术文档** (chinese-documentation) | 中文排版规范、中英混排、告别机翻味 | `/chinese-documentation`（手动） | 无 |
 | **中文提交规范** (chinese-commit-conventions) | 适配国内团队的 commit message 规范 | `/chinese-commit-conventions`（手动） | 无 |
+| **运行取证** (run-forensics) | 从录像里回答「上一次运行为什么那么做」，并零 token 成本重跑那次会话 | 自动 | 无 |
 | **MCP 服务器构建** (mcp-builder) | 构建生产级 MCP 工具，扩展 AI 能力边界 | 自动 | 曾有，上游已移除 |
 | **工作流执行器** (workflow-runner) | 在 AI 工具内运行多角色 YAML 工作流 | 自动 | 曾有，上游已移除 |
 
@@ -421,7 +422,7 @@ npx superpowers-zh@latest --uninstall
 
 | 项目 | 定位 | 一句话 |
 |------|------|-------|
-| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本项目） ![](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=flat&label=⭐) | 🧠 工作方法论 | 20 个 skills 教 AI 怎么干活（TDD / 调试 / 代码审查等） |
+| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本项目） ![](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=flat&label=⭐) | 🧠 工作方法论 | 21 个 skills 教 AI 怎么干活（TDD / 调试 / 代码审查等） |
 | **[agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh)** ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=⭐) | 🎭 专家角色库 | 277 个**即插即用** AI 专家，含 64 中国原创（小红书 / 抖音 / 飞书 / 钉钉 / Qt 上位机 / 机械设计） |
 | **[agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator)** ![](https://img.shields.io/github/stars/jnMetaCode/agency-orchestrator?style=flat&label=%E2%AD%90) | 🚀 编排引擎 | 一句话 → 276 专家协作，**几分钟出方案**（15 种大模型 / 11 种免 key） |
 | **[ai-coding-guide](https://github.com/jnMetaCode/ai-coding-guide)** | 📖 实战教程 | 66 个 Claude Code 技巧 + 10 款工具最佳实践 + 配置模板 |

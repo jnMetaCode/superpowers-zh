@@ -4,7 +4,7 @@
 
 > 🦸 **superpowers（250k+ ⭐）完整漢化 + 4 個中國原創 skills** — 讓 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Qoder 等 **26 款 AI 編程工具**真正會幹活。從頭腦風暴到程式碼審查，從 TDD 到除錯，每個 skill 都是經過實戰驗證的工作方法論。
 
-Chinese community edition of [superpowers](https://github.com/obra/superpowers) — 20 skills across 26 AI coding tools, including full translations and China-specific development skills.
+Chinese community edition of [superpowers](https://github.com/obra/superpowers) — 21 skills across 26 AI coding tools, including full translations and China-specific development skills.
 
 [![官網 sp.aiolaola.com](https://img.shields.io/badge/🌐_官網-sp.aiolaola.com-F59E0B)](https://sp.aiolaola.com)
 [![GitHub stars](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=social)](https://github.com/jnMetaCode/superpowers-zh)
@@ -19,7 +19,7 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 
 | 📦 翻譯 Skills | 🇨🇳 中國原創 Skills | 🤖 支援工具 |
 |:---:|:---:|:---:|
-| **14** | **4**<br><sub>另有 2 個上游歷史保留</sub> | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder / CodeBuddy（騰訊）/ CodeArts（華為雲碼道）/ Cline / Kilo Code / Crush** |
+| **14** | **5**<br><sub>另有 2 個上游歷史保留</sub> | **Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI / Codex / Aider / Trae / VS Code (Copilot) / DeerFlow / OpenCode / OpenClaw / Qwen Code / Antigravity / Claw Code / Qoder / CodeBuddy（騰訊）/ CodeArts（華為雲碼道）/ Cline / Kilo Code / Crush** |
 
 ---
 
@@ -190,7 +190,7 @@ AI：在開始實作之前，我需要了解幾個關鍵問題：
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh) | CLI | `npx superpowers-zh` | `.dsh/skills/` + `AGENTS.md` |
 | [Reasonix](https://reasonix.io/) | CLI | `npx superpowers-zh` | `.reasonix/skills/` + `REASONIX.md`（全域 Windows 為 `%APPDATA%\reasonix\skills`） |
 
-> 執行 `npx superpowers-zh` 會自動偵測你專案中使用的工具，將 20 個 skills 安裝到正確位置。
+> 執行 `npx superpowers-zh` 會自動偵測你專案中使用的工具，將 21 個 skills 安裝到正確位置。
 
 ### 翻譯的 Skills（14 個）
 
@@ -211,12 +211,12 @@ AI：在開始實作之前，我需要了解幾個關鍵問題：
 | **編寫 Skills** (writing-skills) | 建立新 skill 的方法論 |
 | **使用 Superpowers** (using-superpowers) | 元技能：如何呼叫和優先使用 skills |
 
-### 🇨🇳 中國原創 Skills（4 個）· 上游歷史保留（2 個）
+### 🇨🇳 中國原創 Skills（5 個）· 上游歷史保留（2 個）
 
 > ⚠️ **下表前 4 個 chinese-\* 為「手動呼叫」skill**——不會自動觸發，需在對話中顯式輸入 `/chinese-xxx` 才會載入。
 > 設計為參考資料而非工作流，避免污染上游 skill 的自動排程（如 `requesting-code-review`、`brainstorming` 等）。
 >
-> ⚠️ **表格最後兩個（mcp-builder / workflow-runner）不是中國原創** —— 它們來自上游，上游後來移除了，本 fork 保留下來繼續維護。全倉 20 個 skill = 14 翻譯 + 4 中國原創 + 2 上游歷史保留。
+> ⚠️ **表格最後兩個（mcp-builder / workflow-runner）不是中國原創** —— 它們來自上游，上游後來移除了，本 fork 保留下來繼續維護。全倉 21 個 skill = 14 翻譯 + 5 中國原創 + 2 上游歷史保留。
 
 | Skill | 用途 | 呼叫方式 | 上游有嗎？ |
 |-------|------|---------|:---:|
@@ -224,6 +224,7 @@ AI：在開始實作之前，我需要了解幾個關鍵問題：
 | **中文 Git 工作流** (chinese-git-workflow) | 適配 Gitee/Coding/極狐 GitLab/CNB | `/chinese-git-workflow`（手動） | 無 |
 | **中文技術文件** (chinese-documentation) | 中文排版規範、中英混排、告別機翻味 | `/chinese-documentation`（手動） | 無 |
 | **中文提交規範** (chinese-commit-conventions) | 適配國內團隊的 commit message 規範 | `/chinese-commit-conventions`（手動） | 無 |
+| **執行取證** (run-forensics) | 從錄影裡回答「上一次執行為什麼那麼做」，並以零 token 成本重跑那次工作階段 | 自動 | 無 |
 | **MCP 伺服器建置** (mcp-builder) | 建置生產級 MCP 工具，擴展 AI 能力邊界 | 自動 | 曾有，上游已移除 |
 | **工作流執行器** (workflow-runner) | 在 AI 工具內執行多角色 YAML 工作流 | 自動 | 曾有，上游已移除 |
 
@@ -420,7 +421,7 @@ npx superpowers-zh@latest --uninstall
 
 | 專案 | 定位 | 一句話 |
 |------|------|-------|
-| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本專案） ![](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=flat&label=⭐) | 🧠 工作方法論 | 20 個 skills 教 AI 怎麼幹活（TDD / 除錯 / 程式碼審查等） |
+| **[superpowers-zh](https://github.com/jnMetaCode/superpowers-zh)**（本專案） ![](https://img.shields.io/github/stars/jnMetaCode/superpowers-zh?style=flat&label=⭐) | 🧠 工作方法論 | 21 個 skills 教 AI 怎麼幹活（TDD / 除錯 / 程式碼審查等） |
 | **[agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh)** ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=⭐) | 🎭 專家角色庫 | 277 個**即插即用** AI 專家，含 64 中國原創（小紅書 / 抖音 / 飛書 / 釘釘 / Qt 上位機 / 機械設計） |
 | **[agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator)** ![](https://img.shields.io/github/stars/jnMetaCode/agency-orchestrator?style=flat&label=%E2%AD%90) | 🚀 編排引擎 | 一句話 → 276 專家協作，**幾分鐘出方案**（15 種大模型 / 11 種免 key） |
 | **[ai-coding-guide](https://github.com/jnMetaCode/ai-coding-guide)** | 📖 實戰教程 | 66 個 Claude Code 技巧 + 10 款工具最佳實踐 + 設定範本 |
