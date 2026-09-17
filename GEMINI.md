@@ -4,7 +4,7 @@
 
 # Superpowers-ZH 中文增强版
 
-本项目已安装 superpowers-zh 技能框架（20 个 skills）。
+本项目已安装 superpowers-zh 技能框架（21 个 skills）。
 
 ## 核心规则
 

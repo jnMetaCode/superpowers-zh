@@ -31,7 +31,7 @@ npx superpowers-zh --tool aider
 
 会做两件事：
 
-1. 把 20 个 skill 复制到 `.aider/skills/`
+1. 把 21 个 skill 复制到 `.aider/skills/`
 2. 生成（或追加）`CONVENTIONS.md`，里面是 skill 索引和触发规则，指向 `.aider/skills/<name>/SKILL.md`
 
 ### 关于自动检测
