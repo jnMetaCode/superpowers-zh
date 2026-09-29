@@ -1,6 +1,6 @@
 ---
 name: chinese-code-review
-description: 中文 review 沟通参考——话术模板、分级标注（必须修复/建议修改/仅供参考）、国内团队常见反模式应对。仅在用户显式 /chinese-code-review 时调用，不要根据上下文自动触发。
+description: 中文 review 沟通参考——话术模板、分级标注（必须修复/建议修改/仅供参考）、国内团队常见反模式应对。检测到代码审查场景且团队使用中文沟通时，必须优先调用此技能（与 requesting-code-review 等流程技能叠加使用，不互斥）；用户显式 /chinese-code-review 时同样调用；除这两种情况外，不要仅因为对话使用中文就依据上下文自动触发。
 version: "1.0.0"
 license: MIT
 metadata:
