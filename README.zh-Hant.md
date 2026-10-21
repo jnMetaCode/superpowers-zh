@@ -165,7 +165,7 @@ AI：在開始實作之前，我需要了解幾個關鍵問題：
 | 🇨🇳 中文文件規範 | 無 | 中文排版 + 中英混排規則 + 告別機翻味 |
 | ➕ MCP 伺服器建置 | 無 | 獨立 `mcp-builder` skill |
 | ➕ 工作流執行器 | 無 | 獨立 `workflow-runner` skill（多角色 YAML 編排） |
-| ➕ 翻譯 skill 內的增量 | — | 僅 2 處，均在正文顯式標註「本節是 superpowers-zh 的增量內容」：`executing-plans` 的「常見異常處理」、`using-superpowers` 的「中國特色技能路由」。**上游各節均為逐節翻譯，不被改動**；audit 會強制未標註的增量報錯 |
+| ➕ 翻譯 skill 內的增量 | — | `using-superpowers` 保留明確標註的「中國特色技能路由」；`brainstorming` 補充「你看著辦 / 你定吧」不等於跳過流程的中文語境說明，依據與 eval 範圍見 v1.8.0 更新日誌。`executing-plans` 原有「常見異常處理」已於 v1.7.14 刪除，避免與上游內聯執行流程衝突。 |
 | 🔄 版本跟進 | 獨立迭代 | **同步上游 + 國產增量疊加** |
 | 🤝 接受新 skill PR | 一般不接受（原文：*"we don't generally accept contributions of new skills"*） | 歡迎 PR（中國開發者痛點優先） |
 | 💬 社群 | Discord | 微信公眾號「AI不止語」+ 微信群 + QQ 群 |
