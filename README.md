@@ -391,6 +391,8 @@ npx superpowers-zh@latest --uninstall
 | `--uninstall` | 卸载当前目录下的 superpowers-zh |
 | `--help` / `--version` | 帮助 / 版本 |
 
+> **版本号怎么看？** skill 文件里的 `version: "1.0.0"` 目前不会随发版更新；`npx superpowers-zh --version` 显示本次运行的安装器版本，也不代表项目此前安装的技能版本。按安装方式核对与更新，见[版本号与安装内容核对](docs/VERSIONING.md)。
+
 ---
 
 ## 贡献
