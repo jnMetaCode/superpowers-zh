@@ -298,32 +298,32 @@ claude plugin uninstall superpowers-zh@superpowers-zh    # 卸载
 >
 > superpowers-zh 是一个完整 plugin，包含：`skills/`（21 个能力）+ `hooks/`（SessionStart 钩子，让 skill 在合适时机自动触发）+ `CLAUDE.md` / `GEMINI.md` 等 bootstrap 引导文件 + 4 套 plugin manifest（Claude Code / Cursor / Codex / Marketplace）。
 >
-> **下面的 `cp -r skills` 命令只复制 skills 目录**，不会自动配置 hooks、不会生成 bootstrap 引导。结果：skills 物理上存在，但 AI 不会在合适时机自动调用，需要你每次手动喊 "use brainstorming skill" 之类。
+> **下面的命令只复制 skill 文件**，不会自动配置 hooks 或生成 bootstrap。是否原生发现 skill、是否还需引导或配置，取决于工具；请按下方专属指南完成配置并在新会话验收，不能仅凭文件存在就判断已生效。
 >
-> **强烈推荐用方式一 `npx superpowers-zh`** —— 它会一键处理 skills 复制 + bootstrap 生成 + hooks 配置 + 工具特定适配。仅在 npx 不可用（极端无网络环境）时才退到手动。
+> **强烈推荐用方式一 `npx superpowers-zh`** —— 它会按工具处理 skills 复制、所需的 bootstrap / hooks 和工具特定适配。仅在 npx 不可用（极端无网络环境）时才退到手动。
 
 ```bash
 # 克隆仓库
 git clone https://github.com/jnMetaCode/superpowers-zh.git
 
 # 复制 skills 到你的项目（选择你使用的工具）
-cp -r superpowers-zh/skills /your/project/.claude/skills      # Claude Code / Copilot CLI
-cp -r superpowers-zh/skills /your/project/.hermes/skills      # Hermes Agent
-cp -r superpowers-zh/skills /your/project/.cursor/skills      # Cursor
-cp -r superpowers-zh/skills /your/project/.codex/skills       # Codex CLI
-cp -r superpowers-zh/skills /your/project/.kiro/skills        # Kiro
-cp -r superpowers-zh/skills /your/project/skills/custom       # DeerFlow 2.0
-cp -r superpowers-zh/skills /your/project/.trae/rules         # Trae
-cp -r superpowers-zh/skills /your/project/.agents        # Antigravity
-cp -r superpowers-zh/skills /your/project/.github/superpowers # VS Code (Copilot)
-cp -r superpowers-zh/skills /your/project/skills              # OpenClaw
-cp -r superpowers-zh/skills /your/project/.windsurf/skills   # Windsurf
-cp -r superpowers-zh/skills /your/project/.gemini/skills     # Gemini CLI
-cp -r superpowers-zh/skills /your/project/.aider/skills      # Aider
-cp -r superpowers-zh/skills /your/project/.opencode/skills   # OpenCode
-cp -r superpowers-zh/skills /your/project/.qwen/skills       # Qwen Code
-cp -r superpowers-zh/skills /your/project/.claw/skills       # Claw Code（Rust 版）
-cp -r superpowers-zh/skills /your/project/.qoder/skills      # Qoder（阿里 AI IDE）
+mkdir -p /your/project/.claude/skills && cp -R superpowers-zh/skills/. /your/project/.claude/skills/ # Claude Code / Copilot CLI
+mkdir -p /your/project/.hermes/skills && cp -R superpowers-zh/skills/. /your/project/.hermes/skills/ # Hermes Agent
+mkdir -p /your/project/.cursor/skills && cp -R superpowers-zh/skills/. /your/project/.cursor/skills/ # Cursor
+mkdir -p /your/project/.agents/skills && cp -R superpowers-zh/skills/. /your/project/.agents/skills/ # Codex CLI
+mkdir -p /your/project/.kiro/skills && cp -R superpowers-zh/skills/. /your/project/.kiro/skills/ # Kiro
+mkdir -p /your/project/skills/custom && cp -R superpowers-zh/skills/. /your/project/skills/custom/ # DeerFlow 2.0
+mkdir -p /your/project/.trae/skills && cp -R superpowers-zh/skills/. /your/project/.trae/skills/ # Trae
+mkdir -p /your/project/.agents/skills && cp -R superpowers-zh/skills/. /your/project/.agents/skills/ # Antigravity
+mkdir -p /your/project/.github/superpowers && cp -R superpowers-zh/skills/. /your/project/.github/superpowers/ # VS Code (Copilot)
+mkdir -p /your/project/skills && cp -R superpowers-zh/skills/. /your/project/skills/ # OpenClaw
+mkdir -p /your/project/.windsurf/skills && cp -R superpowers-zh/skills/. /your/project/.windsurf/skills/ # Windsurf
+mkdir -p /your/project/.gemini/skills && cp -R superpowers-zh/skills/. /your/project/.gemini/skills/ # Gemini CLI
+mkdir -p /your/project/.aider/skills && cp -R superpowers-zh/skills/. /your/project/.aider/skills/ # Aider
+mkdir -p /your/project/.opencode/skills && cp -R superpowers-zh/skills/. /your/project/.opencode/skills/ # OpenCode
+mkdir -p /your/project/.qwen/skills && cp -R superpowers-zh/skills/. /your/project/.qwen/skills/ # Qwen Code
+mkdir -p /your/project/.claw/skills && cp -R superpowers-zh/skills/. /your/project/.claw/skills/ # Claw Code（Rust 版）
+mkdir -p /your/project/.qoder/skills && cp -R superpowers-zh/skills/. /your/project/.qoder/skills/ # Qoder（阿里 AI IDE）
 ```
 
 ### 方式四：在配置文件中引用
@@ -334,11 +334,11 @@ cp -r superpowers-zh/skills /your/project/.qoder/skills      # Qoder（阿里 AI
 |------|---------|------|
 | Claude Code | `CLAUDE.md` | 项目根目录 |
 | Copilot CLI | `CLAUDE.md` | 与 Claude Code 共用插件格式 |
-| Hermes Agent | `HERMES.md` 或 `.hermes.md` | 项目根目录，安装时自动生成 |
+| Hermes Agent | `AGENTS.md` + `.hermes/skills/` | 项目级生成 AGENTS.md；还需登记 skills.external_dirs，全局安装及详情见 [Hermes 指南](docs/README.hermes.md) |
 | Kiro | `.kiro/steering/superpowers-zh.md`（索引，`inclusion: always`）+ `.kiro/skills/` | steering 每轮常驻，故只放索引 |
 | DeerFlow 2.0 | `skills/custom/*/SKILL.md` | 字节跳动开源 SuperAgent，自动发现自定义 skills |
-| Trae | `.trae/rules/project_rules.md` | 项目级规则 |
-| Antigravity | `GEMINI.md` 或 `AGENTS.md` | 项目根目录 |
+| Trae | `.trae/rules/superpowers-zh.md` + `.trae/skills/` | 安装器生成项目级 bootstrap，skill 文件独立存放 |
+| Antigravity | `.agents/rules.md` + `.agents/skills/` | 安装器生成引导规则，不覆盖已有 GEMINI.md / AGENTS.md |
 | VS Code | `.github/copilot-instructions.md` | Copilot 自定义指令 |
 | Cursor | `.cursor/rules/*.md` | 项目级规则目录 |
 | OpenClaw | `skills/*/SKILL.md` | 工作区级 skills 目录，自动发现 |
@@ -346,7 +346,6 @@ cp -r superpowers-zh/skills /your/project/.qoder/skills      # Qoder（阿里 AI
 | Gemini CLI | `.gemini/skills/*/SKILL.md` | 项目级 skills 目录 |
 | Aider | `.aider/skills/*/SKILL.md` | 项目级 skills 目录 |
 | OpenCode | `.opencode/skills/*/SKILL.md` | 项目级 skills 目录 |
-| Hermes Agent | `.hermes/skills/*/SKILL.md` | 项目级 skills 目录 |
 | Qwen Code | `.qwen/skills/*/SKILL.md` + `QWEN.md` | skills 自动发现；QWEN.md 是官方分层记忆的默认上下文文件 |
 | Claw Code | `.claw/skills/*/SKILL.md` | Rust 版 CLI agent，兼容 Claude Code 的 SKILL.md 格式 |
 | Qoder | `.qoder/skills/*/SKILL.md` + `.qoder/rules/superpowers-zh.md` | 阿里 AI IDE，自动生成 `trigger: always_on` 的 bootstrap rule |
