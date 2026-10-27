@@ -1764,8 +1764,14 @@ const globalIdx = args.findIndex(a => a === '--global' || a === '-g');
 const force = forceIdx !== -1;
 const isGlobal = globalIdx !== -1;
 
-// 已知无参数值的开关，用于校验未知参数（--tool 后面跟工具名不算未知参数）
+// 在分派任何操作前检查未知开关；--tool 的工具名由后续分支校验。
 const KNOWN_FLAGS = new Set(['--help', '-h', '--version', '-v', '--uninstall', '-u', '--force', '-f', '--global', '-g', '--tool', '-t']);
+const unknown = args.find(a => a.startsWith('-') && !KNOWN_FLAGS.has(a));
+if (unknown) {
+  console.warn(`  未知参数: ${unknown}\n`);
+  showHelp();
+  process.exit(1);
+}
 
 if (helpIdx !== -1) {
   showHelp();
@@ -1788,12 +1794,5 @@ if (helpIdx !== -1) {
   }
   install(toolName, force, isGlobal);
 } else {
-  // 校验未知参数（--tool 的值已在上面分支处理，走到这里说明没有 --tool）
-  const unknown = args.find(a => a.startsWith('-') && !KNOWN_FLAGS.has(a));
-  if (unknown) {
-    console.warn(`  未知参数: ${unknown}\n`);
-    showHelp();
-    process.exit(1);
-  }
   install(undefined, force, isGlobal);
 }

@@ -100,6 +100,9 @@ jobs:
       - name: Verify installer lifecycle
         run: bash scripts/verify-release.sh --offline
 
+      - name: Verify installer argument validation
+        run: node --test tests/installer/test-arguments.mjs
+
       - name: Build site
         run: node site/build.mjs
 
