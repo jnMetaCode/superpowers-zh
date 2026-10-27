@@ -464,7 +464,17 @@ MIT License — 自由使用，商業或個人均可。
 
 ## 📌 最近更新
 
-> 🆕 **v1.7.12 更新亮點** —— **透過 Claude Code 外掛市集安裝的使用者請更新**（此前技能之間互相呼叫會失敗）：
+**已發布 v1.8.0：同步上游 v7.0.0。** 本版重寫 brainstorming，並修復 hook、執行帳本與官網顯示問題。
+
+- **需求釐清**：開放式提問、分塊複述；書面設計由 builder check 檢查。中文「你看著辦」不等於允許跳過流程。
+- **執行可靠性**：靜默成功的測試正常記帳，保留使用者既有的 workspace `.gitignore`，修正 Windows hook 和路徑處理。
+- **官網體驗**：修正繁體文案、提示區塊顯示、淺色主題程式碼區塊和手機橫向溢出。
+
+完整變更、eval 範圍及更新說明見 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。技能檔案的 `1.0.0` 欄位不能用來判斷發行版，見[版本核對指南](docs/VERSIONING.md)（簡體中文）。
+
+### v1.7.12 歷史修復
+
+> 以下保留 v1.7.12 的歷史修復說明；相關修復已包含在後續版本中：
 >
 > - 🐛 **外掛模式下跨技能呼叫全部失敗**（[#124](https://github.com/jnMetaCode/superpowers-zh/issues/124)）—— 正文照抄了上游的 `superpowers:` 前綴，而本外掛叫 `superpowers-zh`，於是 `Skill("superpowers:systematic-debugging")` 回傳 Unknown skill。32 處已改為**裸技能名**（兩種分發模式都能解析）
 > - 🐛 **Crush 在 Windows 上裝錯目錄** —— 官方是 `%LOCALAPPDATA%\crush\skills`，我們兩個平台都裝 `~/.config`。文件早寫對了，程式碼沒跟上

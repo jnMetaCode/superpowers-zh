@@ -467,7 +467,17 @@ MIT License — 自由使用，商业或个人均可。
 
 ## 📌 最近更新
 
-> 🆕 **v1.7.12 更新亮点** —— **通过 Claude Code 插件市场安装的用户请更新**（此前技能之间互相调用会失败）：
+**已发布 v1.8.0：同步上游 v7.0.0。** 本版重写 brainstorming，并修复 hook、执行账本与官网显示问题。
+
+- **需求澄清**：开放式提问、分块复述；书面设计由 builder check 检查。中文「你看着办」不等于允许跳过流程。
+- **执行可靠性**：静默成功的测试正常记账，保留用户已有的 workspace `.gitignore`，修正 Windows hook 和路径处理。
+- **官网体验**：修正繁体文案、提示块显示、浅色主题代码块和手机横向溢出。
+
+完整变更、eval 范围及更新说明见 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。技能文件的 `1.0.0` 字段不能用于判断发行版，见[版本核对指南](docs/VERSIONING.md)。
+
+### v1.7.12 历史修复
+
+> 以下保留 v1.7.12 的历史修复说明；相关修复已包含在后续版本中：
 >
 > - 🐛 **插件模式下跨技能调用全部失败**（[#124](https://github.com/jnMetaCode/superpowers-zh/issues/124)）—— 正文照抄了上游的 `superpowers:` 前缀，而本插件叫 `superpowers-zh`，于是 `Skill("superpowers:systematic-debugging")` 返回 Unknown skill。32 处已改为**裸技能名**（两种分发模式都能解析）
 > - 🐛 **Crush 在 Windows 上装错目录** —— 官方是 `%LOCALAPPDATA%\crush\skills`，我们两个平台都装 `~/.config`。文档早写对了，代码没跟上
