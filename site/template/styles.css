@@ -659,3 +659,5 @@ a.card:hover .card-more { color: var(--accent); }
   .nav nav { gap: 12px; }
   .foot-cols { flex-direction: row; flex-wrap: wrap; gap: 32px; }
 }
+
+.sponsor-banner { max-width: 100%; height: auto; }

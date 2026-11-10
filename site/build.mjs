@@ -209,7 +209,6 @@ const TOOLS = [
 // ---- 赞助商（与 README / README.zh-Hant 的赞助商区块同源；改这里也要同步改 README） ----
 // 注意：链接是赞助方的推广链接，外链一律带 rel="sponsored nofollow noopener"。
 const SPONSORS = [
-
   {
     // 旗舰位：赞助商页顶部整块大图 + 两版 README 顶部优先展示。
     // 旗舰卡读 img（大 banner），不读 logo —— 见下方 assertSponsors 的校验。
@@ -1177,7 +1176,21 @@ function renderSponsors(lang) {
       </div>
     </article>`).join('');
 
-  const cards = standard.map(s => `
+  function apixoCard(s) {
+    const modelUrl = s.url.replace('https://apixo.ai/?', 'https://apixo.ai/models/seedream-5-5?');
+    const link = (url, label) => `<a href="${esc(url)}" target="_blank" rel="sponsored nofollow noopener">${esc(label)}</a>`;
+    const cta = { zh: '查看 APIXO 黑五优惠 →', en: 'Explore APIXO Black Friday Deals →', zht: '查看 APIXO 黑五優惠 →' }[lang];
+    let desc = esc(s.desc[lang]).replace('APIXO', link(s.url, 'APIXO')).replace('seedream5.5', link(modelUrl, 'seedream5.5'));
+    desc = desc.replace(/\$0\.014\/(张|張|image)/, '<strong>$&</strong>');
+    desc = desc.replace(/(活动截至北京时间 2026 年 12 月 31 日 23:59|活動截至北京時間 2026 年 12 月 31 日 23:59|Ends December 31, 2026 at 7:59 AM Pacific Time)/, '<strong>$1</strong>');
+    return `<article class="sponsor-card">
+      ${link(s.url, 'APIXO')}
+      <a href="${esc(s.url)}" target="_blank" rel="sponsored nofollow noopener"><img src="/assets/sponsors/${lang === 'en' ? 'apixo-ai-en.jpg' : 'apixo-ai-zh.jpg'}" alt="${esc(s.alt[lang])}" width="450" height="250" class="sponsor-banner" loading="lazy"></a>
+      <p>${desc} ${link(modelUrl, cta)}</p>
+    </article>`;
+  }
+
+  const cards = standard.map(s => s.name.en === 'APIXO' ? apixoCard(s) : `
     <article class="sponsor-card">
       <a class="sc-head" href="${esc(s.url)}" target="_blank" rel="sponsored nofollow noopener">
         <span class="sc-logo"><img src="/assets/sponsors/${s.logo}" alt="" width="36" height="36" loading="lazy"></span>

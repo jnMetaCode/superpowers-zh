@@ -80,9 +80,7 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 </td>
 <td width="75%" valign="middle">
 
-感謝 APIXO 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，seedream5.5僅 $0.014/張，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。活動截至北京時間 2026 年 12 月 31 日 23:59。
-
-**[查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)**
+感謝 [APIXO](https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh) 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，[seedream5.5](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)僅 **$0.014/張**，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。**活動截至北京時間 2026 年 12 月 31 日 23:59**。 [查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)
 
 </td>
 </tr>
