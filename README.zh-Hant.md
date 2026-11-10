@@ -74,6 +74,22 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 <table>
 <tr>
 <td width="25%">
+  <a href="https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh">
+    <img src="assets/sponsors/apixo-ai-zh.jpg" alt="APIXO：AI 图片与视频创作｜黑五特惠" width="100%">
+  </a>
+</td>
+<td width="75%" valign="middle">
+
+感謝 APIXO 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，seedream5.5僅 $0.014/張，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。活動截至北京時間 2026 年 12 月 31 日 23:59。
+
+**[查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)**
+
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td width="25%">
   <a href="https://www.volcengine.com/activity/ai618?utm_source=OWO&utm_medium=devrel-1&utm_campaign=hw&utm_term=superpowers-zh&utm_content=hw">
     <img src="assets/sponsors/volcengine.png" alt="字節火山引擎 —— 火山方舟 Agent/Coding Plan 國模套餐首購 9.9，註冊免費領 2500w Token" width="100%">
   </a>
