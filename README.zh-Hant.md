@@ -40,6 +40,20 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 <table>
 <tr>
 <td width="25%">
+  <a href="https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh">
+    <img src="assets/sponsors/apixo-ai-zh.jpg" alt="APIXO：AI 图片与视频创作｜黑五特惠" width="100%">
+  </a>
+</td>
+<td width="75%" valign="middle">
+
+感謝 [APIXO](https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh) 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，[seedream5.5](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)僅 **$0.014/張**，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。**活動截至北京時間 2026 年 12 月 31 日 23:59**。 [查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)
+
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td width="25%">
   <a href="https://88api.ai/sign-up?aff=MvTX">
     <img src="assets/sponsors/88api.jpg" alt="88API Token 聚合平台 —— 聚合語言、編程、圖片、影片與語音模型的一站式 AI API 平台" width="100%">
   </a>
@@ -71,20 +85,7 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 </td>
 </tr>
 </table>
-<table>
-<tr>
-<td width="25%">
-  <a href="https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh">
-    <img src="assets/sponsors/apixo-ai-zh.jpg" alt="APIXO：AI 图片与视频创作｜黑五特惠" width="100%">
-  </a>
-</td>
-<td width="75%" valign="middle">
 
-感謝 [APIXO](https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh) 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，[seedream5.5](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)僅 **$0.014/張**，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。**活動截至北京時間 2026 年 12 月 31 日 23:59**。 [查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)
-
-</td>
-</tr>
-</table>
 <table>
 <tr>
 <td width="25%">
@@ -99,20 +100,9 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 </td>
 </tr>
 </table>
-<table>
-<tr>
-<td width="25%">
-  <a href="https://www.infistar.cc/register?aff=PDVTM2VS&ref_source=link">
-    <img src="assets/sponsors/infistar.jpg" alt="Infistar.cc 無限星河 —— 全模型 API 服務，一個 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek，價格低至官方渠道 1 折" width="100%">
-  </a>
-</td>
-<td width="75%" valign="middle">
 
-感謝 [Infistar.cc 無限星河](https://www.infistar.cc/register?aff=PDVTM2VS&ref_source=link) 贊助並為 superpowers-zh 使用者提供模型服務支援！無限星河提供高可用模型通道與多節點冗餘，一個 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek 等模型，價格低至官方渠道 **1 折**，並適配 Claude Code、Codex、Cursor、Windsurf、Kiro 等 AI 編程工具。🎁 **透過[此連結](https://www.infistar.cc/register?aff=PDVTM2VS&ref_source=link)註冊並完成首次呼叫，即可領取 5 美元等值測試額度！**
 
-</td>
-</tr>
-</table>
+
 
 ---
 

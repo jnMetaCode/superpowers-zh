@@ -243,6 +243,39 @@ const SPONSORS = [
     },
   },
   {
+  "tier": "standard",
+  "img": "apixo-ai-zh.jpg",
+  "w": 450,
+  "h": 250,
+  "logo": "apixo-ai-en.jpg",
+  "url": "https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh",
+  "name": {
+    "zh": "APIXO",
+    "en": "APIXO",
+    "zht": "APIXO"
+  },
+  "alt": {
+    "zh": "APIXO：AI 图片与视频创作｜黑五特惠",
+    "en": "APIXO: AI Image & Video Creation | Black Friday Deals",
+    "zht": "APIXO：AI 圖片與影片創作｜黑五特惠"
+  },
+  "desc": {
+    "zh": "感谢 APIXO 赞助本项目！无需编程，在 APIXO 网页端即可生成 AI 图片与视频，也可通过 API 接入自己的应用与自动化工作流。黑五期间，seedream5.5仅 $0.014/张，原价 $0.02/张，限时 7 折。指定模型与规格较活动页列示的市场参考价最高省 66%，优惠自动生效，无需优惠码。活动截至北京时间 2026 年 12 月 31 日 23:59。",
+    "en": "Thanks to APIXO for sponsoring this project! Create AI images and videos in your browser with no coding required, or use the API to connect your apps and automated workflows. For Black Friday, seedream5.5 is just $0.014/image, down from $0.02—30% off. Selected models and specifications are up to 66% below the market reference prices listed on the campaign page. Discounts apply automatically; no promo code needed. Ends December 31, 2026 at 7:59 AM Pacific Time.",
+    "zht": "感謝 APIXO 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，seedream5.5僅 $0.014/張，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。活動截至北京時間 2026 年 12 月 31 日 23:59。"
+  },
+  "perk": {
+    "zh": "优惠自动生效，无需优惠码",
+    "en": "Discounts apply automatically; no promo code needed",
+    "zht": "優惠自動生效，無需優惠碼"
+  },
+  "perkShort": {
+    "zh": "Seedream 5.5（1K）$0.014/张",
+    "en": "Seedream 5.5 (1K) $0.014/image",
+    "zht": "Seedream 5.5（1K）$0.014/張"
+  }
+},
+  {
     tier: 'standard',
     img: '88api.jpg', w: 1254, h: 1254, code: '',
     logo: '88api.jpg',
@@ -303,39 +336,6 @@ const SPONSORS = [
     perkShort: { zh: '首次购买 9 折优惠', en: '10% off your first purchase', zht: '首次購買 9 折優惠' },
   },
   {
-  "tier": "standard",
-  "img": "apixo-ai-zh.jpg",
-  "w": 450,
-  "h": 250,
-  "logo": "apixo-ai-en.jpg",
-  "url": "https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh",
-  "name": {
-    "zh": "APIXO",
-    "en": "APIXO",
-    "zht": "APIXO"
-  },
-  "alt": {
-    "zh": "APIXO：AI 图片与视频创作｜黑五特惠",
-    "en": "APIXO: AI Image & Video Creation | Black Friday Deals",
-    "zht": "APIXO：AI 圖片與影片創作｜黑五特惠"
-  },
-  "desc": {
-    "zh": "感谢 APIXO 赞助本项目！无需编程，在 APIXO 网页端即可生成 AI 图片与视频，也可通过 API 接入自己的应用与自动化工作流。黑五期间，seedream5.5仅 $0.014/张，原价 $0.02/张，限时 7 折。指定模型与规格较活动页列示的市场参考价最高省 66%，优惠自动生效，无需优惠码。活动截至北京时间 2026 年 12 月 31 日 23:59。",
-    "en": "Thanks to APIXO for sponsoring this project! Create AI images and videos in your browser with no coding required, or use the API to connect your apps and automated workflows. For Black Friday, seedream5.5 is just $0.014/image, down from $0.02—30% off. Selected models and specifications are up to 66% below the market reference prices listed on the campaign page. Discounts apply automatically; no promo code needed. Ends December 31, 2026 at 7:59 AM Pacific Time.",
-    "zht": "感謝 APIXO 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，seedream5.5僅 $0.014/張，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。活動截至北京時間 2026 年 12 月 31 日 23:59。"
-  },
-  "perk": {
-    "zh": "优惠自动生效，无需优惠码",
-    "en": "Discounts apply automatically; no promo code needed",
-    "zht": "優惠自動生效，無需優惠碼"
-  },
-  "perkShort": {
-    "zh": "Seedream 5.5（1K）$0.014/张",
-    "en": "Seedream 5.5 (1K) $0.014/image",
-    "zht": "Seedream 5.5（1K）$0.014/張"
-  }
-},
-  {
     tier: 'standard',
     img: 'volcengine.png', w: 840, h: 200, code: '',
     logo: 'logo-volcengine-icon.png',
@@ -362,33 +362,6 @@ const SPONSORS = [
       zht: '🎁 註冊免費領 2500w Token，立即前往火山引擎活動頁面',
     },
     perkShort: { zh: '注册免费领 2500w Token', en: '25M free tokens on sign-up', zht: '註冊免費領 2500w Token' },
-  },
-  {
-    tier: 'standard',
-    img: 'infistar.jpg', w: 1269, h: 337, code: '',
-    logo: 'logo-infistar-icon.png',
-    url: 'https://www.infistar.cc/register?aff=PDVTM2VS&ref_source=link',
-    name: { zh: 'Infistar.cc 无限星河', en: 'Infistar.cc', zht: 'Infistar.cc 無限星河' },
-    alt: {
-      zh: 'Infistar.cc 无限星河 —— 全模型 API 服务，一个 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek，价格低至官方渠道 1 折',
-      en: 'Infistar.cc — all-model API service: one API key for Claude, ChatGPT, Gemini, Kimi, GLM and DeepSeek, from 10% of official pricing',
-      zht: 'Infistar.cc 無限星河 —— 全模型 API 服務，一個 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek，價格低至官方渠道 1 折',
-    },
-    desc: {
-      zh: '提供高可用模型通道与多节点冗余，一个 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek 等模型，价格低至官方渠道 1 折；适配 Claude Code、Codex、Cursor、Windsurf、Kiro 等 AI 编程工具。',
-      en: 'High-availability model channels with multi-node redundancy. One API key provides access to Claude, ChatGPT, Gemini, Kimi, GLM, DeepSeek and more from 10% of official pricing, with support for Claude Code, Codex, Cursor, Windsurf and Kiro.',
-      zht: '提供高可用模型通道與多節點冗餘，一個 API Key 接入 Claude、ChatGPT、Gemini、Kimi、GLM、DeepSeek 等模型，價格低至官方渠道 1 折；適配 Claude Code、Codex、Cursor、Windsurf、Kiro 等 AI 編程工具。',
-    },
-    perk: {
-      zh: '🎁 通过本页链接注册并完成首次调用，即可领取 5 美元等值测试额度',
-      en: '🎁 Sign up via this link and make your first call to claim $5 in test credit',
-      zht: '🎁 透過本頁連結註冊並完成首次呼叫，即可領取 5 美元等值測試額度',
-    },
-    perkShort: {
-      zh: '注册并完成首次调用领 5 美元等值测试额度',
-      en: '$5 test credit after your first call',
-      zht: '註冊並完成首次呼叫領 5 美元等值測試額度',
-    },
   },
 ];
 
