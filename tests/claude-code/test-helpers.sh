@@ -9,14 +9,14 @@ run_claude() {
     local allowed_tools="${3:-}"
     local output_file=$(mktemp)
 
-    # Build command
-    local cmd="claude -p \"$prompt\""
+    # Build command as an argv array so timeout wraps claude directly.
+    local cmd=(claude -p "$prompt")
     if [ -n "$allowed_tools" ]; then
-        cmd="$cmd --allowed-tools=$allowed_tools"
+        cmd+=(--allowed-tools="$allowed_tools")
     fi
 
     # Run Claude in headless mode with timeout
-    if timeout "$timeout" bash -c "$cmd" > "$output_file" 2>&1; then
+    if timeout "$timeout" "${cmd[@]}" > "$output_file" 2>&1; then
         cat "$output_file"
         rm -f "$output_file"
         return 0
@@ -30,12 +30,14 @@ run_claude() {
 
 # Check if output contains a pattern
 # Usage: assert_contains "output" "pattern" "test name"
+# Matching is case-insensitive: patterns are prose keywords, and models
+# freely capitalize skill terms ("Do Not Trust", "Spec Compliance").
 assert_contains() {
     local output="$1"
     local pattern="$2"
     local test_name="${3:-test}"
 
-    if echo "$output" | grep -q "$pattern"; then
+    if echo "$output" | grep -qi "$pattern"; then
         echo "  [PASS] $test_name"
         return 0
     else
@@ -54,7 +56,7 @@ assert_not_contains() {
     local pattern="$2"
     local test_name="${3:-test}"
 
-    if echo "$output" | grep -q "$pattern"; then
+    if echo "$output" | grep -qi "$pattern"; then
         echo "  [FAIL] $test_name"
         echo "  Did not expect to find: $pattern"
         echo "  In output:"
@@ -74,10 +76,7 @@ assert_count() {
     local expected="$3"
     local test_name="${4:-test}"
 
-    # grep -c 匹配到 0 个时输出 "0" 但退出码为 1；写成 `|| echo "0"` 会拼出
-    # "0\n0"，下面的 -eq 比较直接报错、这条断言从此静默失效。用 `; true` 只吞退出码。
-    local actual=$(echo "$output" | grep -c "$pattern"; true)
-    actual=${actual:-0}
+    local actual=$(echo "$output" | grep -ci "$pattern" || echo "0")
 
     if [ "$actual" -eq "$expected" ]; then
         echo "  [PASS] $test_name (found $actual instances)"
@@ -101,16 +100,20 @@ assert_order() {
     local test_name="${4:-test}"
 
     # Get line numbers where patterns appear
-    local line_a=$(echo "$output" | grep -n "$pattern_a" | head -1 | cut -d: -f1)
-    local line_b=$(echo "$output" | grep -n "$pattern_b" | head -1 | cut -d: -f1)
+    local line_a=$(echo "$output" | grep -ni "$pattern_a" | head -1 | cut -d: -f1)
+    local line_b=$(echo "$output" | grep -ni "$pattern_b" | head -1 | cut -d: -f1)
 
     if [ -z "$line_a" ]; then
         echo "  [FAIL] $test_name: pattern A not found: $pattern_a"
+        echo "  In output:"
+        echo "$output" | sed 's/^/    /'
         return 1
     fi
 
     if [ -z "$line_b" ]; then
         echo "  [FAIL] $test_name: pattern B not found: $pattern_b"
+        echo "  In output:"
+        echo "$output" | sed 's/^/    /'
         return 1
     fi
 

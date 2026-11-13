@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-28",
+  "issue": "https://github.com/jnMetaCode/superpowers-zh/issues/137",
+  "access": {
+    "title": "每个技能里面的版本号，能否更新下，现在还是1.0.0",
+    "title_source": "GitHub issue list, cached six days",
+    "body_and_comments": "unavailable; page cache miss, gh API TCP forbidden",
+    "posted_comment": false,
+    "closed_issue": false
+  },
+  "confirmed_problem": {
+    "skills": "21/21 frontmatter versions fixed at1.0.0",
+    "package_version": "1.8.0",
+    "cause": "sync-plugin-version.js and npm version hook only maintained plugin/extension metadata",
+    "classification": "release metadata maintenance, not evidence skill bodies failed to update"
+  },
+  "policy": "Skill frontmatter version marks the containing superpowers-zh package release, not independent per-skill semantic version. Old installed1.0.0 cannot identify release. Mutable/mixed installs still require content verification.",
+  "changes": [
+    "Dynamic discovery of all skills and frontmatter-only version synchronization",
+    "Read-only --check rejects drift; validation finishes before any writes",
+    "npm version hook stages skill metadata in its release commit",
+    "Legacy bash version updater/check delegates to same Node syncer; skill paths recognized by audit",
+    "CI runs release-version regression and checks all plugin/skill metadata",
+    "Updated versioning guide, simplified/traditional README, unreleased notes"
+  ],
+  "tests": {
+    "red": "4/4 expected failures on old implementation",
+    "green": "4/4 Node regressions pass; 1 legacy-bash integration test skipped locally (jq missing), included in CI",
+    "combined": "19 total:18 passed,0 failed,1 skipped",
+    "actual_npm_version": "isolated Git fixture npm version1.8.1 commits both skills and manifests, clean working tree",
+    "size_budget": "21/21 below20000 UTF8bytes",
+    "brainstorming_body_matches_evaluated_candidate": true,
+    "legacy_bash": "syntax checked; real integration test added and skipped locally because jq unavailable",
+    "offline_install": "163 passed,0 failed",
+    "audit": "140 PASS,0 FAIL,3 WARN (upstream/npm/origin unavailable)",
+    "site_build": "69 pages,66 parsed JSON-LD blocks",
+    "ci_jq_required": "CI explicitly executes jq --version before version tests; missing jq fails instead of silently skipping legacy integration"
+  },
+  "delivery": {
+    "workspace_skill_version": "1.8.0",
+    "package_version_unchanged": "1.8.0",
+    "published": false,
+    "committed": false,
+    "note": "workspace baseline aligned; future release hook uses actual new package version. Existing1.8.0 release was not republished."
+  },
+  "suggested_reply_not_posted": "已确认技能内的1.0.0字段此前没有接入发版同步，这个反馈有效。现已在本地补齐：所有技能的版本字段跟随superpowers-zh整包发行版号，发布脚本动态同步，CI检查不一致；该字段不是各技能独立的语义版本。本修复尚未发布，既有安装不会自动更新，发布后需要按原安装渠道更新。"
+}

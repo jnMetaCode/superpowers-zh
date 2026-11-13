@@ -377,7 +377,7 @@ npx superpowers-zh@latest --uninstall
 | `--uninstall` | 解除安裝目前目錄下的 superpowers-zh |
 | `--help` / `--version` | 說明 / 版本 |
 
-> **怎麼看版本號？** skill 檔案裡的 `version: "1.0.0"` 目前不會隨發版更新；`npx superpowers-zh --version` 顯示本次執行的安裝器版本，也不代表專案先前安裝的技能版本。依安裝方式核對與更新，見[版本號與安裝內容核對](docs/VERSIONING.md)（簡體中文）。
+> **怎麼看版本號？** 舊安裝的 skill 可能仍標記 `1.0.0`；本倉已加入技能版本隨發行版自動同步的修復，待下次發布生效。`npx superpowers-zh --version` 顯示本次執行的安裝器版本，也不代表專案先前安裝的技能版本。依安裝方式核對與更新，見[版本號與安裝內容核對](docs/VERSIONING.md)（簡體中文）。
 
 ---
 
@@ -474,7 +474,7 @@ MIT License — 自由使用，商業或個人均可。
 - **執行可靠性**：靜默成功的測試正常記帳，保留使用者既有的 workspace `.gitignore`，修正 Windows hook 和路徑處理。
 - **官網體驗**：修正繁體文案、提示區塊顯示、淺色主題程式碼區塊和手機橫向溢出。
 
-完整變更、eval 範圍及更新說明見 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。技能檔案的 `1.0.0` 欄位不能用來判斷發行版，見[版本核對指南](docs/VERSIONING.md)（簡體中文）。
+完整變更、eval 範圍及更新說明見 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。舊安裝的 `1.0.0` 欄位不能用來判斷發行版，見[版本核對指南](docs/VERSIONING.md)（簡體中文）。
 
 ### v1.7.12 歷史修復
 

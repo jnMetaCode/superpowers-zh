@@ -98,7 +98,7 @@ Subagent (general-purpose):
 - `[REPORT_FILE]` —— 实现者的报告文件（修复报告追加在其末尾）
 - `[FIX_BASE_SHA]` —— 上一次审查所看到的那个 head
 - `[HEAD_SHA]` —— 当前提交
-- `[DIFF_FILE]` —— `bash scripts/review-package PLAN_FILE FIX_BASE HEAD` 打印出的那个路径
+- `[DIFF_FILE]` —— `bash scripts/review-package PLAN_FILE FIX_BASE HEAD`（从正在执行的项目工作树中，用脚本的绝对路径运行） 打印出的那个路径
 
 **复审者返回：** 逐条发现的结论（ADDRESSED / NOT ADDRESSED）、
 修复 diff 里的新破坏、范围外的观察，以及一个本轮结论。

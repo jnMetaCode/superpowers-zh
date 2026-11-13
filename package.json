@@ -11,9 +11,11 @@
     "superpowers-zh": "bin/superpowers-zh.js"
   },
   "scripts": {
+    "test:offline": "bash scripts/test-offline.sh",
+    "preversion": "node scripts/sync-plugin-version.js --validate",
     "site": "node site/build.mjs",
     "site:deploy": "node site/build.mjs && wrangler pages deploy site/dist --project-name=superpowers-zh-site",
-    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .codex-plugin/plugin.json .kimi-plugin/plugin.json gemini-extension.json"
+    "version": "node scripts/sync-plugin-version.js && git add .claude-plugin/plugin.json .claude-plugin/marketplace.json .cursor-plugin/plugin.json .codex-plugin/plugin.json .kimi-plugin/plugin.json gemini-extension.json skills/*/SKILL.md .antigravity-plugin/plugin.json .devin-plugin/plugin.json .muse-plugin/plugin.json .muse-plugin/marketplace.json .hermes-plugin/plugin.yaml"
   },
   "files": [
     "bin/",
@@ -35,7 +37,11 @@
     "gemini-extension.json",
     "docs/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    ".antigravity-plugin/",
+    ".devin-plugin/",
+    ".muse-plugin/",
+    ".hermes-plugin/"
   ],
   "keywords": [
     "superpowers",

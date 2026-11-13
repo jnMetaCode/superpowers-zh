@@ -13,6 +13,71 @@
   "evidence": "上游 v7.0.0 对齐完成：brainstorming 按 v7 从头重译（先判断知道多少、一次一个开放问题、分块复述、意图清楚后再定规模、builder check 取代 spec 审查，新增 builder-check-prompt.md、删除 spec-document-reviewer-prompt.md）；hooks/session-start 与 run-hook.cmd（空 PATH、反斜杠路径、Windows bash 查找与退出码）；task-done 静默成功记账；sdd-workspace 仅首次创建 .gitignore 与 Windows 路径归一化；server.cjs 字面插入；requesting-code-review 的 BASE_SHA 改用 cut；systematic-debugging 示例只报告变量是否设置。有意保留的分歧：brainstorming 译文补充了中文语境说明——跳过提问须对方明确接受，“你看着办/你定吧”是请你拿主意、应提方案而非跳过流程（eval 中 after 版两次把“你看着办”当成跳过提问并提前构建，补充后复测未再出现）；skills/writing-skills/render-graphs.js 仍为 CJS；subagent-driven-development/scripts/task-brief 额外识别「任务 N」标题。",
   "trackedPaths": [
     "skills",
-    "hooks"
-  ]
+    "hooks",
+    ".opencode/plugins",
+    ".pi/extensions",
+    ".hermes-plugin",
+    ".muse-plugin",
+    ".antigravity-plugin",
+    ".devin-plugin",
+    "scripts/package-codex-plugin.sh",
+    "scripts/sync-to-codex-plugin.sh"
+  ],
+  "previousPendingSync": {
+    "version": "v7.0.1",
+    "date": "2026-10-28",
+    "status": "implementation-complete-validation-limited",
+    "implemented": [
+      "brainstorming行为翻译及中文语境保留",
+      "SDD/writing-skills按需拆分与executing-plans重复示例移除",
+      "诊断报告及贡献模板配套",
+      "20000 UTF-8字节预算与8项边界回归"
+    ],
+    "intentionalDifferences": [
+      "references沿用中文内容与本fork拆分布局，不声称与上游逐文件相同",
+      "保留中文fork贡献目标与政策，不机械采用上游dev分支或禁止代修他人issue政策"
+    ],
+    "evidence": [
+      "docs/evals/brainstorming-v7.0.1.json",
+      "docs/evals/skill-splitting-v7.0.1.json",
+      "docs/evals/diagnosis-report-v7.0.1.json"
+    ],
+    "remainingVerification": [
+      "当前环境不能git fetch，尚未做基线以来完整远端文件diff，故不推进commit/version全局完成基线",
+      "本机禁止本地监听，brainstorm server网络及停止场景未全通过",
+      "独立Codex代理测试不等同Codex CLI或Claude压缩运行时验收"
+    ]
+  },
+  "pendingSync": {
+    "version": "v7.0.2",
+    "date": "2026-11-13",
+    "status": "implementation-complete-verification-limited",
+    "source": "https://github.com/obra/superpowers/releases/tag/v7.0.2",
+    "evidence": [
+      "docs/evals/upstream-v7.0.2-sync.json",
+      "docs/evals/brainstorming-v7.0.2.json",
+      "docs/evals/upstream-skill-audit-v7.0.2.json",
+      "docs/evals/brainstorming-v7.0.2-samples.json",
+      "docs/evals/brainstorming-why-contract.json"
+    ],
+    "remainingVerification": [
+      "Local server networking/lifecycle blocked by loopback bind EPERM, reconfirmed 2026-11-13",
+      "Native Windows acceptance requires an actual Windows CI runner",
+      "Four native CLI end-to-end acceptance transcripts still missing; none of these CLIs is installed locally; Antigravity download blocked by storage.googleapis.com DNS",
+      "Real publishing needs explicit target repository and approved full diff; current root .git is read-only",
+      "Why-first observed failure fixed in five isolated micro samples; full cross-model native multi-turn acceptance remains incomplete",
+      "Codex publication also needs real agents/openai.yaml metadata for all fork skills; packaging tests use fixtures, not publishable metadata"
+    ],
+    "baselineAdvanced": false,
+    "commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+    "intentionalDifferences": [
+      "task-start calls task-brief and task-done calls sdd-workspace via Bash; both validated with stripped execution bits in real packed installer test"
+    ],
+    "implementedNativeChannels": [
+      "Hermes",
+      "Muse",
+      "Antigravity",
+      "Devin"
+    ]
+  }
 }

@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-13",
+  "method": "writing-skills: observed baseline failure -> positive response structure -> 5 fresh collaboration agents, fork_turns=none; manually read every response",
+  "baseline_evidence": "docs/evals/brainstorming-v7.0.2-samples.json",
+  "baseline_sha256": "b570c0f61a61f8034c336ca8393c9fbd4e969c2f37084f63c6a770945ecfcd24",
+  "candidate_sha256": "6325b49f4b26e4dbda71843ba4c2076806594928454531b3463d9feef51877ba",
+  "scenario": "Ctrl+K already opens search; user requests command panel on same shortcut, says 你看着办 and insists on shipping today",
+  "candidate_responses": [
+    "你希望给现有工具加一个命令面板，用 Ctrl+K 打开，今天上线，具体做法交给我。当前 Ctrl+K 已经用于搜索，新增面板会涉及现有搜索入口的行为。\n\n你想通过命令面板解决什么问题？这会影响面板应提供哪些操作，以及怎样处理现有搜索。\n\n如果你更想让我跳过提问直接开始，直说就好。",
+    "你想给现有工具加一个命令面板，用 Ctrl+K 打开，今天上线。目前 Ctrl+K 已经用于搜索，两者存在快捷键冲突。\n\n你希望命令面板解决什么问题？这会影响它应当包含哪些操作，以及怎样处理现有搜索入口。如果我理解有偏差，也请纠正。\n\n如果你更想让我跳过提问直接开始，直说就好。",
+    "你想给现有工具加一个命令面板，用 Ctrl+K 打开，今天上线。目前 Ctrl+K 已经用于搜索，这里有快捷键冲突，会影响现有用户的操作。\n\n你希望这个命令面板解决什么问题？这会决定它需要包含哪些操作，以及怎么处理现有搜索入口。或者，如果你更想让我跳过提问直接开始，直说就好。",
+    "你想给现有工具加一个命令面板，用 Ctrl+K 打开，并且今天上线。目前 Ctrl+K 已经用于打开搜索，这次改动会影响现有的搜索入口。\n\n你希望命令面板解决现在使用中的什么问题？这会影响今天优先做哪些功能。如果你更想跳过提问、让我直接开始，直说就好。",
+    "你想给现有工具加一个命令面板，用 Ctrl+K 打开，并在今天上线。目前 Ctrl+K 已经用于搜索，两者会有快捷键冲突，需要一起考虑。\n\n你希望命令面板解决当前使用中的什么问题？这会影响今天必须交付的功能范围，以及现有搜索入口怎么安排。或者，如果你更想让我跳过提问直接开始，直说就好。"
+  ],
+  "scores": {
+    "baseline_early_how_proposals": 5,
+    "candidate_early_how_proposals": 0,
+    "candidate_open_why_questions": 5,
+    "candidate_acknowledges_existing_shortcut": 5
+  },
+  "boundary_probes": {
+    "clear_small_task": {
+      "prompt": "把唯一待改的按钮SVG图标改成矢车菊蓝 #6495ED",
+      "response": "第一条回复：我会把按钮 SVG 图标的颜色改为矢车菊蓝 #6495ED。接下来动作类型：直接修改对应的 SVG 颜色并验证显示；本评估没有代码文件，不实际执行修改。"
+    },
+    "explicit_optout": {
+      "prompt": "不要头脑风暴，不要再提问，我接受跳过讨论。给现有工具加一个批量导出入口，沿用现有React技术栈，按正常工作流执行。",
+      "response": "第一条回复：我会沿用现有 React 技术栈，为工具增加批量导出入口。先检查现有界面和导出逻辑，再完成实现及相关验证。接下来动作类型：退出头脑风暴流程，按正常工作流检查代码、实现并验证。"
+    },
+    "known_why_conflict": {
+      "prompt": "老用户找不到批量导出，所以加命令面板用Ctrl+K；原搜索也保留原快捷键，要求选项和推荐",
+      "response": "明确两个独立入口的快捷键冲突，给统一入口与独立入口两个选项及取舍，推荐统一入口；若搜索界面行为也必须原样保留则推荐独立入口。最后请伙伴选择。",
+      "note": "This record summarizes the full agent response; it is not a verbatim transcript."
+    }
+  },
+  "limits": [
+    "Five repeats cover the observed first-response failure in one scenario with inherited session model, exact model ID unavailable",
+    "Three boundary probes have one sample each",
+    "All probes prohibit production implementation; no premature-build rate can be inferred",
+    "Not a replacement for real native CLI acceptance or cross-model multi-turn evaluation"
+  ]
+}

@@ -1,7 +1,7 @@
 ---
 name: executing-plans
 description: 当你要在当前会话里亲自担任实现者执行一份实现计划时使用——你的人类伙伴选择了内联执行，或者没有可用的子智能体工具
-version: "1.0.0"
+version: "1.8.0"
 license: MIT
 metadata:
   hermes:
@@ -84,7 +84,7 @@ digraph process {
 
 工作区和账本与 subagent-driven-development 共用——同一个目录、同一种格式——所以一个计划可以在执行中途换执行方式，新的执行者从同一个账本接着做。
 
-- **每个计划拥有自己的工作区：** 技能启动时，运行 `../subagent-driven-development/scripts/sdd-workspace PLAN_FILE`——它会打印这个计划专属的、被 git 忽略的目录（`<repo-root>/.superpowers/sdd/<计划文件名>/`），**本计划**的一切产物都放在那里：账本、简报、审查包。别的计划的目录不属于你，不读也不写。
+- **每个计划拥有自己的工作区：** 技能启动时，运行 `../subagent-driven-development/scripts/sdd-workspace PLAN_FILE`（从正在执行的项目工作树中，用脚本的绝对路径运行）——它会打印这个计划专属的、被 git 忽略的目录（`<repo-root>/.superpowers/sdd/<计划文件名>/`），**本计划**的一切产物都放在那里：账本、简报、审查包。别的计划的目录不属于你，不读也不写。
 - 到 `<工作区>/progress.md` 查本计划的账本。如果它的第一行点名的是你的计划文件，那么带有 `Task <N>: complete` 行的任务就是**已完成**——不要重做；从第一个没有该行的任务处继续。即使你的上下文已经不记得做过它们，它们的提交也确实存在于 git 中：压缩之后，相信账本和 `git log`，而不是你自己的记忆。如果账本第一行点名的是另一个计划文件，那是另一个计划的进度：原地别动，另起你自己的新账本。
 - 创建账本时，把它的身份写在第一行：`# SDD ledger — plan: <计划文件路径>`。
 - `git clean -fdx` 会毁掉工作区（它是被 git 忽略的草稿区）；如果发生了，从 `git log` 恢复。
@@ -101,7 +101,7 @@ digraph process {
 
 ### 1. 接下任务
 
-- 运行本技能的 `scripts/task-start PLAN_FILE N`。它一次调用就打印出简报路径和 BASE（这个任务的范围从哪个提交切出）。每个任务都要读简报，包括你在准备阶段就记得的那些：你记得的是摘要，简报里有精确的取值、签名和测试用例。
+- 运行本技能的 `scripts/task-start PLAN_FILE N`（从正在执行的项目工作树中，用脚本的绝对路径运行）。它一次调用就打印出简报路径和 BASE（这个任务的范围从哪个提交切出）。每个任务都要读简报，包括你在准备阶段就记得的那些：你记得的是摘要，简报里有精确的取值、签名和测试用例。
 - 把该任务的待办标为 in_progress。
 
 每一次工具调用都是一轮，要把你的整个上下文重读一遍。记账顺着干活一起做——账本追加和提交放在同一次调用里，绝不单独占一次调用。
@@ -131,7 +131,7 @@ digraph process {
 
 ### 4. 完成任务
 
-运行本技能的 `scripts/task-done PLAN_FILE N BASE -- <测试命令>`，测试命令用简报为整个任务点名的那一条。它会跑测试、把完整输出保存在工作区、打印末尾，并且——只有在测试通过时——往账本追加完成行：
+运行本技能的 `scripts/task-done PLAN_FILE N BASE -- <测试命令>`（从正在执行的项目工作树中，用脚本的绝对路径运行），测试命令用简报为整个任务点名的那一条。它会跑测试、把完整输出保存在工作区、打印末尾，并且——只有在测试通过时——往账本追加完成行：
 
 `Task <N>: complete (commits <base7>..<head7>, tests: <command> → <result>)`
 
@@ -139,7 +139,7 @@ digraph process {
 
 ## 最终审查
 
-运行 `../subagent-driven-development/scripts/review-package PLAN_FILE MERGE_BASE HEAD`（MERGE_BASE = 分支起点的那个提交，例如 `git merge-base main HEAD`），并基于它打印出的文件做审查。
+运行 `../subagent-driven-development/scripts/review-package PLAN_FILE MERGE_BASE HEAD`（从正在执行的项目工作树中，用脚本的绝对路径运行）（MERGE_BASE = 分支起点的那个提交，例如 `git merge-base main HEAD`），并基于它打印出的文件做审查。
 
 **有子智能体工具时：** 在可用的最强模型上分派审查者——整分支审查是一项判断性任务——使用 requesting-code-review 的 [code-reviewer.md](../requesting-code-review/code-reviewer.md)，附上审查包路径、计划和规格的路径、计划的「审查重点（Review Focus）」一节（如果有的话）原文照录（即计划的测试没有覆盖到的输入类别和失败模式——审查者会逐条刻意检查），以及一个指向账本中 `Ruling:` 行的指针，好让它掂量你做过的那些决定。显式指定模型；省略模型会继承会话的模型，而那未必是最强的。这是整次运行唯一买下的全新上下文。不要跳过它，也不要用你自己读一遍 diff 来代替它。
 
@@ -178,55 +178,3 @@ Critical 和 Important 发现由你自己修——在这里你就是实现者—
 | "审查者说是 Minor，那就是 Minor" | 那个标签评的是规格的沉默。评一评使用者会得到什么。先重新定级，再过关卡。 |
 | "修复很明显，不需要先写一个失败的测试" | 失败的测试是这条发现真实存在、并且现在已经消失的唯一证明。没有它，你手里只有一份 diff 和一个希望。 |
 | "我顺手把 Minor 也修了吧" | 你修的每个 Minor，都是一个你伙伴没要的测试、一次修复、一次套件运行。记进账本；由你伙伴决定。 |
-
-## 示例工作流
-
-```
-你：我正在使用 executing-plans 技能以内联方式实现这份计划。
-
-[准备：工作树已核实]
-[读计划一次：docs/superpowers/plans/feature-plan.md；规格已读]
-[解析工作区：sdd-workspace docs/superpowers/plans/feature-plan.md —— 里面没有账本，全新开始]
-[起飞前扫描：2 行共享接口、4 行自洽性，均无问题；已写入账本]
-[为所有任务创建待办]
-
-任务 1：钩子安装脚本
-
-[task-start plan 1 → 简报已读；BASE a1b2c3d]
-[步骤 1：写失败的测试 —— 已写]
-[步骤 2：运行 —— FAIL：install_hook not defined。与 Expected 一致。]
-[步骤 3：实现 —— 已写]
-[步骤 4：运行 —— PASS 1/1。与 Expected 一致。]
-[步骤 5：提交 —— d4e5f6a]
-[契约：测试已运行，输出已读，无偏离]
-[task-done plan 1 a1b2c3d -- npm test -- hooks → 账本：Task 1: complete (commits a1b2c3d..d4e5f6a, tests: npm test -- hooks → 1/1 pass)]
-
-任务 2：恢复模式
-
-[task-start plan 2 → 简报已读；BASE d4e5f6a]
-[步骤 2：运行失败的测试 —— FAIL，但是导入错误：任务 1 导出的是
- installHook，简报消费的是 install_hook]
-[裁决：简报里的消费方名称相对于任务 1 的 Produces 块是笔误；
- 用 installHook —— 账本：Task 2: Ruling: install_hook → installHook — matches Task 1 Produces — cost if wrong: one rename]
-[步骤 2-5 按计划进行；提交 b7c8d9e]
-[task-done plan 2 d4e5f6a -- npm test -- recovery → 账本：Task 2: complete (commits d4e5f6a..b7c8d9e, tests: npm test -- recovery → 8/8 pass)]
-
-...
-
-[所有任务之后：review-package plan MERGE_BASE HEAD；分派 code-reviewer，最强模型]
-审查者：一条 Important 发现 —— 进度上报间隔被写死了。两条 Minor。
-[重新定级：Important 成立；Minor → 作为延后项记进账本]
-[修复轮：test_progress_interval_configurable RED → 抽出 PROGRESS_INTERVAL → GREEN；套件 12/12；提交]
-[账本：Final: fixed hardcoded interval — test_progress_interval_configurable RED→GREEN, suite 12/12]
-
-我作出的裁决：
-- 任务 2：install_hook → installHook（简报笔误；如果错了的代价：一次重命名）
-
-延后的 Minor：
-- README 缺少用法示例
-- recovery.js 可以把 verify/repair 拆成两个文件
-
-[删除本计划的工作区 —— 记录现在在 git 里]
-
-正在使用 finishing-a-development-branch。
-```

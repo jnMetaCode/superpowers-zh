@@ -22,3 +22,9 @@ site/dist/
 
 # 本地工作文件（不提交、不发布）
 .local/
+
+# Python plugin development caches
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/

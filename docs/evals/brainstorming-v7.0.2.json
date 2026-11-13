@@ -1,0 +1,95 @@
+{
+  "date": "2026-11-12",
+  "upstream": "/tmp/superpowers-v702/skills/brainstorming/SKILL.md",
+  "upstream_release": "https://github.com/obra/superpowers/releases/tag/v7.0.2",
+  "upstream_sha256": "2c9ca71f94886f9ca9f4aef055f7cafb3e1a9bdf3aeebf8f4cb547c69405d207",
+  "before_sha256": "1faef3e7e82cac0e8ed3172ba2b95099728dee6c94afce28a710621ee24ded82",
+  "candidate_sha256": "6325b49f4b26e4dbda71843ba4c2076806594928454531b3463d9feef51877ba",
+  "status": "translation-and-observed-why-failure-fix-complete-native-acceptance-pending",
+  "scope": "Faithful update of upstream behavioral translation; no claim of local model improvement or deployment readiness.",
+  "intentional_differences": [
+    "Retain fork version/license/Hermes metadata",
+    "Use bare writing-plans skill id per fork harness routing",
+    "Retain Chinese 你看着办/你定吧 clarification: choose an approach, do not silently bypass approval"
+  ],
+  "static_translation_contract_checks": [
+    {
+      "criterion": "why_first",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "named_options",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "no_open_questions_short_design",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "question_predicate",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "process_decisions",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "recon_autonomy",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "outcome_delegation",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "text_sketch",
+      "before_contains_candidate_phrase": false,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "chinese_context",
+      "before_contains_candidate_phrase": true,
+      "after_contains_candidate_phrase": true
+    },
+    {
+      "criterion": "approval_gate",
+      "before_contains_candidate_phrase": true,
+      "after_contains_candidate_phrase": true
+    }
+  ],
+  "static_checks": {
+    "utf8_bytes": 15629,
+    "under_20000_bytes": true,
+    "diff_check": "passed"
+  },
+  "behavior_evaluation": {
+    "planned_variants": [
+      "before",
+      "after",
+      "no-guidance control"
+    ],
+    "planned_repetitions_per_variant": 5,
+    "completed_independent_model_samples": 15,
+    "attempted_command": "codex exec --ephemeral --skip-git-repo-check -C /tmp/brainstorm-v702-eval -s read-only -o /tmp/brainstorm-v702-eval/before-1.txt -",
+    "observed_exit_code": 1,
+    "observed_error": "Error: failed to initialize in-process app-server client: Operation not permitted (os error 1)",
+    "note": "CLI attempt failed, then parent completed 15 independent micro samples plus 3 same-session pressure followups via collaboration tools. Full harness acceptance remains incomplete.",
+    "alternative_runner": "collaboration.spawn_agent with fork_turns=none, executed by parent",
+    "sample_evidence": "docs/evals/brainstorming-v7.0.2-samples.json"
+  },
+  "required_followup": [
+    "Complete additional missing-why, conflict-choice, fully specified short-design, delegation and opt-out scenarios across models",
+    "Full multi-turn execution acceptance; check early how proposals before learning why"
+  ],
+  "published": false,
+  "committed": false,
+  "previous_candidate_sha256": "b570c0f61a61f8034c336ca8393c9fbd4e969c2f37084f63c6a770945ecfcd24",
+  "additional_contract_evidence": "docs/evals/brainstorming-why-contract.json"
+}

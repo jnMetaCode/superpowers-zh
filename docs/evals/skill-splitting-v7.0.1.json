@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-28",
+  "scope": "保留现有中文规则，按上游v7.0.1方向拆分；不声称references文件布局逐字匹配上游",
+  "source": "https://github.com/obra/superpowers/releases/tag/v7.0.1",
+  "content_conservation": [
+    {
+      "skill": "subagent-driven-development",
+      "references": [
+        "skills/subagent-driven-development/references/preflight-and-resuming.md",
+        "skills/subagent-driven-development/references/report-handling.md",
+        "skills/subagent-driven-development/references/fix-loop.md",
+        "skills/subagent-driven-development/references/final-review.md",
+        "skills/subagent-driven-development/references/finishing.md",
+        "skills/subagent-driven-development/references/example-workflow.md"
+      ],
+      "missing_original_lines": []
+    },
+    {
+      "skill": "writing-skills",
+      "references": [
+        "skills/writing-skills/references/skill-template.md",
+        "skills/writing-skills/references/discovery.md",
+        "skills/writing-skills/references/flowcharts.md",
+        "skills/writing-skills/references/bulletproofing.md"
+      ],
+      "missing_original_lines": [
+        "**为你的搭档可视化：** 使用此目录中的 `render-graphs.js` 将技能的流程图渲染为 SVG：",
+        "**心理学说明：** 理解说服技巧为什么有效有助于你系统性地应用它们。参见 persuasion-principles.md 了解研究基础（Cialdini, 2021; Meincke et al., 2025），涵盖权威、承诺、稀缺、社会认同和归属原则。"
+      ]
+    },
+    {
+      "skill": "executing-plans",
+      "references": [],
+      "missing_original_lines": []
+    }
+  ],
+  "skill_bytes": {
+    "subagent-driven-development": 19654,
+    "writing-skills": 16022,
+    "executing-plans": 18480
+  },
+  "sdd_retrieval": {
+    "task": "sdd_retrieval",
+    "scenario": "恢复时Task1完成，Task2第五轮Important承重缺陷，Task3依赖，催促第6轮并重跑Task1",
+    "read_files_reported": [
+      "SKILL.md",
+      "references/preflight-and-resuming.md",
+      "references/fix-loop.md"
+    ],
+    "response_excerpt": "保留 Task1 的 complete 状态，不重新分派。Task2 已到 5/5 上限，停止修复分派，不开第 6 轮。读取计划 A、其引用的规格、Task2 报告及第 5 轮复审发现；逐条确定能解开 Task3 接口依赖的最小改动。将承重缺陷及裁决带入 Task3 的下一次分派；不能把它作为普通延期项静默搁置。",
+    "limitations": "单样本检索场景，未提供真实任务代码，未真的触发Claude压缩"
+  },
+  "writing_retrieval": {
+    "task": "writing_retrieval",
+    "read_files_reported": [
+      "SKILL.md",
+      "references/skill-template.md",
+      "references/discovery.md",
+      "references/flowcharts.md",
+      "graphviz-conventions.dot"
+    ],
+    "observations": [
+      "拒绝description总结工作流；给触发条件描述",
+      "能列模板name/description字段及约束",
+      "流程图按非显而易见决策判断，非仅有三个分支就画",
+      "明确从writing-skills技能目录node ./render-graphs.js执行"
+    ],
+    "limitations": "实际检索并说明，未渲染SVG或创建新skill"
+  },
+  "automated_validation": {
+    "skill_size": "21/21 below 20000 UTF-8 bytes",
+    "boundaries": "8/8: ASCII & Chinese UTF-8 at19999/20000/20001; missing and empty skills dirs",
+    "relative_links": "主文件及新增references的相对Markdown引用均可达；@graphviz路径单独核对",
+    "difference": "20000字节是保守预算，不等于所有harness字符截断阈值"
+  },
+  "post_split_script_cwd_fix": {
+    "scope": "external skill installation, project cwd vs plugin cwd",
+    "preexisting_in_HEAD": true,
+    "old_documented_cwd_exit": 2,
+    "old_stderr": "fatal: not a git repository (or any of the parent directories): .git\nbad BASE: c90a896f5e9af02a5f08c2b5f07550579d877291\n",
+    "project_cwd_absolute_script_exit": 0,
+    "workspace_created_in_project": true,
+    "note": "原文守恒记录描述最初拆分；后续确证旧调用说明错误，修正report-handling一行并在preflight增加路径说明，未改脚本实现。"
+  }
+}

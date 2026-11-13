@@ -35,19 +35,41 @@ fi
 # Handles both simple ("version") and nested ("plugins.0.version") paths.
 read_json_field() {
   local file="$1" field="$2"
-  # Convert dot-path to jq path: "plugins.0.version" -> .plugins[0].version
-  local jq_path
-  jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
-  jq -r "$jq_path" "$file"
+  if [[ "$file" == *.yaml ]]; then
+    node - "$file" "$field" <<'NODE'
+const fs = require('fs');
+const [file, field] = process.argv.slice(2);
+if (field !== 'version') throw new Error('Only scalar YAML version is supported');
+const text = fs.readFileSync(file, 'utf8');
+const matches = [...text.matchAll(/^version:[ \t]*["']?([0-9][0-9A-Za-z.+-]*)["']?[ \t]*(?:#[^\r\n]*)?\r?$/gm)];
+if (matches.length !== 1) throw new Error('Expected one YAML version');
+console.log(matches[0][1]);
+NODE
+    return
+  fi
+  jq -r --arg field "$field" \
+    'getpath($field | split(".") | map(if test("^[0-9]+$") then tonumber else . end))' "$file"
 }
 
 # Write a dotted field path in a JSON file, preserving formatting.
 write_json_field() {
   local file="$1" field="$2" value="$3"
-  local jq_path
-  jq_path=$(echo "$field" | sed -E 's/\.([0-9]+)/[\1]/g' | sed 's/^/./' | sed 's/\.\././g')
+  if [[ "$file" == *.yaml ]]; then
+    node - "$file" "$field" "$value" <<'NODE'
+const fs = require('fs');
+const [file, field, value] = process.argv.slice(2);
+if (field !== 'version') throw new Error('Only scalar YAML version is supported');
+const text = fs.readFileSync(file, 'utf8');
+const updated = text.replace(/^version:([^\r\n]*)/m, `version: ${JSON.stringify(value)}`);
+if (updated === text && !text.includes(`version: ${JSON.stringify(value)}`)) throw new Error('Missing YAML version');
+fs.writeFileSync(file, updated);
+NODE
+    return
+  fi
   local tmp="${file}.tmp"
-  jq "$jq_path = \"$value\"" "$file" > "$tmp" && mv "$tmp" "$file"
+  jq --arg field "$field" --arg value "$value" \
+    'setpath(($field | split(".") | map(if test("^[0-9]+$") then tonumber else . end)); $value)' \
+    "$file" > "$tmp" && mv "$tmp" "$file"
 }
 
 # Read the list of declared files from config.
@@ -66,6 +88,9 @@ audit_excludes() {
 cmd_check() {
   local has_drift=0
   local versions=()
+  local declarations
+  declarations=$(declared_files) || return 1
+  [[ -n "$declarations" ]] || { echo "error: empty version registry" >&2; return 1; }
 
   echo "Version check:"
   echo ""
@@ -78,10 +103,11 @@ cmd_check() {
       continue
     fi
     local ver
-    ver=$(read_json_field "$fullpath" "$field")
+    ver=$(read_json_field "$fullpath" "$field") || return 1
+    [[ -n "$ver" && "$ver" != null ]] || { echo "error: missing version field in $path" >&2; return 1; }
     printf "  %-45s  %s\n" "$path ($field)" "$ver"
     versions+=("$ver")
-  done < <(declared_files)
+  done <<< "$declarations"
 
   echo ""
 
@@ -98,12 +124,17 @@ cmd_check() {
     echo "All declared files are in sync at ${versions[0]}"
   fi
 
+  node "$SCRIPT_DIR/sync-plugin-version.js" --check || has_drift=1
   return $has_drift
 }
 
 cmd_audit() {
+  local declarations
+  declarations=$(declared_files) || return 1
+  [[ -n "$declarations" ]] || { echo "error: empty version registry" >&2; return 1; }
   # First run check
-  cmd_check || true
+  local check_status=0
+  cmd_check || check_status=$?
   echo ""
 
   # Determine the current version (most common across declared files)
@@ -112,7 +143,7 @@ cmd_audit() {
     while IFS=$'\t' read -r path field; do
       local fullpath="$REPO_ROOT/$path"
       [[ -f "$fullpath" ]] && read_json_field "$fullpath" "$field"
-    done < <(declared_files) | sort | uniq -c | sort -rn | head -1 | awk '{print $2}'
+    done <<< "$declarations" | sort | uniq -c | sort -rn | head -1 | awk '{print $2}'
   )
 
   if [[ -z "$current_version" ]]; then
@@ -136,7 +167,12 @@ cmd_audit() {
   local -a declared_paths=()
   while IFS=$'\t' read -r path _field; do
     declared_paths+=("$path")
-  done < <(declared_files)
+  done <<< "$declarations"
+  # 技能版本由 Node 同步器动态发现，不应被当成遗漏的版本声明。
+  for skill_file in "$REPO_ROOT"/skills/*/SKILL.md; do
+    [[ -f "$skill_file" ]] || continue
+    declared_paths+=("${skill_file#$REPO_ROOT/}")
+  done
 
   # Grep for the version string
   local found_undeclared=0
@@ -171,19 +207,36 @@ cmd_audit() {
     echo "Review the above files — if they should be bumped, add them to .version-bump.json"
     echo "If they should be skipped, add them to the audit.exclude list."
   fi
+  return "$check_status"
 }
 
 cmd_bump() {
   local new_version="$1"
 
-  # Validate semver-ish format
-  if ! echo "$new_version" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+'; then
+  # Validate the complete SemVer before any file is changed.
+  local core='(0|[1-9][0-9]*)'
+  local pre='(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+  local version_pattern="^${core}\\.${core}\\.${core}(-${pre}(\\.${pre})*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+  if ! [[ "$new_version" =~ $version_pattern ]]; then
     echo "error: '$new_version' doesn't look like a version (expected X.Y.Z)" >&2
     exit 1
   fi
 
   echo "Bumping all declared files to $new_version..."
   echo ""
+
+  # Reject malformed skill/plugin metadata before the first version write.
+  node "$SCRIPT_DIR/sync-plugin-version.js" --validate
+
+  local declarations
+  declarations=$(declared_files) || return 1
+  [[ -n "$declarations" ]] || { echo "error: empty version registry" >&2; return 1; }
+  while IFS=$'\t' read -r path field; do
+    local fullpath="$REPO_ROOT/$path" current
+    [[ -f "$fullpath" ]] || { echo "error: missing declared manifest: $path" >&2; return 1; }
+    current=$(read_json_field "$fullpath" "$field") || return 1
+    [[ -n "$current" && "$current" != null ]] || { echo "error: missing version field in $path" >&2; return 1; }
+  done <<< "$declarations"
 
   while IFS=$'\t' read -r path field; do
     local fullpath="$REPO_ROOT/$path"
@@ -195,7 +248,10 @@ cmd_bump() {
     old_ver=$(read_json_field "$fullpath" "$field")
     write_json_field "$fullpath" "$field" "$new_version"
     printf "  %-45s  %s -> %s\n" "$path ($field)" "$old_ver" "$new_version"
-  done < <(declared_files)
+  done <<< "$declarations"
+
+  # 技能是 YAML frontmatter，交给同一个 Node 同步器处理，避免两条发版路径漏更。
+  node "$SCRIPT_DIR/sync-plugin-version.js"
 
   echo ""
   echo "Done. Running audit to check for missed files..."

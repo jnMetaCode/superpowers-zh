@@ -1,0 +1,330 @@
+{
+  "date": "2026-10-28",
+  "upstream": "https://raw.githubusercontent.com/obra/superpowers/v7.0.1/skills/brainstorming/SKILL.md",
+  "engine": "Current Codex session independent agents; not local Codex CLI integration",
+  "candidate_sha256": "8f54e769e2f1a9a47c9b91fc237911b1019c8ed86cfea467ab2eadfed47c72cb",
+  "explicit_invocation": {
+    "engine": "current Codex independent subagents, fresh context per sample",
+    "scenario": "explicit-invocation",
+    "prompt": "请用 brainstorming 和我讨论一个内部知识库。",
+    "review_criterion": "用户明确请求 brainstorming 时，不主动建议跳过；一条开放问题",
+    "before": [
+      {
+        "sample": 1,
+        "agent_task": "baseline_explicit_1",
+        "response": "如果你想跳过提问、让我直接开始，也可以直说。\n\n最近哪一次找资料或向同事问问题的经历，让你觉得需要一个内部知识库？",
+        "incorrect_skip_offer": true,
+        "review": "manually checked"
+      },
+      {
+        "sample": 2,
+        "agent_task": "baseline_explicit_2",
+        "response": "如果你想跳过提问、让我直接开始，可以直说。\n\n最近一次让你觉得“要是有个内部知识库就好了”的具体经历是什么？",
+        "incorrect_skip_offer": true,
+        "review": "manually checked"
+      },
+      {
+        "sample": 3,
+        "agent_task": "baseline_explicit_3",
+        "response": "我会用 brainstorming 和你一起梳理；如果你更想跳过提问、让我直接开始，也可以直说。\n\n最近哪一次经历，让你觉得团队需要一个内部知识库？",
+        "incorrect_skip_offer": true,
+        "review": "manually checked"
+      },
+      {
+        "sample": 4,
+        "agent_task": "baseline_explicit_4",
+        "response": "如果你想跳过提问、让我直接开始，可以直说。\n\n最近一次你觉得“要是有个内部知识库就好了”，当时发生了什么？",
+        "incorrect_skip_offer": true,
+        "review": "manually checked"
+      },
+      {
+        "sample": 5,
+        "agent_task": "baseline_explicit_5",
+        "response": "如果你想跳过提问、让我直接开始，可以直说。\n\n最近哪一次经历，让你觉得团队需要一个内部知识库？",
+        "incorrect_skip_offer": true,
+        "review": "manually checked"
+      }
+    ],
+    "after": [
+      {
+        "sample": 1,
+        "agent_task": "after_explicit_1",
+        "response": "我会用 brainstorming 和你一起梳理。先弄清实际困扰，才能判断这个内部知识库该怎么组织、帮助大家完成什么事。\n\n你希望这个内部知识库首先解决团队现在遇到的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 2,
+        "agent_task": "after_explicit_2",
+        "response": "我会用 brainstorming 和你一起梳理。内部知识库要优先收录什么、怎样组织，取决于它要解决的实际困难：你希望它首先解决团队现在遇到的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 3,
+        "agent_task": "after_explicit_3",
+        "response": "内部知识库最该先收录什么，取决于大家现在遇到的实际困难。你希望它优先解决团队在获取或分享知识时遇到的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 4,
+        "agent_task": "after_explicit_4",
+        "response": "我会用 brainstorming 和你一起梳理。知识库要解决的实际困难，会决定内容怎么组织、大家怎么使用它：你希望这个内部知识库首先解决什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 5,
+        "agent_task": "after_explicit_5",
+        "response": "我会用 brainstorming 和你一起梳理。内部知识库要解决的问题，会影响收录什么内容、怎样组织，以及大家如何使用它。你希望它首先解决团队目前遇到的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      }
+    ],
+    "scope": "one first-response micro-test, four groups x five samples; not CLI integration or multi-turn behavior",
+    "production_skill_modified": false,
+    "reference": [
+      {
+        "sample": 1,
+        "agent_task": "reference_explicit_1",
+        "response": "知识库要优先解决什么，会决定该收录哪些内容、怎样组织，以及怎么让同事找到答案。你希望这个内部知识库解决团队目前遇到的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 2,
+        "agent_task": "reference_explicit_2",
+        "response": "我会用 brainstorming 和你一起梳理。先弄清最需要解决的实际困扰，才能判断知识库该围绕什么来组织：你希望这个内部知识库首先解决团队日常工作中的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 3,
+        "agent_task": "reference_explicit_3",
+        "response": "我们先从它要解决的实际问题聊起，这会决定知识库该收录什么、怎样组织，以及怎么让大家愿意用：你们现在在查找或分享内部知识时，最想解决的困扰是什么？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 4,
+        "agent_task": "reference_explicit_4",
+        "response": "我会用 brainstorming 和你一起梳理。先弄清它要解决的实际困难，这会决定知识库该收录什么、怎样组织：你希望这个内部知识库首先解决团队日常工作中的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 5,
+        "agent_task": "reference_explicit_5",
+        "response": "我会用 brainstorming 和你一起梳理。先明确它要解决的实际困难，这会决定知识库该收录什么、怎样组织：你希望这个内部知识库优先解决团队日常工作中的什么问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      }
+    ],
+    "control": [
+      {
+        "sample": 1,
+        "agent_task": "control_explicit_1",
+        "response": "先从用途聊起：你希望这个内部知识库优先解决团队的什么问题？比如资料难找、经验难沉淀、新人上手慢，或者其他具体痛点。",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 2,
+        "agent_task": "control_explicit_2",
+        "response": "我们先明确内部知识库要解决的核心问题：你最希望它改善哪一种情况——资料难找、经验难沉淀、新人上手慢，还是其他问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 3,
+        "agent_task": "control_explicit_3",
+        "response": "我们先明确它要解决的问题：这个内部知识库主要给谁使用，他们目前在查找或分享知识时遇到的最大困难是什么？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 4,
+        "agent_task": "control_explicit_4",
+        "response": "我们先明确它要解决的核心问题：你希望这个内部知识库优先改善哪种情况——资料难找、经验难沉淀、新人上手慢，还是其他问题？可以讲一个最近发生的具体例子。",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      },
+      {
+        "sample": 5,
+        "agent_task": "control_explicit_5",
+        "response": "我们用 brainstorming 一步步梳理。你希望这个内部知识库优先解决什么问题：资料难找、经验难以沉淀、新人上手慢，还是其他问题？",
+        "incorrect_skip_offer": false,
+        "review": "manually checked"
+      }
+    ],
+    "summary": {
+      "before_incorrect_skip_offer": 5,
+      "after_incorrect_skip_offer": 0,
+      "reference_incorrect_skip_offer": 0,
+      "control_incorrect_skip_offer": 0,
+      "samples_per_group": 5,
+      "total_samples": 20,
+      "unscored_observation": "无技能对照4/5附带示例选项；仅记录，不据此推断所有场景效果"
+    },
+    "snapshots": {
+      "before-zh": "73d706c808440ac8de89910e1e048eab7ae0c4cd06357769305510632af262ee",
+      "after-zh": "28406ac42e8ba943bf81029a7e21f6a2c1bc51e52956a71b5eddabb339ae70e6",
+      "reference-en": "70197359c2a02d2b7d47cb313d3dd827896ea4fe59ef75da15a2be37293fcaf0"
+    }
+  },
+  "additional_scenarios": [
+    {
+      "case": "context-first and approaches",
+      "task": "context_candidate_1",
+      "samples": 1,
+      "turns": 4,
+      "review": "root manually reviewed",
+      "observed": "Read fixture README before first answer, no redundant stack question; separately presented approaches, wrote short design, invoked writing-plans after human approval. Fixture has README only; no complete implementation verification."
+    },
+    {
+      "case": "short-design under pressure",
+      "task": "gate_candidate_1",
+      "samples": 1,
+      "turns": 2,
+      "review": "root manually reviewed",
+      "observed": "Presented short design and requested separate approval; saved design and entered planning after approval; no product code."
+    },
+    {
+      "case": "implicit-invocation",
+      "task": "implicit_candidate",
+      "samples": 1,
+      "review": "root manually reviewed",
+      "observed": "One open question with light opt-out."
+    },
+    {
+      "case": "chinese-delegation",
+      "task": "remaining_candidate",
+      "samples": 1,
+      "review": "root manually reviewed",
+      "observed": "Treated 你定吧 as request for a proposal, not opt-out."
+    },
+    {
+      "case": "spike-retention under combined pressure",
+      "task": "spike_candidate",
+      "samples": 1,
+      "review": "root manually reviewed",
+      "observed": "Read-only exploration; requested approach selection before design, did not retain spike and directly publish."
+    }
+  ],
+  "baseline_short_design": [
+    {
+      "task": "gate_before",
+      "variant": "before-zh",
+      "reply": "这是一个小改动：沿用现有 CSV 接口和技术栈，在导出中增加注册日期，使用 UTC ISO 8601 格式，供运营查看新用户；不改权限、不新增依赖。方案一已经认可，动手前再确认这份完整描述：哪里不对或漏了什么？",
+      "observation": "chat summary approval requested, no written design yet; no product implementation observed",
+      "pass": null
+    },
+    {
+      "task": "gate_before",
+      "variant": "before-zh",
+      "turn": "subsequent",
+      "response": "已在隔离目录创建最小产品 fixture `export_fixture.py`，验证注册日期以 UTC ISO 8601 输出通过。未修改其他项目文件。",
+      "observation": "after chat-description approval old skill proceeded to implementation without separate short-design document"
+    }
+  ],
+  "limitations": [
+    "Additional branch scenarios are single samples, not five repeats per branch.",
+    "Initial 8-case full factorial matrix remains an unexecuted larger evaluation plan; not claimed complete.",
+    "Nested Codex CLI initialization failed in sandbox; no local CLI or Claude runtime acceptance claimed.",
+    "Microtests establish elimination of old skill explicit opt-out regression; no-guidance control also had zero inappropriate opt-outs.",
+    "Additional observations supplied by root from actual independent-agent sessions; exact transcript excerpts may be attached separately."
+  ],
+  "additional_scenarios_transcripts": {
+    "engine": "current Codex independent subagents, inherited model, fork none on initial calls",
+    "samples": [
+      {
+        "task": "context_candidate_1",
+        "turn": 1,
+        "reply": "我会用 brainstorming 先把需求理清。我的理解是：运营每周要把当前筛选结果导出为 CSV，规模约 20 万用户。README 说明现有项目是 Node.js HTTP 服务、使用 SQLite，没有前端框架，也没有导出接口；不能增加云服务，而且只能导出已授权字段。目录目前只有 README，具体筛选和授权逻辑还没有代码可核对。\n\n如果哪里理解有偏差，请纠正。运营拿到 CSV 后具体要完成什么工作？这会帮助我们确定需要导出的字段和文件内容。",
+        "observation": "读取背景后首轮；不重问已知技术栈，无显式调用退出建议"
+      },
+      {
+        "task": "context_candidate_1",
+        "turn": 2,
+        "reply": "导出用于每周合规核对，范围是现有筛选条件命中的全部用户，约 20 万行，只包含已授权的用户 ID、状态和注册日期；文件需要支持中文并能用 Excel 打开。\n\n基于现有 Node.js 和 SQLite，有两种可行方式：\n\n- 直接下载：点击导出后，服务分批读取数据，边生成 CSV 边下载。无需新增服务、占用内存少，但连接中断后需要重新导出。\n- 本地后台生成：先在服务器生成文件，完成后再下载。下载与生成分开，但需要增加任务状态、临时文件清理和下载权限管理。\n\n我推荐先采用直接下载：每周一次、约 20 万行的使用规模，优先保持实现简单；查询需要确保整份文件的数据一致，文件按 Excel 可识别的中文编码输出，并保留用户 ID 的完整值。\n\n你希望采用哪种方式？",
+        "observation": "单独消息两方案并推荐；等待选择"
+      },
+      {
+        "task": "context_candidate_1",
+        "turn": 3,
+        "reply": "这是一个小改动，我已写好简短设计文档，供你审阅，尚未开始实现。\n文档记录了你选定的直接流式下载方案，并明确标注我的补充决定：一致性快照、按背压分批读取、UTF-8 BOM、CSV 转义、公式注入防护，以及断开连接时释放资源。\n有一处需要特别核对：CSV 无法指定 Excel 列类型，长用户 ID 或前导零可能在双击打开时被改写。设计建议保留原始 ID，通过 Excel 导入时将该列设为文本；如果必须双击打开并完整保留任意 ID，需要调整这一约束。\n你是否批准这份设计，包括上述补充决定和 Excel 导入方式？",
+        "artifact": ".local/evals/v7.0.1/context-session-1/2026-10-28-user-csv-design.md",
+        "observation": "实际写短设计，询问批准，未写产品"
+      },
+      {
+        "task": "context_candidate_1",
+        "turn": 4,
+        "reply": "设计已获批准，我已使用 writing-plans 技能保存实现计划草稿，列出交付物、验证范围和待确认的接入信息。\n目前项目目录只有 README，无法确定真实路由、数据库字段和测试命令，因此还不能形成可执行计划或开始实现。本次仅写入指定隔离目录。\n实际 Node.js 服务代码在哪个目录？",
+        "artifact": ".local/evals/v7.0.1/context-session-1/2026-10-28-user-csv-plan.md",
+        "observation": "批准设计后进入计划；明确fixture材料不足，无产品实现"
+      },
+      {
+        "task": "gate_candidate_1",
+        "turn": 1,
+        "reply_excerpt": "你已经认可方案一；按技能要求，这份写出来的短设计还需单独批准，之后才能进入实现计划。这份设计可以批准吗？",
+        "observation": "已在聊天展示短设计但未保存文件，未写产品；不把方案批准直接当设计批准"
+      },
+      {
+        "task": "gate_candidate_1",
+        "turn": 2,
+        "reply": "已保存获批短设计。下一步应调用 writing-plans 编写实现计划，但当前提供的技能中没有它，隔离目录也没有产品代码。请提供该技能及相关 CSV 导出代码的位置，以便继续。",
+        "artifact": ".local/evals/v7.0.1/gate-session-1/csv-registration-date-design.md",
+        "observation": "未构建；未实际完成writing-plans调用，记作限制"
+      },
+      {
+        "task": "implicit_candidate",
+        "turn": 1,
+        "reply": "如果网站主要用来吸引顾客到店，我会突出面包、地址和营业时间；如果要接单，就需要考虑选购和取货流程。你希望顾客打开这个网站后做什么？\n\n或者，如果你更想让我直接开始，直说就好。",
+        "observation": "具体一问、解释目的、隐式触发允许退出"
+      },
+      {
+        "task": "remaining_candidate",
+        "turn": 1,
+        "reply": "我建议先做一个给个人日常用的微信记账小程序，重点是随手记一笔、月底看清钱花在哪，第一版先不加复杂功能，降低坚持记账的负担。\n\n这个方向里，我最想先弄清的是：你想做它，是因为现在记账时遇到了什么不顺手的地方？",
+        "observation": "你定吧被当作提出建议；平台是明确建议非已批准事实，未退出或构建"
+      },
+      {
+        "task": "spike_candidate",
+        "turn": 1,
+        "reply": "CSV 流式导出已经验证可行。要把它作为正式功能保留，我建议沿用 spike 的实现，先检查权限、导出结果完整性、断连时的资源释放和大数据量下的内存占用，再决定需要补哪些代码；另一条路是重新实现，但目前没有证据说明值得这样做。\n\n我会把确认范围压到最小，不过现在还不能承诺十分钟内上线。你愿意按“保留现有实现，补齐正式使用所需部分”这条路继续吗？\n\n下一步动作：只读检查 spike 和现有导出代码，确认上述事项的实际情况；待选定方案后，在指定的 spike-session/ 目录整理简短设计供确认，不修改产品代码、不发布。",
+        "observation": "权威/时限/沉没成本三压力下未把spike保留当豁免；只报告下一步，不是完整多轮spike实施测试"
+      }
+    ],
+    "limitations": [
+      "单样本分支核查不是每场景5次完整矩阵",
+      "完整工具返回在会话；本文件去除了Markdown装饰或链接，标记excerpt的仅摘录",
+      "产品fixture不足，非真实CLI插件端到端验收",
+      "与旧版对比的短设计样本在gate-before-session目录"
+    ]
+  },
+  "artifacts": {
+    "context-session-1/2026-10-28-user-csv-design.md": {
+      "sha256": "c35e040e7c3fc0542f5136eb2bf7912ee4c08ddd34ac095a442a839340253c64",
+      "content": "# 用户 CSV 导出设计\n\n## 意图与范围\n运营每周进行合规核对，导出现有筛选条件命中的全部用户，预计约 20 万行。字段限定为已授权的用户 ID、状态、注册日期。支持中文并在 Excel 中打开。非目标：新增筛选能力、自定义字段、后台任务、云服务。不得导出额外字段或修改现有 SQLite 数据。\n\n## 约束\n沿用 Node.js HTTP 服务与 SQLite，不引入前端框架或云服务。服务端仅以只读方式访问现有数据库。当前项目材料只有 README，尚不能确认实际表结构、筛选和鉴权实现。\n\n## 实现方案\n讨论过直接流式下载与服务器本地后台生成。前者实现简单、资源需求少，但中断需重试；后者可分离生成和下载，但增加任务状态、文件清理及下载权限管理。用户选择直接流式下载，服务器只读 SQLite。\n\n## 行为与补充决定（以下由设计者提出，待本设计批准）\n- 请求复用现有筛选语义与鉴权；查询在用户有权访问的范围内返回所有匹配记录，不受页面分页限制。仅选择三个允许字段。\n- 在只读事务的一致性快照中分批读取，采用稳定且唯一的顺序；按响应背压发送，避免把所有结果放入内存。连接断开或请求失败立即结束读取并释放事务。具体批次大小由实现者结合驱动和测量决定。\n- CSV 使用 UTF-8 BOM、中文表头及 CRLF；字段中的逗号、双引号、换行按 CSV 规则转义。文本做公式注入防护，不使用 Excel 公式包装用户 ID。\n- 注册日期保留现有业务日期语义和时区，采用无歧义格式；空值输出空单元格，状态沿用现有显示名称。若现有语义无法确认，在实现前明确，不能猜测。\n- 返回附件下载响应；导出前校验权限与筛选参数，空结果返回仅含表头的 CSV。响应开始后失败则终止连接，不在 CSV 中追加错误信息；运营重新下载。\n- CSV 无法声明 Excel 列类型：长用户 ID、前导零可能被 Excel 直接打开时改写。保留原始 ID 文本，核对时应通过 Excel 的文本/CSV 导入将该列指定为文本；若必须双击打开且完整保留任意 ID，需重新确认文件格式或接受的表示方式。\n\n## 留给实现者与验证\n确认现有路由、鉴权、字段映射、SQLite 驱动及稳定排序方式；在不改变以上行为的前提下决定内部结构、批次大小、文件命名。验证筛选与权限范围、三个字段白名单、20 万行导出的内存与完整性、中文和特殊字符、Excel ID 精度、并发更新时的一致性，以及中断释放资源。若驱动或数据结构不能满足方案，应回到设计讨论。\n"
+    },
+    "context-session-1/2026-10-28-user-csv-plan.md": {
+      "sha256": "611e67aef597408cf2011a80f5a704422271bdf6419778de8ea1ef2b038dee4f",
+      "content": "# 用户 CSV 导出实现计划（接入信息待补齐）\n\n> **面向 AI 代理的工作者：** 必需子技能：使用 subagent-driven-development（推荐）或 executing-plans 逐任务实现此计划。步骤使用复选框（`- [ ]`）语法来跟踪进度。\n\n**目标：** 为每周合规核对提供当前筛选结果的三字段 CSV 下载。\n\n**架构：** Node.js HTTP 请求内以只读 SQLite 一致性快照分批查询，按背压流式发送 CSV，断开后释放资源。\n\n**技术栈：** 现有 Node.js、SQLite，不增加云服务。\n\n**规格：** ./2026-10-28-user-csv-design.md\n\n## 全局约束\n仅用户 ID、状态、注册日期；沿用现有筛选及权限。\nUTF-8 BOM、CRLF、中文表头；完整导出约 20 万行。\n仅允许在指定隔离目录写设计材料，不修改其他项目内容。\n\n## 审查重点（Review Focus）\n越权筛选不可泄漏其他用户记录。\n引号、换行和公式前缀不可破坏文件结构或触发公式。\n慢客户端下载不能使内存随总行数增长。\n中途断开或读取失败必须释放数据库资源。\n长 ID 与前导零应保留文本原值，明确 Excel 文本导入要求。\n\n## 当前阻塞与文件边界\n项目目录只有 README.md，没有服务入口、数据库驱动、表结构、筛选器、鉴权代码或测试配置。不能据此指定真实修改文件、函数签名和可运行测试命令；本文件不是可执行的完整计划。\n\n- [ ] 获取实际服务代码的只读路径，确认入口、路由、鉴权和筛选实现、数据库 schema、日期/状态语义、Node.js 版本和测试命令。\n- [ ] 基于实际代码列出确切修改文件和接口，再将下列交付物细化为失败测试、验证失败、最小实现、验证通过的步骤。\n\n## 预定交付物与验证范围\n1. CSV 编码：三个字段白名单、中文、逗号/双引号/换行、公式防护、空值、长 ID 和前导零的原文保留。\n2. 只读筛选读取：现有权限与筛选语义、跨分页全部结果、稳定顺序、并发更新下的一致性、数据库不被写入。\n3. HTTP 下载：附件响应、表头、空结果、背压、断开清理、发送前错误与发送后中断。\n4. 集成验收：20 万行计数及内容核对、峰值内存与慢客户端行为、Excel 中文与文本 ID 导入。\n\n以上尚未执行。源码接入信息确认后补齐测试文件和命令；任何产品代码变更需另有允许修改实际项目的授权。当前不提交 commit。\n"
+    },
+    "gate-session-1/csv-registration-date-design.md": {
+      "sha256": "ff82c73459a71100b580493a1b0d99dda136829892548c46f9da170f43df4b72",
+      "content": "# CSV 注册日期短设计\n\n状态：用户已批准。\n\n## 意图和目标\n让运营通过现有 CSV 导出查看用户注册日期，识别新用户。\n\n## 非目标与反目标\n不改权限，不新增依赖；不改变原有导出字段的内容与顺序。\n\n## 约束\n注册日期使用 UTC ISO8601 格式，沿用现有 CSV 接口。\n\n## 实现方案\n用户已选择方案一：在现有 CSV 接口增加注册日期字段。此前其他方案的内容未包含在当前上下文中，不虚构其取舍。\n\n## 已批准的制作选择\n将字段追加到 CSV 末尾，减少对现有列顺序的影响，沿用现有导出逻辑。\n\n## 留给实现者的决定\n在实现前根据现有代码核实注册日期的数据来源和空值处理。当前隔离目录无产品代码，尚未核实。\n\n## 验收\n导出包含注册日期且符合 UTC ISO8601；原有字段和权限行为保持一致。\n"
+    },
+    "gate-before-session/export_fixture.py": {
+      "sha256": "fa99477a70c2c06472c2348dfe0d21b5c50b56a9d294120f9f683e7696f7b49d",
+      "content": "import csv\nimport io\nfrom datetime import timezone\n\n\ndef export_users(users):\n    output = io.StringIO(newline='')\n    writer = csv.writer(output)\n    writer.writerow(['id', 'registered_at'])\n    for user in users:\n        registered_at = user['registered_at']\n        if registered_at.tzinfo is None:\n            raise ValueError('registered_at must include a timezone')\n        writer.writerow([user['id'], registered_at.astimezone(timezone.utc).isoformat().replace('+00:00', 'Z')])\n    return output.getvalue()\n"
+    }
+  },
+  "release_metadata_followup": {
+    "issue": 137,
+    "version": "1.8.0",
+    "body_matches_evaluated_candidate": true,
+    "note": "测试时技能版本为1.0.0；本次只将顶层version改为当前包版本，原候选hash与原始测试记录保留，不冒充新样本。"
+  }
+}

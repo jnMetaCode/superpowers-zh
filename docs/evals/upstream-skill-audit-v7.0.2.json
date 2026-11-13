@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-12",
+  "source": "local complete source archive /tmp/superpowers-v702",
+  "scope": "Non-brainstorming translated skill audit; scripts, manifests, CI, tests excluded from edits",
+  "changes": [
+    "13 helper invocations now carry adjacent absolute-path and current-worktree guidance",
+    "SDD continuous-execution stop conditions match four named upstream conditions",
+    "SDD flow diagram delegates to fix-loop reference instead of duplicating detailed loop",
+    "Fix-loop reference must be reread before every round, including earlier-read references"
+  ],
+  "validation": {
+    "baseline_helper_path_gaps": 13,
+    "after_helper_path_gaps": 0,
+    "markdown_link_check": "SDD and writing-skills references relative Markdown targets exist",
+    "skill_size_check": "run separately by parent",
+    "independent_model_behavior_eval": false
+  },
+  "retained_differences": [
+    "Chinese fork metadata and bare skill references",
+    "SDD uses combined preflight-and-resuming and report-handling references and separate finishing file; content preserved",
+    "writing-skills retains Chinese root reference documents and examples/CLAUDE_MD_TESTING.md instead of moving them all into references",
+    "Chinese mandatory-read wrappers retained; no claim of byte-for-byte upstream identity"
+  ],
+  "limits": [
+    "Static structural validation does not demonstrate behavior improvement or compression-runtime acceptance",
+    "No full independent adversarial multi-session campaign performed for these faithful path/layout translations"
+  ]
+}

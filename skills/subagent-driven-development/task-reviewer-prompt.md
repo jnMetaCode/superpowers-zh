@@ -168,7 +168,7 @@ Subagent (general-purpose):
 
 **占位符：**
 - `[模型]` —— 必填：按 SKILL.md 的"模型选择"选审查者模型
-- `[BRIEF_FILE]` —— 必填：任务简报文件（`bash scripts/task-brief PLAN N`
+- `[BRIEF_FILE]` —— 必填：任务简报文件（`bash scripts/task-brief PLAN N`（从正在执行的项目工作树中，用脚本的绝对路径运行）
   会打印路径；与实现者所用的是同一个文件）
 - `[GLOBAL_CONSTRAINTS]` —— 从计划的"全局约束"一节或规格里逐字抄下的、
   有约束力的需求：精确的取值、格式、以及组件之间被明确规定的关系
@@ -177,7 +177,7 @@ Subagent (general-purpose):
 - `[BASE_SHA]` —— 本任务之前的提交
 - `[HEAD_SHA]` —— 当前提交
 - `[DIFF_FILE]` —— 必填：控制者写入审查包的那个路径
-  （`bash scripts/review-package PLAN_FILE BASE HEAD` 会打印它写入的唯一路径；
+  （`bash scripts/review-package PLAN_FILE BASE HEAD`（从正在执行的项目工作树中，用脚本的绝对路径运行） 会打印它写入的唯一路径；
   审查包永远不会进入控制者的上下文）
 
 **审查者返回：** 规格合规性结论（✅/❌/⚠️）、优点、问题

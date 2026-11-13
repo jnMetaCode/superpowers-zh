@@ -1,0 +1,20 @@
+{
+  "name": "superpowers-zh",
+  "description": "Development marketplace for Superpowers core skills library",
+  "owner": {
+    "name": "jnMetaCode",
+    "url": "https://github.com/jnMetaCode"
+  },
+  "plugins": [
+    {
+      "name": "superpowers-zh",
+      "description": "Core skills library for Muse: TDD, debugging, collaboration patterns, and proven techniques",
+      "version": "1.8.0",
+      "source": "./",
+      "author": {
+        "name": "jnMetaCode",
+        "url": "https://github.com/jnMetaCode"
+      }
+    }
+  ]
+}

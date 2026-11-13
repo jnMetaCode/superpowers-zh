@@ -380,11 +380,15 @@ npx superpowers-zh@latest --uninstall
 | `--uninstall` | 卸载当前目录下的 superpowers-zh |
 | `--help` / `--version` | 帮助 / 版本 |
 
-> **版本号怎么看？** skill 文件里的 `version: "1.0.0"` 目前不会随发版更新；`npx superpowers-zh --version` 显示本次运行的安装器版本，也不代表项目此前安装的技能版本。按安装方式核对与更新，见[版本号与安装内容核对](docs/VERSIONING.md)。
+> **版本号怎么看？** 旧安装的 skill 可能仍标记 `1.0.0`；本仓已加入技能版本随发行版自动同步的修复，待下次发布生效。`npx superpowers-zh --version` 显示本次运行的安装器版本，也不代表项目此前安装的技能版本。按安装方式核对与更新，见[版本号与安装内容核对](docs/VERSIONING.md)。
 
 ---
 
+SDD 生成英文简报、报告或提交信息时，见[中文产出配置与排查](docs/SDD-LANGUAGE.md)。
+
 ## 贡献
+
+原生 Hermes / Muse / Antigravity / Devin 渠道及 Codex 发布工具的候选版本状态，见[原生插件与发布验收](docs/NATIVE-PLUGINS.md)。这些新增渠道尚待真实会话验收，不能把 manifest 检查通过当成集成已完成。
 
 欢迎参与！翻译改进、新增 skills、Bug 修复都可以。
 
@@ -477,7 +481,7 @@ MIT License — 自由使用，商业或个人均可。
 - **执行可靠性**：静默成功的测试正常记账，保留用户已有的 workspace `.gitignore`，修正 Windows hook 和路径处理。
 - **官网体验**：修正繁体文案、提示块显示、浅色主题代码块和手机横向溢出。
 
-完整变更、eval 范围及更新说明见 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。技能文件的 `1.0.0` 字段不能用于判断发行版，见[版本核对指南](docs/VERSIONING.md)。
+完整变更、eval 范围及更新说明见 [v1.8.0 Release Notes](RELEASE-NOTES.zh.md)。旧安装的 `1.0.0` 字段不能用于判断发行版，见[版本核对指南](docs/VERSIONING.md)。
 
 ### v1.7.12 历史修复
 

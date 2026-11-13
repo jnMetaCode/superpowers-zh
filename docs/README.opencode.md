@@ -115,7 +115,7 @@ OpenCode 通过一个基于 git 的包说明（package spec）安装 Superpowers
     - **V2：** 通过 `setup()` 函数，使用 `ctx.skill.transform()`（V2 原生 API，已确认运行时生效）
 2. **注入引导上下文**，附带按版本区分的工具映射：V1 会话拿到下面的 V1 工具名，V2 会话拿到 V2 工具名。
     - **V1：** 通过 `experimental.chat.messages.transform` hook
-    - **V2：** 通过 `ctx.session.hook("context")`——V2 中的对应机制（已确认运行时生效）
+    - **V2：** 通过 `ctx.session.hook()` 注册 `context`、`compaction` 和 `generate` 三种请求，使正常对话、压缩和显式生成都携带一致的引导前缀，避免压缩请求丢失前缀而使提示词缓存失效。
 
 控制者会话会在临时的模型上下文里收到 using-superpowers 引导内容。被委派出去的子会话仍能使用原生 skills，但不会收到控制者的引导内容。没有父会话的手动 fork 保持控制者行为。当 V2 原生压缩保留了较早的用户消息时（默认的 `compaction.keep.tokens` 预算），引导内容会放进检查点之前保留下来的第一条用户消息里，和未压缩的会话一样。当压缩移除了所有用户消息时，插件会在检查点之后追加一条临时的引导消息。无论哪种情况，保存的历史都不会改变。
 
@@ -129,7 +129,7 @@ Skill 用动作来表述，而不是点名某一个运行时的工具。引导�
 
 - 「创建一条待办」/「在待办列表里标记完成」→ `todowrite`
 - `Subagent (general-purpose):` 模板 → OpenCode 的 `task` 工具，传 `subagent_type: "general"`（探索代码库时用 `"explore"`）
-- 「调用一个 skill」→ OpenCode 的原生 `skill` 工具
+- 「调用一个 skill」→ OpenCode 的原生 `skill` 工具，传裸技能名称（如 `superpowers:brainstorming` 或 `superpowers-zh:brainstorming` → `name: "brainstorming"`）
 - 「读取文件」→ `read`
 - 「创建文件」/「编辑文件」/「删除文件」→ `apply_patch`
 - 「运行 shell 命令」→ `bash`
@@ -140,7 +140,7 @@ Skill 用动作来表述，而不是点名某一个运行时的工具。引导�
 
 - 「创建一条待办」→ V2 没有任何形式的待办工具；映射会让模型改为在一个 markdown 文件（或运行环境自带的计划功能）里跟踪计划
 - `Subagent (general-purpose):` 模板 → OpenCode 的 `subagent` 工具，传 `agent: "general"`（或 `"explore"`）；传 `sessionID` 可以继续之前的子智能体
-- 「调用一个 skill」→ OpenCode 的原生 `skill` 工具
+- 「调用一个 skill」→ OpenCode 的原生 `skill` 工具，传裸技能 ID（如 `superpowers:brainstorming` 或 `superpowers-zh:brainstorming` → `id: "brainstorming"`）
 - 「读取文件」→ `read`
 - 「创建、编辑或删除文件」→ 有 `patch` 时用 `patch` 并传 `patchText`；否则用 `write` 创建或覆盖文件、`edit` 做定点修改、`shell` 删除文件
 - 「运行 shell 命令」→ `shell`（`command`、`workdir`、`timeout`、`background`）
@@ -207,7 +207,7 @@ npm install superpowers@git+https://github.com/jnMetaCode/superpowers-zh.git --p
 ### 引导内容没有出现
 
 - **V1：** 检查 OpenCode 版本是否支持 `experimental.chat.messages.transform` hook。修改配置后重启 OpenCode。
-- **V2：** 插件使用 `ctx.session.hook("context")` 注入引导内容。用 `opencode api get /api/plugin` 确认插件已加载。修改配置后用 `opencode service restart` 重启。`opencode2` 命令可能作为别名可用。
+- **V2：** 插件使用 `ctx.session.hook()` 在 `context`、`compaction` 和 `generate` 请求中注入引导内容。用 `opencode api get /api/plugin` 确认插件已加载。修改配置后用 `opencode service restart` 重启。`opencode2` 命令可能作为别名可用。
 
 ## 获取帮助
 

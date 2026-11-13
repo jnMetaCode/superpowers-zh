@@ -73,3 +73,20 @@ test('help and version remain read-only', t => {
   assert.equal(result.stdout.trim(), version);
   assert.deepEqual(snapshot(dir), before);
 });
+
+for (const args of [
+  ['--tool', '--uninstall'],
+  ['--uninstall', '--tool'],
+  ['--uninstall', '--tool', 'not-a-real-tool'],
+  ['--uninstall', '--tool', 'claude', '-t', 'cursor'],
+  ['--uninstall', 'unexpected-value'],
+  ['--tool', 'claude', 'unexpected-value'],
+]) {
+  test(`invalid tool option cannot trigger uninstall: ${args.join(' ')}`, t => {
+    const dir = fixture(t);
+    const before = snapshot(dir);
+    const result = run(dir, args);
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.deepEqual(snapshot(dir), before, 'invalid tool arguments must be rejected before deletion');
+  });
+}

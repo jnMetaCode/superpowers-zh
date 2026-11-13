@@ -1,7 +1,7 @@
 ---
 name: finishing-a-development-branch
 description: 当实现完成、所有测试通过、需要决定如何集成这份工作时使用
-version: "1.0.0"
+version: "1.8.0"
 license: MIT
 metadata:
   hermes:

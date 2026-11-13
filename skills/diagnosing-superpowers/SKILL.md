@@ -1,7 +1,7 @@
 ---
 name: diagnosing-superpowers
 description: 当一次 superpowers 会话出了问题、你的人类伙伴想知道原因时使用——重复劳动、无视计划、磕磕绊绊、结果质量差、某个技能没触发、"太慢了"、"为什么这么贵"、"它到底在干什么"——或者想给 superpowers 维护者整理一份 bug 报告；适用于当前会话，或按 id / 路径指定的过往会话，任何工具均可
-version: "1.0.0"
+version: "1.8.0"
 license: MIT
 metadata:
   hermes:
@@ -44,7 +44,8 @@ metadata:
 5. **GitHub issue** —— 当报告 §7 写的是 possible 或 likely，或你的伙伴要求时。
    按 `references/github-issues.md` 在已开放和已关闭的 issue 中搜索这些症状。
    展示匹配结果，建议把报告补充到最接近的那条。如果都不匹配，填写
-   `templates/issue.md`，写入工作区，展示确切文本，获得批准后才创建 issue。
+   `templates/issue.md`，提交者信息引用伙伴的原始请求，真人摘要必须由伙伴自己填写。
+   摘要还是占位文字时只交付草稿；摘要填好后展示最终确切文本，获得批准后才创建 issue。
    `gh` 不能附加文件；如果有打包材料，把路径给你的伙伴，让他们在浏览器里附上。
 6. **导出** —— 只在你的伙伴要求打包时进行；绝不主动打包。如果受理时的目标是 bug
    报告，说一次"可以按需提供脱敏后的打包材料"，然后等待。询问脱敏级别，并说明每一级

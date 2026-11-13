@@ -1055,11 +1055,20 @@ ${skillList}
   mkdirSync(dirname(mdPath), { recursive: true });
   if (existsSync(mdPath)) {
     const existing = readFileSync(mdPath, 'utf8');
-    if (!existing.includes('superpowers-zh')) {
-      writeFileSync(mdPath, existing.replace(/\s+$/, '') + '\n\n' + wrapWithSentinel(content), 'utf8');
-      console.log(`  ✅ CodeBuddy: 追加 skills 引用 -> ${mdPath}`);
+    const starts = existing.split(SENTINEL_BEGIN).length - 1;
+    const ends = existing.split(SENTINEL_END).length - 1;
+    const start = existing.indexOf(SENTINEL_BEGIN);
+    const finish = existing.indexOf(SENTINEL_END);
+    if (starts === 1 && ends === 1 && finish > start) {
+      const managed = wrapWithSentinel(content).replace(/\n$/, '');
+      writeFileSync(mdPath, existing.slice(0, start) + managed + existing.slice(finish + SENTINEL_END.length), 'utf8');
+      console.log(`  ✅ CodeBuddy: 更新托管 skills 引导 -> ${mdPath}`);
+    } else if (starts || ends || existing.includes('# Superpowers-ZH 中文增强版')) {
+      console.warn(`  ⚠️ CodeBuddy: 引导边界不明确，保留原文；请检查 ${mdPath} 中的旧引导。`);
     } else {
-      console.log(`  ✅ CodeBuddy: CODEBUDDY.md 已包含 superpowers-zh 引用`);
+      const separator = existing.endsWith('\n\n') ? '' : existing.endsWith('\n') ? '\n' : '\n\n';
+      writeFileSync(mdPath, existing + separator + wrapWithSentinel(content), 'utf8');
+      console.log(`  ✅ CodeBuddy: 追加 skills 引用 -> ${mdPath}`);
     }
   } else {
     writeFileSync(mdPath, wrapWithSentinel(content), 'utf8');
@@ -1412,12 +1421,18 @@ function cleanBootstrapSection(filePath) {
 
   // 1. 哨兵模式（v1.2.1+）— 精确切除
   const sBegin = content.indexOf(SENTINEL_BEGIN);
-  if (sBegin !== -1) {
-    const sEnd = content.indexOf(SENTINEL_END, sBegin + SENTINEL_BEGIN.length);
-    if (sEnd !== -1) {
-      writeOrDelete(filePath, content.slice(0, sBegin), content.slice(sEnd + SENTINEL_END.length));
-      return true;
+  const sEnd = content.indexOf(SENTINEL_END);
+  if (sBegin !== -1 || sEnd !== -1) {
+    const starts = content.split(SENTINEL_BEGIN).length - 1;
+    const ends = content.split(SENTINEL_END).length - 1;
+    if (starts !== 1 || ends !== 1 || sEnd < sBegin) {
+      console.warn(`  ⚠️ 引导边界不明确，保留原文: ${filePath}`);
+      return false;
     }
+    const remaining = content.slice(0, sBegin) + content.slice(sEnd + SENTINEL_END.length);
+    if (remaining.trim().length === 0) rmSync(filePath);
+    else writeFileSync(filePath, remaining, 'utf8');
+    return true;
   }
 
   // 2. 标题 marker（v1.1.x 安装的）— 找下一个 \n# 一级标题做段尾
@@ -1757,7 +1772,6 @@ ${target.noProjectReason || `        其官方文档只给出用户级技能目�
 const args = process.argv.slice(2);
 const helpIdx = args.findIndex(a => a === '--help' || a === '-h');
 const versionIdx = args.findIndex(a => a === '--version' || a === '-v');
-const toolIdx = args.findIndex(a => a === '--tool' || a === '-t');
 const uninstallIdx = args.findIndex(a => a === '--uninstall' || a === '-u');
 const forceIdx = args.findIndex(a => a === '--force' || a === '-f');
 const globalIdx = args.findIndex(a => a === '--global' || a === '-g');
@@ -1773,26 +1787,40 @@ if (unknown) {
   process.exit(1);
 }
 
+// Validate tool arguments before any operation, including uninstall.
+let toolName;
+for (let i = 0; i < args.length; i++) {
+  if (args[i] !== '--tool' && args[i] !== '-t') {
+    if (!KNOWN_FLAGS.has(args[i])) {
+      console.error(`  ❌ 不支持的位置参数: ${args[i]}`);
+      process.exit(1);
+    }
+    continue;
+  }
+  if (toolName !== undefined) {
+    console.error('  ❌ --tool / -t 只能指定一次。');
+    process.exit(1);
+  }
+  const toolArg = args[++i];
+  if (!toolArg || toolArg.startsWith('-')) {
+    console.error('  ❌ --tool 需要指定工具名，例如: --tool cursor\n');
+    showHelp();
+    process.exit(1);
+  }
+  toolName = TOOL_ALIASES[toolArg.toLowerCase()];
+  if (!toolName) {
+    console.error(`  ❌ 未知工具: ${toolArg}`);
+    console.error(`  支持的工具: ${Object.keys(TOOL_ALIASES).join(', ')}\n`);
+    process.exit(1);
+  }
+}
+
 if (helpIdx !== -1) {
   showHelp();
 } else if (versionIdx !== -1) {
   console.log(PKG.version);
 } else if (uninstallIdx !== -1) {
   uninstall(isGlobal);
-} else if (toolIdx !== -1) {
-  const toolArg = args[toolIdx + 1];
-  if (!toolArg) {
-    console.error('  ❌ --tool 需要指定工具名，例如: --tool cursor\n');
-    showHelp();
-    process.exit(1);
-  }
-  const toolName = TOOL_ALIASES[toolArg.toLowerCase()];
-  if (!toolName) {
-    console.error(`  ❌ 未知工具: ${toolArg}`);
-    console.error(`  支持的工具: ${Object.keys(TOOL_ALIASES).join(', ')}\n`);
-    process.exit(1);
-  }
-  install(toolName, force, isGlobal);
 } else {
-  install(undefined, force, isGlobal);
+  install(toolName, force, isGlobal);
 }

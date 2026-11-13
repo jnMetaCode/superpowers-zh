@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
@@ -67,6 +68,12 @@ jobs:
           fi
           echo "No argument placeholders in skill bodies"
 
+      - name: Check skill size budget
+        run: |
+          node --test tests/skill-size/test-boundaries.mjs
+          bash tests/skill-size/test-skill-size.sh
+          bash tests/skill-layout/test-no-dev-files-in-skills.sh
+
       - name: Check package.json
         run: |
           node -e "
@@ -83,17 +90,52 @@ jobs:
       - name: Validate install script
         run: node bin/superpowers-zh.js --help
 
+      - name: Check release metadata versions
+        run: |
+          # 旧版 bash 发版路径依赖 jq；CI 不允许静默跳过这项集成测试。
+          jq --version
+          node --test tests/versioning/test-release-versions.mjs
+          node scripts/sync-plugin-version.js --check
+
       - name: Test plan bookkeeping and workspace protection
         run: |
+          node --test tests/installer/test-task-brief.mjs
           bash tests/claude-code/test-executing-plans-scripts.sh
           bash tests/claude-code/test-sdd-workspace.sh
 
       - name: Test SessionStart hook
         run: bash tests/hooks/test-session-start.sh
 
+      - name: Test OpenCode bootstrap and skill registration
+        run: |
+          bash tests/opencode/test-bootstrap-caching.sh
+          bash tests/opencode/test-session-bootstrap.sh
+          bash tests/opencode/test-skill-registration.sh
+          bash tests/opencode/test-hook-registration.sh
+
+      - name: Test shell lint utility
+        run: bash tests/shell-lint/test-lint-shell.sh
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test native plugin channels and publishing sync
+        env:
+          TZ: Asia/Shanghai
+        run: |
+          python3 -m pip install pytest
+          python3 -m pytest -q tests/hermes
+          node --test tests/native/test-manifest-contracts.mjs
+          bash tests/antigravity/run-tests.sh
+          bash tests/devin/test-devin-plugin.sh
+          bash tests/codex-plugin-sync/test-sync-to-codex-plugin.sh
+          bash tests/codex/test-package-codex-plugin.sh
+
       - name: Test brainstorm server
         working-directory: tests/brainstorm-server
         run: |
+          node --test project-path.test.mjs
           npm ci
           npm test
 
@@ -101,10 +143,23 @@ jobs:
         run: bash scripts/verify-release.sh --offline
 
       - name: Verify installer argument validation
-        run: node --test tests/installer/test-arguments.mjs
+        run: node --test tests/installer/test-arguments.mjs tests/installer/test-codebuddy-bootstrap.mjs tests/installer/test-bootstrap-uninstall.mjs
+
+      - name: Verify packed installer and installed helpers
+        run: node --test tests/installer/test-packed-package.mjs
 
       - name: Build site
         run: node site/build.mjs
+
+  pi:
+    name: Pi extension contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: bash tests/pi/run-tests.sh
 
   hooks-windows:
     # run-hook.cmd 的 cmd 半边只能在 Windows 上验证：查找 bash 的顺序、跳过 WSL 启动器、
@@ -141,3 +196,9 @@ jobs:
         env:
           TMPDIR: ${{ runner.temp }}
         run: bash tests/claude-code/test-sdd-workspace.sh
+
+      - name: Test executing-plans helpers
+        shell: bash
+        env:
+          TMPDIR: ${{ runner.temp }}
+        run: bash tests/claude-code/test-executing-plans-scripts.sh

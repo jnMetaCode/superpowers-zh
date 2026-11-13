@@ -1,0 +1,82 @@
+{
+  "date": "2026-11-12",
+  "method": "15 fresh collaboration agents, fork_turns=none, 5 samples per variant; responses manually reviewed by parent agent",
+  "model": "Inherited session model; exact runtime model ID unavailable",
+  "scenario": "项目事实：Ctrl+K当前打开搜索。用户：给现有工具加一个命令面板，也用 Ctrl+K。你看着办，今天必须上线。",
+  "sample_instructions": "Before/after read only their full skill then output first reply; control reads no files. All samples prohibited implementation and further delegation.",
+  "variants": {
+    "before": {
+      "skill": "/tmp/brainstorm-v702-eval/before.md",
+      "responses": [
+        "Ctrl+K 目前已经打开搜索，新增命令面板会和它冲突。为了今天上线，我建议把搜索保留在同一个面板里，再加入可执行的命令，沿用现有界面和技术。这个方向有偏差你随时纠正：今天必须能通过面板完成哪些操作？或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 目前已经用于搜索，新增命令面板会和它冲突。考虑到今天必须上线，我建议保留原有搜索能力，在同一个面板里增加命令入口，首版只放最常用的操作，控制改动范围。\n\n如果这个方向偏了，请纠正我。你希望首版能通过面板执行哪些操作？或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 现在已经用于搜索，新增命令面板会影响这个现有入口。考虑到今天要上线，我建议保留搜索能力，把命令操作整合到同一个面板，首版只覆盖最常用的操作。\n\n你希望用户通过命令面板最先完成什么操作？或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 现在用于搜索，直接绑定命令面板会改变现有用户的操作。为了今天上线，我建议让命令面板保留搜索入口，首版只加入已有功能的快捷操作。\n\n这个方向你可以纠正：今天上线时，命令面板最需要帮用户完成什么操作？如果你更想跳过讨论直接开始，也可以明确告诉我。",
+        "当前 Ctrl+K 已经用于搜索，新增命令面板会与它冲突。考虑到今天要上线，我建议让 Ctrl+K 打开统一面板，保留搜索能力，再加入常用命令，避免原来的搜索入口消失。如果我理解偏了，请纠正：今天首版最需要让用户直接执行哪些操作？或者，如果你更想让我跳过提问直接开始，直说就好。"
+      ]
+    },
+    "after": {
+      "skill": "skills/brainstorming/SKILL.md",
+      "responses": [
+        "你想给现有工具加命令面板，用 Ctrl+K 打开，今天上线。目前 Ctrl+K 已经用于搜索，两者会冲突。我的初步建议是把搜索保留在统一面板中，避免现有用户失去入口；这是我的提议，你可以纠正。\n\n你希望命令面板解决现在使用工具时的什么问题？这会决定今天优先放哪些命令。\n\n或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 目前会打开搜索，新增命令面板会与它冲突。我的提议是让 Ctrl+K 打开统一入口，保留搜索能力，再加入命令执行，减少今天上线时对现有使用习惯的影响。\n\n你希望命令面板解决当前使用中的什么问题？这会决定首批该放哪些命令。或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 目前已经用于搜索，新命令面板会与它冲突。我建议保留搜索能力，把它作为命令面板的入口之一，并沿用现有工具的技术栈，控制今天上线的范围。\n\n你希望命令面板主要解决现在使用工具时的什么不便？这会决定首批放哪些命令，以及搜索在其中的位置。或者，如果你更想让我直接开始，直说就好。",
+        "Ctrl+K 现在会打开搜索，新命令面板也占用它，会改变现有入口。我建议保留搜索能力，把命令面板和搜索放在同一个入口，控制今天上线的范围。\n\n你希望加命令面板主要解决什么问题？这会决定首批放哪些命令，以及搜索在其中的位置。或者，如果你更想让我跳过提问直接开始，直说就好。",
+        "Ctrl+K 现在会打开搜索，加命令面板会碰到现有入口。我初步建议保留搜索能力，把命令操作整合进同一个面板，以控制今天上线的范围；这是我的提议，你可以纠正。\n\n你希望命令面板解决当前使用中的什么问题？这会决定今天优先放哪些操作，以及搜索怎样保留。或者，如果你更想让我直接开始，直说就好。"
+      ]
+    },
+    "control": {
+      "skill": null,
+      "responses": [
+        "Ctrl+K 目前会打开搜索，新命令面板会与它冲突。我建议把现有搜索整合进命令面板，统一用 Ctrl+K 打开，并保留搜索能力。这个方向符合你的预期吗？",
+        "Ctrl+K 目前已经用于搜索。我建议把现有搜索升级为命令面板，保留搜索能力并加入常用操作，先控制今天上线的范围。你希望首版包含哪些操作？",
+        "目前 Ctrl+K 已经用于搜索。我建议让它打开统一命令面板，同时保留原有搜索能力，避免打断现有使用习惯。\n\n今天上线的首版，除了搜索，你最需要放进去的 2–3 个命令是什么？",
+        "Ctrl+K 目前会打开搜索。建议让新命令面板同时支持搜索和执行命令，保留现有搜索能力，今天先上线最小版本。首批有哪些必须支持的命令？",
+        "Ctrl+K 目前会打开搜索。我建议改为打开命令面板，并把搜索保留为默认入口，尽量缩小今天上线的改动范围。你希望首版必须包含哪些命令？"
+      ]
+    }
+  },
+  "manual_scores": {
+    "asks_why_as_first_question": {
+      "before": 0,
+      "after": 5,
+      "control": 0
+    },
+    "acknowledges_shortcut_conflict": {
+      "before": 5,
+      "after": 5,
+      "control": 5
+    },
+    "proposes_integration_before_why_is_known": {
+      "before": 5,
+      "after": 5,
+      "control": 5
+    },
+    "asks_process_permission": {
+      "before": 0,
+      "after": 0,
+      "control": 0
+    }
+  },
+  "pressure_followup": {
+    "sample_ids": [
+      "eval_after_3",
+      "eval_after_4",
+      "eval_after_5"
+    ],
+    "user": "原因是老用户找不到批量导出，要求 Ctrl+K 原有搜索照旧，命令面板也必须用 Ctrl+K。别再问，今天赶紧上线，你看着办。",
+    "responses": [
+      "明白，目标是让老用户找到批量导出。Ctrl+K 如果分别打开两个独立弹窗，就会冲突；我会让它打开同一个面板，保留原有搜索、结果和键盘操作，在独立的命令区提供醒目的“批量导出”入口。沿用现有技术栈和导出流程，今天的范围先限定在这个入口。\n\n按你“别再问”的要求，我会直接推进；上线前重点验证原有搜索照旧、批量导出可用，以及 Ctrl+K 不会重复触发。",
+      "我会沿用现有技术栈，让 Ctrl+K 继续打开原搜索，保留搜索输入、结果和键盘操作；在同一面板里增加清晰可见的「批量导出」命令入口，今天先覆盖这个需求。\n\n两个独立面板无法在同一情境下都由 Ctrl+K 唯一打开，所以我把“命令面板也用 Ctrl+K”落实为共用入口。按你要求跳过后续提问，接下来按这个取舍推进。",
+      "我会沿用现有界面和技术栈：Ctrl+K 仍打开原有搜索，默认搜索行为保持不变；在同一面板里增加清晰的“命令”入口，并直接展示“批量导出”。\n\n同一个 Ctrl+K 无法同时独立打开两个面板，所以我把两者整合进一个入口。今天的范围先限定为让老用户能发现并调用现有批量导出功能。"
+    ],
+    "observations": "All three explicitly acknowledge conflicting independent shortcut actions and propose shared entry preserving search. Two explicitly cite skipping questions; third proceeds with a proposal. No real implementation was permitted."
+  },
+  "limits": [
+    "One scenario, same inherited model; no cross-model generalization",
+    "Output-only first responses cannot establish actual premature-build rate because test forbade implementation",
+    "New translation improved why-first question choice in this scenario but every variant proposed a how before learning why; not a clean pass of every behavior",
+    "Three short followups are not full end-to-end project or harness pressure sessions"
+  ],
+  "verdict": "narrow why-first improvement observed; full behavior and harness acceptance incomplete"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "superpowers-zh",
+  "version": "1.8.0",
+  "description": "An agentic skills framework & software development methodology that works: planning, TDD, debugging, and collaboration workflows.",
+  "author": {
+    "name": "jnMetaCode",
+    "url": "https://github.com/jnMetaCode"
+  },
+  "homepage": "https://github.com/jnMetaCode/superpowers-zh",
+  "repository": "https://github.com/jnMetaCode/superpowers-zh",
+  "license": "MIT",
+  "keywords": [
+    "brainstorming",
+    "subagent-driven-development",
+    "skills",
+    "planning",
+    "tdd",
+    "debugging",
+    "code-review",
+    "workflow"
+  ]
+}

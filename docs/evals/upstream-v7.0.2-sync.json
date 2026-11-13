@@ -1,0 +1,292 @@
+{
+  "date": "2026-11-13",
+  "target": "v7.0.2",
+  "release": "https://github.com/obra/superpowers/releases/tag/v7.0.2",
+  "release_commit_short": "22f0b46",
+  "archive_sha256": "a0bd5d862537ae2caa9a7b5546b7e597eeabda1b9ca8aa67abbbc967c9f2005e",
+  "comparison_baseline": "upstream/main cached at bb92a77741419a4ab5f06e711a283343f1ada0c3 (v7.0.0)",
+  "upstream_changed_paths": [
+    "RELEASE-NOTES.md",
+    "gemini-extension.json",
+    "README.md",
+    "package.json",
+    "AGENTS.md",
+    ".kimi-plugin/plugin.json",
+    ".antigravity-plugin/plugin.json",
+    ".cursor-plugin/plugin.json",
+    ".opencode/INSTALL.md",
+    "docs/porting-to-a-new-harness.md",
+    "docs/README.opencode.md",
+    ".devin-plugin/plugin.json",
+    ".hermes-plugin/plugin.yaml",
+    ".hermes-plugin/__init__.py",
+    "hooks/session-start",
+    "hooks/run-hook.cmd",
+    "hooks/hooks.json",
+    "scripts/sync-to-codex-plugin.sh",
+    "scripts/package-codex-plugin.sh",
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".muse-plugin/marketplace.json",
+    ".muse-plugin/plugin.json",
+    ".codex-plugin/plugin.json",
+    ".pi/extensions/superpowers.ts",
+    "skills/executing-plans/SKILL.md",
+    "skills/brainstorming/SKILL.md",
+    "skills/diagnosing-superpowers/SKILL.md",
+    "skills/writing-skills/SKILL.md",
+    "skills/subagent-driven-development/re-review-prompt.md",
+    "skills/subagent-driven-development/SKILL.md",
+    "skills/subagent-driven-development/task-reviewer-prompt.md",
+    "skills/subagent-driven-development/references/fix-loop.md",
+    "skills/subagent-driven-development/references/resuming.md",
+    "skills/subagent-driven-development/references/handling-reports.md",
+    "skills/subagent-driven-development/references/preflight.md",
+    "skills/subagent-driven-development/references/final-review.md",
+    "skills/subagent-driven-development/references/batching.md",
+    "skills/subagent-driven-development/references/cannot-verify.md",
+    "skills/subagent-driven-development/scripts/review-package",
+    "skills/subagent-driven-development/scripts/sdd-workspace",
+    "skills/subagent-driven-development/scripts/task-brief",
+    "skills/subagent-driven-development/scripts/sdd-repo",
+    "skills/writing-skills/references/bulletproofing.md",
+    "skills/writing-skills/references/CLAUDE_MD_TESTING.md",
+    "skills/writing-skills/references/flowcharts.md",
+    "skills/writing-skills/references/testing-skills-with-subagents.md",
+    "skills/writing-skills/references/discovery.md",
+    "skills/writing-skills/references/anthropic-best-practices.md",
+    "skills/writing-skills/references/persuasion-principles.md",
+    "skills/writing-skills/references/graphviz-conventions.dot",
+    "skills/diagnosing-superpowers/references/github-issues.md",
+    "skills/diagnosing-superpowers/templates/issue.md",
+    "skills/brainstorming/scripts/start-server.sh",
+    "skills/executing-plans/scripts/task-done",
+    "skills/executing-plans/scripts/task-start",
+    ".github/ISSUE_TEMPLATE/feature_request.md",
+    ".github/ISSUE_TEMPLATE/bug_report.md",
+    ".github/ISSUE_TEMPLATE/platform_support.md",
+    "docs/windows/polyglot-hooks.md",
+    "docs/superpowers/specs/2026-08-27-diagnosing-superpowers-design.md",
+    "tests/claude-code/test-sdd-workspace.sh",
+    "tests/claude-code/test-executing-plans-scripts.sh",
+    "tests/skill-layout/test-no-dev-files-in-skills.sh",
+    "tests/sdd-helper-paths/test-sdd-helper-paths.sh",
+    "tests/codex/test-package-codex-plugin.sh",
+    "tests/pi/test-pi-extension.mjs",
+    "tests/hooks/test-run-hook-cmd-windows.sh",
+    "tests/hooks/test-session-start.sh",
+    "tests/skill-size/test-skill-size.sh",
+    "tests/codex-plugin-sync/test-sync-to-codex-plugin.sh",
+    "tests/brainstorm-server/start-server.test.sh",
+    "tests/brainstorm-server/server.test.js",
+    "tests/hermes/test_plugin.py",
+    "tests/opencode/test-hook-registration.mjs",
+    "tests/opencode/run-tests.sh",
+    "tests/opencode/test-bootstrap-caching.mjs",
+    "tests/opencode/test-session-bootstrap.mjs",
+    "tests/opencode/test-hook-registration.sh",
+    "tests/systematic-debugging/pressure-scenarios/test-pressure-1.md",
+    "tests/systematic-debugging/pressure-scenarios/test-pressure-2.md",
+    "tests/systematic-debugging/pressure-scenarios/CREATION-LOG.md",
+    "tests/systematic-debugging/pressure-scenarios/test-academic.md",
+    "tests/systematic-debugging/pressure-scenarios/test-pressure-3.md",
+    ".opencode/plugins/superpowers.js"
+  ],
+  "runtime_exact_matches": {
+    "hooks/run-hook.cmd": true,
+    "hooks/hooks.json": true,
+    ".pi/extensions/superpowers.ts": true,
+    ".opencode/plugins/superpowers.js": true,
+    "skills/subagent-driven-development/scripts/review-package": true,
+    "skills/subagent-driven-development/scripts/sdd-workspace": true,
+    "skills/subagent-driven-development/scripts/sdd-repo": true,
+    "skills/executing-plans/scripts/task-start": false,
+    "skills/executing-plans/scripts/task-done": false,
+    "skills/brainstorming/scripts/start-server.sh": true
+  },
+  "intentional_differences": [
+    "hooks/session-start uses superpowers-zh bootstrap namespace",
+    "task-brief also accepts Chinese task headings, including headings without a space",
+    "Translated skills keep fork metadata, bare skill IDs, evaluated Chinese delegation semantics and existing reference layout",
+    "Fork package and plugin versions remain 1.8.0 until a reviewed fork release; upstream 7.0.2 is not the fork version",
+    "Fork contribution templates and policies retained",
+    "Upstream English release notes copied with trailing whitespace normalized",
+    "task-start invokes task-brief and task-done invokes sdd-workspace through Bash; both exit-126 regressions reproduced against installed npm artifacts with stripped execute permissions",
+    "Native Hermes/Muse/Antigravity/Devin metadata now uses fork identity/version; Hermes namespaced loader uses superpowers-zh",
+    "Publishing scripts require an explicit target repository and constrain destination to plugins/NAME; no actual publishing run",
+    "Brainstorming adds a positive first-response shape for unknown why; 5/5 samples removed previously observed early proposals"
+  ],
+  "local_checks": {
+    "node_regressions": {
+      "passed": 81,
+      "failed": 0,
+      "skipped": 0,
+      "skip": null,
+      "includes": "Versioning, installer arguments, CodeBuddy bootstrap, bootstrap uninstall protection, task briefs, real packed installation, size boundaries, project path handling"
+    },
+    "installer": {
+      "passed": 163,
+      "failed": 0
+    },
+    "opencode_unit_suites": {
+      "passed": 5,
+      "failed": 0,
+      "host_integration": false
+    },
+    "pi_contracts": {
+      "passed": 6,
+      "failed": 0
+    },
+    "sdd_workspace": "passed extended upstream suite with Chinese error assertion adapted",
+    "executing_plans": "passed extended upstream suite",
+    "hooks": "passed; Linux strace and non-bash sh fallback not exercised locally",
+    "shellcheck": "8 selected shell files passed warning baseline",
+    "shell_lint_utility": "18 assertions passed using stub tools; distinct from actual ShellCheck run",
+    "skill_layout": "no development prompts/logs shipped in skills",
+    "site": "69 pages and 66 JSON-LD blocks parsed",
+    "behavior_micro_eval": {
+      "independent_samples": 15,
+      "variants": 3,
+      "repetitions_per_variant": 5,
+      "same_session_pressure_followups": 3,
+      "evidence": "docs/evals/brainstorming-v7.0.2-samples.json",
+      "result": "why-first question choice improved; early how proposals remain; full acceptance incomplete"
+    },
+    "real_packed_install": {
+      "status": "passed",
+      "test": "tests/installer/test-packed-package.mjs",
+      "covers": [
+        "Actual offline npm pack and tar extraction",
+        "Installed skill set and contents match workspace and release metadata",
+        "New sdd-repo helper is included; no skill development prompts ship",
+        "Installed task-done records silent successful tests",
+        "Uninstall preserves user file and task artifacts",
+        "All four installed SDD helpers have execute permissions removed before task-start, review-package and task-done are exercised",
+        "Review-package -C resolves project from outside its repository and emits the actual committed diff"
+      ],
+      "red": "task-start -> task-brief exit 126 reproduced, fixed; expanded test reproduced task-done -> sdd-workspace exit 126, fixed",
+      "green": "passed after Bash invocation fix"
+    },
+    "legacy_version_tool_attempt": {
+      "source": "https://codeload.github.com/jqlang/jq/tar.gz/refs/tags/jq-1.8.1",
+      "scope": "Temporary /tmp build only, no project runtime dependency added",
+      "result": "Resolved: official jq 1.8.1 macOS arm64 binary downloaded, verified against upstream sha256sum.txt and used from /tmp; actual integration passed",
+      "integration_test_status": "passed, no skip",
+      "binary_sha256": "a9fe3ea2f86dfc72f6728417521ec9067b343277152b114f4e98d8cb0e263603"
+    },
+    "manifest_field_targeting": {
+      "red": "Both ordinary-plugin and marketplace nested-version-first fixtures silently changed metadata.version rather than release version",
+      "green": "Both passed after requiring each textual edit to equal the intended full-document JSON update",
+      "preserved": "Nested metadata versions, unrelated plugin versions, formatting and skill-body examples"
+    },
+    "bootstrap_uninstall": {
+      "test": "tests/installer/test-bootstrap-uninstall.mjs",
+      "passed": 6,
+      "red": "Nested begin markers caused CODEBUDDY.md containing user text to be deleted; valid block removal also stripped external Markdown hard breaks and indentation",
+      "green": "Ambiguous markers preserve original bytes with a warning; valid markers remove only the owned range",
+      "lifecycle_regression": "163 passed, 0 failed after shared cleanup change"
+    },
+    "invalid_argument_uninstall_guard": {
+      "red": "Missing or unknown --tool, repeated tool flags, and unconsumed positional arguments were accepted before installing/uninstalling; fixtures reproduced deletion or writes",
+      "green": "All six regression cases now exit 1 before any filesystem changes",
+      "test": "tests/installer/test-arguments.mjs",
+      "lifecycle": "163 passed, 0 failed after dispatch validation change"
+    },
+    "release_preflight": {
+      "red": "npm version failed on malformed skill metadata after changing package.json to the requested version",
+      "green": "preversion uses read-only --validate; malformed skill release leaves all fixture metadata byte-identical and git status clean",
+      "valid_drift": "--validate succeeds without modifying old but parseable version fields",
+      "legacy_bash": "Actual jq-backed legacy integration passed, including native manifests and flat Hermes YAML version"
+    },
+    "release_format_probes": {
+      "status": "passed",
+      "independent_temporary_fixtures": 3,
+      "cases": [
+        "Single-quoted frontmatter version with comment",
+        "CRLF frontmatter and body",
+        "Tab-separated version and comment"
+      ],
+      "target_version": "1.9.0-beta.1+build.7",
+      "assertions": "Only original frontmatter version changes; body, quotes, comments and line endings remain byte-identical; subsequent --check passes",
+      "regression_count_note": "These are extra manual fixture probes, not additional cases in the 67-test Node suite"
+    },
+    "native_channels": {
+      "Hermes": "27 pytest tests passed",
+      "Muse": "All 21 fork skill paths and Bash SessionStart validated",
+      "Antigravity": "Manifest, tool mapping and PNG checks passed; agy validator unavailable, logo rebuild check skipped without rsvg-convert",
+      "Devin": "Manifest and release registry check passed",
+      "versioning": "All JSON and Hermes YAML metadata checked; actual jq-backed legacy bump/check integration passed",
+      "distribution": "Real npm pack includes native manifests/Python entry; Python bytecode excluded after reproducing package contamination"
+    },
+    "publishing_scripts": {
+      "sync": "Upstream isolated local fixtures with fake gh passed, including linked worktrees; no real messages, pushes or PRs",
+      "packaging": "Full suite passed against isolated committed workspace snapshot; real root repository .git was never changed",
+      "timezone_fix": "Normalized ZIP timestamp test reproduced 08:00 instead of 00:00 in Asia/Shanghai; set TZ=UTC for zip; rerun passed"
+    },
+    "why_contract": "docs/evals/brainstorming-why-contract.json",
+    "legacy_audit_status": {
+      "test": "legacy audit propagates version drift and never modifies files",
+      "red": "--audit reported drift but returned status 0",
+      "green": "Drift returns 1, clean metadata returns 0, both cases preserve every fixture file byte-for-byte",
+      "tool": "Actual checksum-verified jq 1.8.1, no skipped integration"
+    },
+    "windows_ci_coverage": {
+      "configured": [
+        "run-hook.cmd native command dispatch",
+        "SessionStart",
+        "SDD workspace",
+        "executing-plans task-start/task-done"
+      ],
+      "status": "configured, not executed in current macOS sandbox"
+    },
+    "legacy_semver_validation": {
+      "red": "Four invalid versions were accepted or changed metadata before failure",
+      "green": "1.8.1junk, 01.8.1, 1.8.1-01 and 1.8.1+ all rejected before writes; 1.9.0-rc.1+build.7 accepted and synchronized",
+      "tests": "Actual jq-backed fixtures; no emulation or skips"
+    },
+    "unified_offline_entry": {
+      "command": "npm run test:offline",
+      "status": "passed",
+      "environment": "Node 22.14, checksum-verified jq 1.8.1 from /tmp, pytest executable available",
+      "scope": "Repository-only local regressions; native/network/Windows/committed-snapshot archive acceptance explicitly excluded; platform-specific SKIP lines remain unverified",
+      "lint": "ShellCheck passed"
+    },
+    "complete_registry_preflight": {
+      "red": "A malformed extra JSON entry appended to .version-bump.json caused failure after earlier manifests had already changed",
+      "green": "Capture registry and read/validate every declared file before writing any version; regression confirms byte-identical failure state",
+      "verified": "18 version tests and complete offline runner passed; installer 163 passed; ShellCheck and diff check passed"
+    },
+    "registry_parse_failure": {
+      "red": "With valid entries followed by numeric invalid entry, --check and --audit ignored the process-substitution jq failure and returned success",
+      "green": "Both fully capture registry output and propagate parsing failure before continuing; snapshots unchanged",
+      "validation": "Complete offline runner, 80 Node cases, 163 installer checks and ShellCheck passed"
+    },
+    "jq_field_data": {
+      "red": "Registry field version | . was evaluated as jq code and rewrote package.json as a JSON string before failure",
+      "green": "getpath/setpath with --arg treats path and version as data; invalid field fails before any file write",
+      "validation": "Complete offline runner passed, including 81 Node cases and 163 installer checks; ShellCheck passed"
+    },
+    "targeted_native_recheck": {
+      "Hermes": "27 passed",
+      "native_contracts": "4 passed",
+      "packed_package": "passed",
+      "Antigravity": "Static checks passed; agy validator and logo freshness skipped; suite summary now explicitly distinguishes this from native acceptance",
+      "Devin": "manifest passed",
+      "registry_and_size": "passed",
+      "new_functional_failures": 0
+    }
+  },
+  "verification_gaps": [
+    "Local server networking/lifecycle blocked by loopback bind EPERM, reconfirmed 2026-11-13",
+    "Native Windows acceptance requires an actual Windows CI runner",
+    "Four native CLI end-to-end acceptance transcripts still missing; none of these CLIs is installed locally; Antigravity download blocked by storage.googleapis.com DNS",
+    "Real publishing needs explicit target repository and approved full diff; current root .git is read-only",
+    "Why-first observed failure fixed in five isolated micro samples; full cross-model native multi-turn acceptance remains incomplete",
+    "Codex publication also needs real agents/openai.yaml metadata for all fork skills; packaging tests use fixtures, not publishable metadata"
+  ],
+  "committed": false,
+  "published": false,
+  "release_commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+  "task_plan": "docs/evals/remaining-work.json"
+}

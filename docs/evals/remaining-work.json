@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-13",
+  "tasks": [
+    {
+      "id": "release-input",
+      "task": "Validate legacy release input and failure state",
+      "status": "done"
+    },
+    {
+      "id": "regressions",
+      "task": "Run relevant tests and installer lifecycle after fixes",
+      "status": "done"
+    },
+    {
+      "id": "handoff",
+      "task": "Refresh evidence and complete review patch",
+      "status": "done"
+    },
+    {
+      "id": "offline-runner",
+      "task": "Provide and verify one repository-only offline regression command",
+      "status": "done"
+    },
+    {
+      "id": "platform-acceptance",
+      "task": "Run real Windows, network and four native CLI acceptance sessions",
+      "status": "blocked",
+      "dependency": "Runtimes, credentials and a socket-capable environment unavailable here"
+    },
+    {
+      "id": "publish",
+      "task": "Review, commit and publish",
+      "status": "blocked",
+      "dependency": "Human full-diff approval, writable root .git and publishing destination"
+    }
+  ],
+  "results": {
+    "release-input": "Four invalid SemVer fixtures failed before fix; now rejected without byte changes; valid prerelease/build metadata case passes",
+    "regressions": "Latest: 81 Node tests passed, 0 failed, 0 skipped; installer lifecycle 163 passed; ShellCheck and diff check passed",
+    "handoff": "Evidence and complete workspace review patch refreshed",
+    "next_action": "Obtain real platform acceptance, human diff review, writable Git environment and explicit publishing destination; no real publication performed",
+    "offline-runner": "npm run test:offline passed with temporary verified jq on PATH; documented runtime exclusions and platform SKIP semantics; ShellCheck passed"
+  }
+}

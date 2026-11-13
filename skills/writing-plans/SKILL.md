@@ -1,7 +1,7 @@
 ---
 name: writing-plans
 description: 当你有规格说明或需求用于多步骤任务时使用，在动手写代码之前
-version: "1.0.0"
+version: "1.8.0"
 license: MIT
 metadata:
   hermes:

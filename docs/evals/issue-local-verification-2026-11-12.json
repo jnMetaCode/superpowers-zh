@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-12",
+  "scope": "Historical snapshot before the v7.0.2 sync; see upstream-v7.0.2-sync.json for subsequent changes and checks",
+  "checks": [
+    {
+      "command": "node --test tests/versioning/test-release-versions.mjs tests/installer/test-arguments.mjs tests/installer/test-codebuddy-bootstrap.mjs tests/skill-size/test-boundaries.mjs",
+      "passed": 34,
+      "failed": 0,
+      "skipped": 1,
+      "skip_reason": "Legacy bash release integration requires jq, unavailable locally"
+    },
+    {
+      "command": "bash scripts/verify-release.sh --offline",
+      "passed": 163,
+      "failed": 0,
+      "limit": "External URLs not checked; Windows paths simulated, not native Windows execution"
+    },
+    {
+      "commands": [
+        "bash tests/claude-code/test-executing-plans-scripts.sh",
+        "bash tests/claude-code/test-sdd-workspace.sh",
+        "bash tests/hooks/test-session-start.sh",
+        "bash tests/skill-size/test-skill-size.sh",
+        "node scripts/sync-plugin-version.js --check",
+        "git diff --check",
+        "node --check scripts/sync-plugin-version.js",
+        "bash -n scripts/bump-version.sh"
+      ],
+      "status": "passed"
+    },
+    {
+      "command": "node site/build.mjs",
+      "status": "passed",
+      "pages": 69,
+      "parsed_json_ld_blocks": 66
+    },
+    {
+      "command": "npm test --prefix tests/brainstorm-server",
+      "status": "incomplete_environment_blocked",
+      "completed": "WebSocket protocol 32, helper 15, browser launcher 3 assertions passed",
+      "failure": "auth.test.js: Server failed to bind: listen EPERM 127.0.0.1:3335",
+      "limit": "Subsequent suites in the npm test chain did not run; no server integration success claimed"
+    }
+  ],
+  "unverified": [
+    "Native Antigravity import and automatic brainstorming bootstrap (#135): agy unavailable",
+    "Original reporter tool/model reproduction of Chinese SDD outputs (#116)",
+    "Automatic Chinese commit behavior across models (#132)",
+    "Native Windows hooks",
+    "Published package installation and remote CI"
+  ],
+  "delivery": {
+    "committed": false,
+    "published": false,
+    "issues_closed": false
+  },
+  "superseded_by": "docs/evals/upstream-v7.0.2-sync.json"
+}
