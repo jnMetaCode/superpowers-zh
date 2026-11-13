@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "superpowers-zh",
   "displayName": "Superpowers 中文增强版",
-  "version": "1.8.0",
+  "version": "1.9.0-rc.1",
   "description": "Core skills library for Muse: TDD, debugging, collaboration patterns, and proven techniques",
   "compat": {
     "source": "native",

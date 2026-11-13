@@ -1,7 +1,7 @@
 ---
 name: writing-skills
 description: 当创建新技能、编辑现有技能或在部署前验证技能是否有效时使用
-version: "1.8.0"
+version: "1.9.0-rc.1"
 license: MIT
 metadata:
   hermes:

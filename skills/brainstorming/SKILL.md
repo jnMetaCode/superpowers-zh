@@ -1,7 +1,7 @@
 ---
 name: brainstorming
 description: "在任何创造性工作之前必须使用此技能——创建功能、构建组件、添加功能、修改行为，或筹划任何新东西，无论是软件还是软件之外（一场分享、一门生意、一次装修）。"
-version: "1.8.0"
+version: "1.9.0-rc.1"
 license: MIT
 metadata:
   hermes:

@@ -1,7 +1,7 @@
 ---
 name: mcp-builder
 description: 在构建 MCP 服务器或 MCP 工具时使用 —— 系统化的生产级 MCP 构建方法论，覆盖工具设计、错误处理、传输层选择与测试，让 AI 助手连接外部能力
-version: "1.8.0"
+version: "1.9.0-rc.1"
 license: MIT
 metadata:
   hermes:

@@ -1,7 +1,7 @@
 ---
 name: executing-plans
 description: 当你要在当前会话里亲自担任实现者执行一份实现计划时使用——你的人类伙伴选择了内联执行，或者没有可用的子智能体工具
-version: "1.8.0"
+version: "1.9.0-rc.1"
 license: MIT
 metadata:
   hermes:

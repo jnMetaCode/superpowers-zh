@@ -1,7 +1,7 @@
 ---
 name: subagent-driven-development
 description: 当在当前会话中执行包含独立任务的实现计划时使用
-version: "1.8.0"
+version: "1.9.0-rc.1"
 license: MIT
 metadata:
   hermes:

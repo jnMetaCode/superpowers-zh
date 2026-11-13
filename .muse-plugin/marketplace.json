@@ -9,7 +9,7 @@
     {
       "name": "superpowers-zh",
       "description": "Core skills library for Muse: TDD, debugging, collaboration patterns, and proven techniques",
-      "version": "1.8.0",
+      "version": "1.9.0-rc.1",
       "source": "./",
       "author": {
         "name": "jnMetaCode",
