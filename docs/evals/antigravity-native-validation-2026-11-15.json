@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-15",
+  "tool": "Antigravity CLI 1.5.7 darwin-arm64",
+  "source_manifest": "/tmp/agy-native-manifest.json",
+  "official_sha512_verified": true,
+  "candidate": "6d073e6b0f3ffac942ba6793411a8501a582d2f1",
+  "native_validation": {
+    "exit_code": 0,
+    "skills": 21,
+    "warnings": [
+      "AGENTS.md is not a native rules file",
+      "GEMINI.md is not a native rules file",
+      "hooks/hooks.json is not a root native hook file"
+    ]
+  },
+  "test_regression": {
+    "before": "Native validator passed but shell test failed because it required legacy [ok] and skills: N processed text",
+    "after": "Read --json, verify plugin identity, complete skill count and absence of non-warning findings",
+    "fixtures_passed": [
+      "valid report accepted",
+      "zero skills rejected",
+      "partial skill count rejected",
+      "wrong plugin rejected",
+      "error finding rejected",
+      "invalid JSON rejected"
+    ]
+  },
+  "scope": "Native manifest validation only, not clean-session skill activation or source-tool import",
+  "remaining": [
+    "Actual agy import from Claude/Gemini",
+    "Clean native conversation automatically enters brainstorming",
+    "Logo freshness check skipped without rsvg-convert"
+  ]
+}

@@ -94,12 +94,28 @@ for stray in ["plugin.json", "hooks.json", "rules"]:
 PY
 
 if command -v agy >/dev/null 2>&1; then
-  output="$(agy plugin validate "$REPO_ROOT" 2>&1)" \
-    || { echo "$output" >&2; echo "FAIL: agy plugin validate failed" >&2; exit 1; }
-  grep -q '\[ok\]' <<<"$output" \
-    || { echo "$output" >&2; echo "FAIL: agy plugin validate did not report [ok]" >&2; exit 1; }
-  grep -qE 'skills +: [0-9]+ processed' <<<"$output" \
-    || { echo "$output" >&2; echo "FAIL: agy found no skills" >&2; exit 1; }
+  output="$(agy plugin validate "$REPO_ROOT" --json)" \
+    || { echo "FAIL: agy plugin validate failed" >&2; exit 1; }
+  python3 - "$REPO_ROOT" "$output" <<'PYREPORT'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+report = json.loads(sys.argv[2])
+manifest = json.loads((root / ".antigravity-plugin/plugin.json").read_text())
+expected = len(list((root / "skills").glob("*/SKILL.md")))
+if report.get("name") != manifest["name"]:
+    raise SystemExit("FAIL: native validator reported a different plugin")
+if not expected or report.get("components", {}).get("skills") != expected:
+    raise SystemExit("FAIL: native validator did not discover every shipped skill")
+findings = report.get("findings", [])
+if any(item.get("severity") != "warning" for item in findings):
+    raise SystemExit("FAIL: native validator reported a non-warning finding")
+print(f"PASS: agy native validator discovered {expected} skills; {len(findings)} warnings")
+for item in findings:
+    print(f"WARNING: {item.get('file')}: {item.get('message')}")
+PYREPORT
 else
   echo "SKIP: agy not on PATH; not running agy plugin validate"
 fi
