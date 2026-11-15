@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-15",
+  "supersedes": "Network and Windows limitations recorded in upstream-v7.0.2-sync.json",
+  "ci_run": "https://github.com/jnMetaCode/superpowers-zh/actions/runs/43663942894",
+  "ci_result": "failed at Build site; all preceding Linux tests, Windows job and Pi job passed",
+  "site_failure": "package 1.9.0-rc.1 versus latest parsed release notes 1.8.0; stable-only parser and banner needed prerelease support",
+  "fix": "SemVer prerelease headings, explicit preview banner, release-specific notes in rc.2; stable and preview builds passed locally",
+  "server_network_tests": {
+    "passed": 139,
+    "failed": 0,
+    "suites": 9,
+    "log": "/tmp/superpowers-network-tests.log"
+  },
+  "windows": "Native Windows CI passed run-hook.cmd, SessionStart, SDD workspace and executing-plans helpers",
+  "issue_replies": [
+    {
+      "issue": 139,
+      "status": "posted",
+      "url": "https://github.com/jnMetaCode/superpowers-zh/issues/139#issuecomment-6887404843"
+    },
+    {
+      "issue": 137,
+      "status": "posted",
+      "url": "https://github.com/jnMetaCode/superpowers-zh/issues/137#issuecomment-6887405594"
+    },
+    {
+      "issue": 135,
+      "status": "posted",
+      "url": "https://github.com/jnMetaCode/superpowers-zh/issues/135#issuecomment-6887406317"
+    },
+    {
+      "issue": 132,
+      "status": "posted",
+      "url": "https://github.com/jnMetaCode/superpowers-zh/issues/132#issuecomment-6887407069"
+    },
+    {
+      "issue": 116,
+      "status": "posted",
+      "url": "https://github.com/jnMetaCode/superpowers-zh/issues/116#issuecomment-6887407775"
+    }
+  ],
+  "community_notification_reply": "https://github.com/jnMetaCode/superpowers-zh/issues/53#issuecomment-6887411169",
+  "npm_authentication": "npm whoami reached registry but returned E401; publishing not complete",
+  "remaining": [
+    "Rerun complete remote CI on corrected candidate",
+    "Native harness clean-session transcripts",
+    "Cross-model multi-turn behavior acceptance",
+    "Real Codex portal metadata instead of fixture metadata",
+    "npm publisher authentication",
+    "Merge into main and publish after required checks"
+  ]
+}

@@ -58,15 +58,14 @@
       "docs/evals/brainstorming-v7.0.2.json",
       "docs/evals/upstream-skill-audit-v7.0.2.json",
       "docs/evals/brainstorming-v7.0.2-samples.json",
-      "docs/evals/brainstorming-why-contract.json"
+      "docs/evals/brainstorming-why-contract.json",
+      "docs/evals/release-acceptance-2026-11-15.json"
     ],
     "remainingVerification": [
-      "Local server networking/lifecycle blocked by loopback bind EPERM, reconfirmed 2026-11-13",
-      "Native Windows acceptance requires an actual Windows CI runner",
       "Four native CLI end-to-end acceptance transcripts still missing; none of these CLIs is installed locally; Antigravity download blocked by storage.googleapis.com DNS",
-      "Real publishing needs explicit target repository and approved full diff; current root .git is read-only",
       "Why-first observed failure fixed in five isolated micro samples; full cross-model native multi-turn acceptance remains incomplete",
-      "Codex publication also needs real agents/openai.yaml metadata for all fork skills; packaging tests use fixtures, not publishable metadata"
+      "Codex publication also needs real agents/openai.yaml metadata for all fork skills; packaging tests use fixtures, not publishable metadata",
+      "Corrected prerelease site build must pass remote CI; npm whoami now returns E401 and publishing remains incomplete"
     ],
     "baselineAdvanced": false,
     "commit": "22f0b463e7a5e579904dd6211a520321035526f7",

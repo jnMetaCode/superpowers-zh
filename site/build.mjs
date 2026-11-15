@@ -48,7 +48,7 @@ function lastCommitDate(paths) {
 // release notes 解析，再与 package.json 交叉校验，两边漂了就构建失败。
 function latestRelease() {
   const md = readFileSync(join(ROOT, 'RELEASE-NOTES.zh.md'), 'utf8');
-  const m = md.match(/^## v(\d+\.\d+\.\d+)\s*\(([\d-]+)\)/m);
+  const m = md.match(/^## v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)\s*\(([\d-]+)\)/m);
   if (!m) throw new Error('RELEASE-NOTES.zh.md 里找不到形如「## v1.2.3 (2026-01-01)」的最新条目');
   return { version: m[1], date: m[2] };
 }
@@ -60,7 +60,12 @@ if (LATEST.version !== PKG.version) {
 // 首页发布提示条：一句话说清"这一版谁该更新、为什么"，内容摘自 release notes 该版本条目。
 // version 必须等于 release notes 最新条目：版本号是自动读的，文案却要手写 ——
 // v1.7.13、v1.7.14 发版时都没改，站上一直挂着 v1.7.12 的「技能之间互相调用会失败」。
-const RELEASE_BANNER = {
+const RELEASE_BANNER = LATEST.version.includes('-') ? {
+  version: LATEST.version,
+  zh: '预览版：用于验证上游同步及安装修复，原生工具验收尚未全部完成。正式用户请继续使用 latest。查看验证范围',
+  en: 'Preview release for upstream sync and installer validation. Native harness acceptance remains incomplete; use latest for the stable release. Read the verification scope',
+  zht: '預覽版：用於驗證上游同步及安裝修復，原生工具驗收尚未全部完成。正式使用者請繼續使用 latest。檢視驗證範圍',
+} : {
   version: '1.8.0',
   zh: '所有用户建议更新 —— brainstorming 按上游 v7 重写：先弄清你想要什么，一次只问一个问题。另修复 SessionStart hook 在空 PATH 下丢失引导等问题。查看完整更新说明',
   en: 'Update recommended for everyone — brainstorming is rebuilt from upstream v7: it works out what you want first, one question at a time. Also fixes the SessionStart hook losing its bootstrap under an empty PATH, and more. Read the full release notes',

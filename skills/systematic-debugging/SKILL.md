@@ -1,7 +1,7 @@
 ---
 name: systematic-debugging
 description: 遇到任何 bug、测试失败或异常行为时使用，在提出修复方案之前执行
-version: "1.9.0-rc.1"
+version: "1.9.0-rc.2"
 license: MIT
 metadata:
   hermes:
