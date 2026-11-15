@@ -40,13 +40,14 @@ Chinese community edition of [superpowers](https://github.com/obra/superpowers) 
 <table>
 <tr>
 <td width="25%">
-  <a href="https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh">
-    <img src="assets/sponsors/apixo-ai-zh.jpg" alt="APIXO：AI 图片与视频创作｜黑五特惠" width="100%">
-  </a>
+  <a href="https://apixo.ai/zh?utm_source=github&utm_medium=sponsorship&utm_campaign=superpowers&utm_content=logo" target="_blank"><img src="assets/sponsors/apixo-ai-card-450x250.png" alt="APIXO AI: 一站式 AI 影片製作與多模態創作平台 | 黑五特惠" width="100%"></a>
 </td>
 <td width="75%" valign="middle">
 
-感謝 [APIXO](https://apixo.ai/?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh) 贊助本專案！無需編程，在 APIXO 網頁端即可生成 AI 圖片與影片，也可透過 API 接入自己的應用與自動化工作流程。黑五期間，[seedream5.5](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)僅 **$0.014/張**，原價 $0.02/張，限時 7 折。指定模型與規格較活動頁列示的市場參考價最高省 66%，優惠自動生效，無需優惠碼。**活動截至北京時間 2026 年 12 月 31 日 23:59**。 [查看 APIXO 黑五優惠 →](https://apixo.ai/models/seedream-5-5?utm_source=github&utm_medium=sponsorship&utm_campaign=github_readme&utm_content=jnmetacode_superpowers-zh)
+**[APIXO AI](https://apixo.ai/zh?utm_source=github&utm_medium=sponsorship&utm_campaign=superpowers&utm_content=brand_mention)：一站式 AI 影片製作與多模態創作平台**
+全方位賦能日常效率與創意工作流，支援 4K 超清影片生成、Seedream 5.5 電影級出圖（低至 $0.014/張起）及 Suno 音樂創作。
+全面支援 **[MCP 協議一鍵串接](https://apixo.ai/zh/mcp?utm_source=github&utm_medium=sponsorship&utm_campaign=superpowers&utm_content=mcp_page)**，大中華區開發者免海外卡即開即用。黑五專屬福利全面開啟！
+🔥 **[立即查看 APIXO 黑五特惠活動，最高立省 40% →](https://apixo.ai/zh/deals/black-friday?utm_source=github&utm_medium=sponsorship&utm_campaign=superpowers&utm_content=black_friday)**
 
 </td>
 </tr>
