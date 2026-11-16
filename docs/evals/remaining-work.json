@@ -30,15 +30,15 @@
     {
       "id": "publish",
       "task": "Review, commit and publish",
-      "status": "in-progress",
-      "dependency": "v1.9.0 stable candidate CI and final publication; rc.2 already published on npm next and GitHub"
+      "status": "done"
     }
   ],
   "results": {
     "release-input": "Four invalid SemVer fixtures failed before fix; now rejected without byte changes; valid prerelease/build metadata case passes",
-    "regressions": "Latest: 81 Node tests passed, 0 failed, 0 skipped; installer lifecycle 163 passed; ShellCheck and diff check passed",
+    "regressions": "90 Node, 27 Hermes, 6 Pi, 163 installer checks passed; full server suite 139 passed; real Windows CI, independent Audit and site deployment passed",
     "handoff": "Evidence and complete workspace review patch refreshed",
-    "next_action": "Run stable candidate CI, publish 1.9.0 latest, update main and issue replies; keep native-session limitations explicit",
-    "offline-runner": "npm run test:offline passed with temporary verified jq on PATH; documented runtime exclusions and platform SKIP semantics; ShellCheck passed"
+    "next_action": "Continue native harness sessions and cross-model acceptance; reproduce remaining SDD language reports; publication itself is complete",
+    "offline-runner": "npm run test:offline passed with temporary verified jq on PATH; documented runtime exclusions and platform SKIP semantics; ShellCheck passed",
+    "publish": "v1.9.1 main, GitHub release and npm latest complete; registry artifact downloaded, SHA-512/CLI/all 21 skill versions verified"
   }
 }

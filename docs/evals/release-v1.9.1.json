@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-16",
+  "version": "1.9.1",
+  "source_commit": "e5e87896a268980c290e1832712666940d15caf3",
+  "upstream_version": "v7.0.2",
+  "upstream_commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+  "github_release": "https://github.com/jnMetaCode/superpowers-zh/releases/tag/v1.9.1",
+  "registry_verification": {
+    "tags": {
+      "latest": "1.9.1",
+      "next": "1.9.0-rc.2"
+    },
+    "version": "1.9.1",
+    "dist": {
+      "shasum": "48eb5073a40d5b5725f5364236480d20fb67c675",
+      "tarball": "https://registry.npmjs.org/superpowers-zh/-/superpowers-zh-1.9.1.tgz",
+      "fileCount": 179,
+      "integrity": "sha512-GI5WobEc4BkiOXd5+uS3Ge1/evtyEO4cgA7gv28QCFHHyaOvXRVyXrTmjSeJQ5zqFqWjR0AqH7/v8rF8wDDxJA==",
+      "signatures": [
+        {
+          "sig": "MEUCIQCTLixlVvxwpNBfC80hSUvXPv2tlQ2XXgKIWTkeC0U2twIgO/5oqWIVgOjD5sUSy2I61Sfh7F501zvziO5Hn8tVzsc=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        },
+        {
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+          "sig": "MEUCIGZEV7b0MiQS3T4tgX5bN/DvRBmmyOAXn2cjGeoKYfWsAiEAiZSHgMFZKwu6Zo/9zOz3FDJLF8XTFGGAtl+ubtJKhg0="
+        }
+      ],
+      "unpackedSize": 2061380
+    },
+    "artifact_sha512_matches": true,
+    "cli_version": "1.9.1",
+    "skills_verified": 21
+  },
+  "main_workflows": {
+    "CI": "https://github.com/jnMetaCode/superpowers-zh/actions/runs/43784739471",
+    "Audit": "https://github.com/jnMetaCode/superpowers-zh/actions/runs/43784739457",
+    "site_deploy": "https://github.com/jnMetaCode/superpowers-zh/actions/runs/43784739499",
+    "conclusion": "all success"
+  },
+  "issues": {
+    "completed": [
+      139,
+      137
+    ],
+    "progress_replies_updated": [
+      135,
+      132,
+      116
+    ]
+  },
+  "remaining": [
+    "Native harness clean-session acceptance",
+    "Broader cross-model multi-turn evaluation",
+    "Original SDD language reports reproduction",
+    "Real metadata for dedicated Codex portal publication"
+  ]
+}

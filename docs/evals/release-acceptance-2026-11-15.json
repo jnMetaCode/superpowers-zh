@@ -42,7 +42,6 @@
   "community_notification_reply": "https://github.com/jnMetaCode/superpowers-zh/issues/53#issuecomment-6887411169",
   "npm_authentication": "npm whoami reached registry but returned E401; publishing not complete",
   "remaining": [
-    "Formal 1.9.0 candidate CI, main update and latest publication",
     "Native harness clean-session transcripts",
     "Cross-model multi-turn behavior acceptance",
     "Real Codex portal metadata instead of fixture metadata"
@@ -54,5 +53,6 @@
     "published": true,
     "registry_artifact_sha512_matches": true,
     "registry_archive_cli_version": "1.9.0-rc.2"
-  }
+  },
+  "formal_release": "docs/evals/release-v1.9.1.json"
 }
