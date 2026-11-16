@@ -7,10 +7,10 @@
     "同步完成后更新 commit / version / date 三个字段。"
   ],
   "upstream": "https://github.com/obra/superpowers",
-  "commit": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
-  "version": "v7.0.0",
-  "date": "2026-10-19",
-  "evidence": "上游 v7.0.0 对齐完成：brainstorming 按 v7 从头重译（先判断知道多少、一次一个开放问题、分块复述、意图清楚后再定规模、builder check 取代 spec 审查，新增 builder-check-prompt.md、删除 spec-document-reviewer-prompt.md）；hooks/session-start 与 run-hook.cmd（空 PATH、反斜杠路径、Windows bash 查找与退出码）；task-done 静默成功记账；sdd-workspace 仅首次创建 .gitignore 与 Windows 路径归一化；server.cjs 字面插入；requesting-code-review 的 BASE_SHA 改用 cut；systematic-debugging 示例只报告变量是否设置。有意保留的分歧：brainstorming 译文补充了中文语境说明——跳过提问须对方明确接受，“你看着办/你定吧”是请你拿主意、应提方案而非跳过流程（eval 中 after 版两次把“你看着办”当成跳过提问并提前构建，补充后复测未再出现）；skills/writing-skills/render-graphs.js 仍为 CJS；subagent-driven-development/scripts/task-brief 额外识别「任务 N」标题。",
+  "commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+  "version": "v7.0.2",
+  "date": "2026-11-16",
+  "evidence": "上游 v7.0.1 / v7.0.2 代码同步完成，保留中文 fork 差异；rc.2 Linux、Windows、Pi、网站构建 CI 全部通过，官方 npm 包下载校验与运行版本检查通过。完整原生宿主会话与跨模型验收单列，不等同代码同步基线。见 docs/evals/upstream-v7.0.2-sync.json 和 docs/evals/release-acceptance-2026-11-15.json。",
   "trackedPaths": [
     "skills",
     "hooks",
@@ -48,35 +48,32 @@
       "独立Codex代理测试不等同Codex CLI或Claude压缩运行时验收"
     ]
   },
-  "pendingSync": {
-    "version": "v7.0.2",
-    "date": "2026-11-13",
-    "status": "implementation-complete-verification-limited",
-    "source": "https://github.com/obra/superpowers/releases/tag/v7.0.2",
+  "previousBaseline": {
+    "version": "v7.0.0",
+    "commit": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
+    "date": "2026-10-19",
+    "evidence": "上游 v7.0.0 对齐完成：brainstorming 按 v7 从头重译（先判断知道多少、一次一个开放问题、分块复述、意图清楚后再定规模、builder check 取代 spec 审查，新增 builder-check-prompt.md、删除 spec-document-reviewer-prompt.md）；hooks/session-start 与 run-hook.cmd（空 PATH、反斜杠路径、Windows bash 查找与退出码）；task-done 静默成功记账；sdd-workspace 仅首次创建 .gitignore 与 Windows 路径归一化；server.cjs 字面插入；requesting-code-review 的 BASE_SHA 改用 cut；systematic-debugging 示例只报告变量是否设置。有意保留的分歧：brainstorming 译文补充了中文语境说明——跳过提问须对方明确接受，“你看着办/你定吧”是请你拿主意、应提方案而非跳过流程（eval 中 after 版两次把“你看着办”当成跳过提问并提前构建，补充后复测未再出现）；skills/writing-skills/render-graphs.js 仍为 CJS；subagent-driven-development/scripts/task-brief 额外识别「任务 N」标题。"
+  },
+  "acceptance": {
+    "status": "core-regressions-verified-native-sessions-pending",
+    "ci": "https://github.com/jnMetaCode/superpowers-zh/actions/runs/43664176554",
+    "nativeValidator": "Antigravity CLI 1.5.7: 21 skills, zero errors, three documented cross-harness warnings",
     "evidence": [
       "docs/evals/upstream-v7.0.2-sync.json",
       "docs/evals/brainstorming-v7.0.2.json",
       "docs/evals/upstream-skill-audit-v7.0.2.json",
       "docs/evals/brainstorming-v7.0.2-samples.json",
       "docs/evals/brainstorming-why-contract.json",
-      "docs/evals/release-acceptance-2026-11-15.json"
+      "docs/evals/release-acceptance-2026-11-15.json",
+      "docs/evals/antigravity-native-validation-2026-11-15.json"
     ],
-    "remainingVerification": [
-      "Four native CLI end-to-end acceptance transcripts still missing; none of these CLIs is installed locally; Antigravity download blocked by storage.googleapis.com DNS",
-      "Why-first observed failure fixed in five isolated micro samples; full cross-model native multi-turn acceptance remains incomplete",
-      "Codex publication also needs real agents/openai.yaml metadata for all fork skills; packaging tests use fixtures, not publishable metadata",
-      "Corrected prerelease site build must pass remote CI; npm whoami now returns E401 and publishing remains incomplete"
+    "remaining": [
+      "Four native harness clean-session transcripts",
+      "Broader cross-model multi-turn behavioral evaluations",
+      "Real agents/openai.yaml metadata before dedicated Codex portal publication"
     ],
-    "baselineAdvanced": false,
-    "commit": "22f0b463e7a5e579904dd6211a520321035526f7",
     "intentionalDifferences": [
       "task-start calls task-brief and task-done calls sdd-workspace via Bash; both validated with stripped execution bits in real packed installer test"
-    ],
-    "implementedNativeChannels": [
-      "Hermes",
-      "Muse",
-      "Antigravity",
-      "Devin"
     ]
   }
 }

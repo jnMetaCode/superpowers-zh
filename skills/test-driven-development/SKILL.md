@@ -1,7 +1,7 @@
 ---
 name: test-driven-development
 description: 在实现任何功能或修复 bug 时使用，在编写实现代码之前
-version: "1.9.0-rc.2"
+version: "1.9.0"
 license: MIT
 metadata:
   hermes:

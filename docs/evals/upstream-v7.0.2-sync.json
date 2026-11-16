@@ -288,5 +288,6 @@
   "committed": false,
   "published": false,
   "release_commit": "22f0b463e7a5e579904dd6211a520321035526f7",
-  "task_plan": "docs/evals/remaining-work.json"
+  "task_plan": "docs/evals/remaining-work.json",
+  "supersededVerification": "docs/evals/release-acceptance-2026-11-15.json records later network, Windows, CI and npm results; historical gaps below describe 2026-11-13 only"
 }

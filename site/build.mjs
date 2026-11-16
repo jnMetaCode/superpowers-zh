@@ -66,10 +66,10 @@ const RELEASE_BANNER = LATEST.version.includes('-') ? {
   en: 'Preview release for upstream sync and installer validation. Native harness acceptance remains incomplete; use latest for the stable release. Read the verification scope',
   zht: '預覽版：用於驗證上游同步及安裝修復，原生工具驗收尚未全部完成。正式使用者請繼續使用 latest。檢視驗證範圍',
 } : {
-  version: '1.8.0',
-  zh: '所有用户建议更新 —— brainstorming 按上游 v7 重写：先弄清你想要什么，一次只问一个问题。另修复 SessionStart hook 在空 PATH 下丢失引导等问题。查看完整更新说明',
-  en: 'Update recommended for everyone — brainstorming is rebuilt from upstream v7: it works out what you want first, one question at a time. Also fixes the SessionStart hook losing its bootstrap under an empty PATH, and more. Read the full release notes',
-  zht: '所有使用者建議更新 —— brainstorming 按上游 v7 重寫：先弄清你想要什麼，一次只問一個問題。另修復 SessionStart hook 在空 PATH 下遺失引導等問題。檢視完整更新說明',
+  version: '1.9.0',
+  zh: 'v1.9.0 同步上游 v7.0.2，修复技能版本、安装卸载保护与任务脚本；服务器及 Windows CI 已验证，新增原生渠道仍待真实会话验收。查看更新说明',
+  en: 'v1.9.0 syncs upstream v7.0.2 and fixes skill versioning, installer protection and task scripts. Server and Windows CI verified; new native channels still await session acceptance. Read the release notes',
+  zht: 'v1.9.0 同步上游 v7.0.2，修復技能版本、安裝解除安裝保護與任務腳本；伺服器及 Windows CI 已驗證，新增原生渠道仍待真實會話驗收。檢視更新說明',
 };
 if (RELEASE_BANNER.version !== LATEST.version) {
   throw new Error(`首页发布提示条还是 v${RELEASE_BANNER.version} 的文案，release notes 最新是 v${LATEST.version} —— 发版时更新 site/build.mjs 的 RELEASE_BANNER`);
