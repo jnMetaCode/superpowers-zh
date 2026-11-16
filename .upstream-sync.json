@@ -75,5 +75,103 @@
     "intentionalDifferences": [
       "task-start calls task-brief and task-done calls sdd-workspace via Bash; both validated with stripped execution bits in real packed installer test"
     ]
+  },
+  "forkAudit": {
+    "hooks/session-start": {
+      "runtime": true,
+      "reason": "Chinese fork must bootstrap superpowers-zh:using-superpowers (#124), not the upstream plugin namespace.",
+      "upstreamSha256": "38fdeed045b28b62034a809e45602e33358573acbc23c83787d76d449cb89902",
+      "forkSha256": "8474095c426e722401b72e28834c9e076b94e2baf7a12704cf8932e8d531198f"
+    },
+    "skills/executing-plans/scripts/task-start": {
+      "runtime": true,
+      "reason": "Invoke task-brief through Bash; installed archive regression reproduced exit 126 when executable bits were stripped.",
+      "upstreamSha256": "4ae7ce3b6777c3240af786197836a6b4bbf3b0ee831c25f147c149ea8db54a21",
+      "forkSha256": "e8806b46963077a69c7e84bb8a8cbc32c95531a9b6e704210c03257fee6ffc76"
+    },
+    "skills/executing-plans/scripts/task-done": {
+      "runtime": true,
+      "reason": "Invoke sdd-workspace through Bash; installed archive regression reproduced exit 126 when executable bits were stripped.",
+      "upstreamSha256": "ac0b5ebafc7d471507b7e94d88da77a11f187ba277c8d48fefaf8ff3e4fee50e",
+      "forkSha256": "5eb8669a2ff24e89c675e4b65e17f703e4f0f235341e5cd13ed267e7b8b27ed8"
+    },
+    "skills/subagent-driven-development/SKILL.md": {
+      "headingDelta": 2,
+      "reason": "Retained Chinese layout: split Finish and Example Workflow headings; setup/resuming/preflight merged in a mandatory-read reference, batching remains inline.",
+      "targets": [
+        "skills/subagent-driven-development/references/preflight-and-resuming.md",
+        "skills/subagent-driven-development/references/report-handling.md",
+        "skills/subagent-driven-development/references/final-review.md",
+        "skills/subagent-driven-development/references/finishing.md"
+      ],
+      "upstreamSha256": "1baf70e307bde682c462513c86116333f1f066168c6710f45145bf5f0b00828d",
+      "forkSha256": "bfc58538752c3a9200b4a2ba5717885e43692e7b04b5216d5896fefda1082754",
+      "identifiers": [
+        "scripts/sdd-workspace",
+        "/progress.md",
+        "references/resuming.md",
+        "references/preflight.md",
+        "references/batching.md",
+        "references/handling-reports.md",
+        "references/cannot-verify.md"
+      ],
+      "targetSha256": {
+        "skills/subagent-driven-development/references/preflight-and-resuming.md": "5de92a3ce58112b13d6f361a026d2ab4bcf53a16abb544e1e382e47fbfc17660",
+        "skills/subagent-driven-development/references/report-handling.md": "5846a977fa03995a850f95428d0f71e0f50965b6b31c2c5ea38ae57837d04225",
+        "skills/subagent-driven-development/references/final-review.md": "1dcad16a5cffd77a014b9c959e56734ae8b1a4e08bb5f1775a1cf7c4892ccaae",
+        "skills/subagent-driven-development/references/finishing.md": "7115f36092168d513a1eb27e88b9cd721df05aabc52959b7817f01dce665f257"
+      }
+    },
+    "skills/writing-skills/SKILL.md": {
+      "headingDelta": 1,
+      "reason": "Chinese SDO heading retained; existing root Anthropic/reference documents retained instead of relocated upstream paths.",
+      "targets": [
+        "skills/writing-skills/anthropic-best-practices.md",
+        "skills/writing-skills/testing-skills-with-subagents.md"
+      ],
+      "upstreamSha256": "8cb3ac68c6d8c4bb46886b998b09af7989643cab8bd0e46ee86dd62e64546bbe",
+      "forkSha256": "3f19c64688cc1edc82485cc9faf6875654483c665dc28e545ef21d8cf687c877",
+      "identifiers": [
+        "references/anthropic-best-practices.md",
+        "references/testing-skills-with-subagents.md"
+      ],
+      "targetSha256": {
+        "skills/writing-skills/anthropic-best-practices.md": "0b5c85d5b2ae26ac3a27ca7238f588ce2e078c1dc4cfa2359b2702d6eb3a2c52",
+        "skills/writing-skills/testing-skills-with-subagents.md": "eb13ee27f429599912737ec7e9a411caacaab276fa179b109f6c6592da6eebd5"
+      }
+    },
+    "skills/subagent-driven-development/references/final-review.md": {
+      "reason": "Chinese final-review/finishing split and in-text model-selection/breaker guidance; the containing skill and fix-loop reference remain present.",
+      "targets": [
+        "skills/subagent-driven-development/SKILL.md",
+        "skills/subagent-driven-development/references/fix-loop.md",
+        "skills/subagent-driven-development/references/finishing.md"
+      ],
+      "upstreamSha256": "6c9e12093e46c4ad0a203bc07709c17e3470f855f1b78e55c5e7b722a012a32c",
+      "forkSha256": "1dcad16a5cffd77a014b9c959e56734ae8b1a4e08bb5f1775a1cf7c4892ccaae",
+      "identifiers": [
+        "SKILL.md",
+        "references/fix-loop.md"
+      ],
+      "targetSha256": {
+        "skills/subagent-driven-development/SKILL.md": "bfc58538752c3a9200b4a2ba5717885e43692e7b04b5216d5896fefda1082754",
+        "skills/subagent-driven-development/references/fix-loop.md": "804704987563ec3a6cf45af37f05158c7fe3b10a1fc7fdbd98594f72faa73c2f",
+        "skills/subagent-driven-development/references/finishing.md": "7115f36092168d513a1eb27e88b9cd721df05aabc52959b7817f01dce665f257"
+      }
+    },
+    "skills/subagent-driven-development/references/fix-loop.md": {
+      "reason": "Chinese model-selection reference uses section name rather than the literal containing SKILL.md filename.",
+      "targets": [
+        "skills/subagent-driven-development/SKILL.md"
+      ],
+      "upstreamSha256": "1938ce707915efc44021e563ebc29666329e20ad861b6c50b89f305b8f4e8d8b",
+      "forkSha256": "804704987563ec3a6cf45af37f05158c7fe3b10a1fc7fdbd98594f72faa73c2f",
+      "identifiers": [
+        "SKILL.md"
+      ],
+      "targetSha256": {
+        "skills/subagent-driven-development/SKILL.md": "bfc58538752c3a9200b4a2ba5717885e43692e7b04b5216d5896fefda1082754"
+      }
+    }
   }
 }

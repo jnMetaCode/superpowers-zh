@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-16",
+  "trigger": "main Audit 43783734378 reported nine known fork-layout/runtime differences after functional CI passed",
+  "decision": "Do not disable drift checks or alter skill behavior to satisfy a textual audit; declare only reviewed content with upstream/fork/relocated-target SHA-256 bindings",
+  "runtime_differences": [
+    "fork bootstrap namespace",
+    "Bash task-brief invocation",
+    "Bash sdd-workspace invocation"
+  ],
+  "layout_differences": "Previously evaluated Chinese references layout and literal identifier aliases retained; each exact affected file and target is content-bound in .upstream-sync.json forkAudit",
+  "tests": {
+    "unit_passed": 9,
+    "full_audit_passed": 185,
+    "full_audit_failed": 0,
+    "warning": "Stable npm version not published yet",
+    "integration": "Appending an unreviewed hook mutation made the actual audit fail; original restored",
+    "offline_node_passed": 90,
+    "installer_passed": 163
+  },
+  "release_handling": "v1.9.0 npm publish canceled before web verification; public tag retained as withdrawn prerelease; final candidate is v1.9.1",
+  "limits": "Core/native-session acceptance limits remain unchanged"
+}

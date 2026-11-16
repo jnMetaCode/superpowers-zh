@@ -1,6 +1,6 @@
 # 原生插件渠道与发布验收
 
-> v1.9.0：新增原生渠道仍待真实会话验收。核心脚本、安装器、服务器和 Windows CI 已验证，但不能据此认定所有原生渠道均可用。Antigravity CLI 1.5.7 已通过原生 manifest 校验，识别 21 个技能；源工具导入与自动 brainstorming 仍待验证。
+> v1.9.1：新增原生渠道仍待真实会话验收。核心脚本、安装器、服务器和 Windows CI 已验证，但不能据此认定所有原生渠道均可用。Antigravity CLI 1.5.7 已通过原生 manifest 校验，识别 21 个技能；源工具导入与自动 brainstorming 仍待验证。
 
 在源码仓库运行 `npm run test:offline` 可统一复跑本地回归。开发环境需 Node ≥22.6、npm、jq、pytest、Python 3、Git 和 tar；这是开发测试要求，包的运行时仍支持 Node 20。入口会在依赖缺失时退出；平台用例自身输出的 SKIP 仍是未验证，不代表通过。它不包含服务器网络、原生 CLI 会话、Windows 和需已提交快照的 Codex archive 测试；后者另由 CI 执行。
 

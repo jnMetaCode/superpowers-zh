@@ -25,5 +25,8 @@ jobs:
           git remote add upstream https://github.com/obra/superpowers.git
           git fetch upstream main --depth=50
 
+      - name: Test reviewed fork audit boundaries
+        run: node --test tests/audit/*.mjs
+
       - name: Run audit
         run: bash scripts/audit.sh

@@ -173,10 +173,19 @@ hdr "Category 3: 上游对齐"
 if ! ensure_upstream; then
   warn "无法访问 upstream，跳过对齐检查（CI 上请确保有网络）"
 else
+  # Exceptions bind exact reviewed upstream/fork content, not unrestricted paths.
+  if ! FORK_AUDIT_ALLOWANCES=$(node scripts/audit-fork-allowances.mjs); then
+    bad "已审核 fork 差异失效：内容或声明变化，必须重新核对"
+    FORK_AUDIT_ALLOWANCES='{}'
+  fi
+  export FORK_AUDIT_ALLOWANCES
+  fork_allowance() {
+    node -e 'const e = JSON.parse(process.env.FORK_AUDIT_ALLOWANCES)[process.argv[1]] || {}; const v = e[process.argv[2]]; if (v === undefined) process.exit(1); console.log(v);' "$1" "$2"
+  }
   # 3a. Hooks 3 文件 + cursor manifest
   for f in hooks/session-start hooks/hooks.json hooks/run-hook.cmd hooks/hooks-cursor.json; do
     d=$(diff <(git show upstream/main:$f 2>/dev/null) "$f" 2>/dev/null | wc -l | tr -d ' ')
-    if [ "$d" = "0" ]; then ok; else bad "Hooks 漂移: $f ($d 行)"; fi
+    if [ "$d" = "0" ] || [ "$(fork_allowance "$f" runtime)" = "true" ]; then ok; else bad "Hooks 漂移: $f ($d 行)"; fi
   done
 
   # 3b. Brainstorm scripts 3 文件
@@ -197,7 +206,7 @@ else
            skills/executing-plans/scripts/task-start \
            skills/executing-plans/scripts/task-done; do
     d=$(diff <(git show upstream/main:$f 2>/dev/null) "$f" 2>/dev/null | wc -l | tr -d ' ')
-    if [ "$d" = "0" ]; then ok; else bad "运行时文件漂移: $f ($d 行) —— 应与上游逐字一致: git show upstream/main:$f > $f"; fi
+    if [ "$d" = "0" ] || [ "$(fork_allowance "$f" runtime)" = "true" ]; then ok; else bad "运行时文件漂移: $f ($d 行) —— 应与上游逐字一致: git show upstream/main:$f > $f"; fi
   done
 
   # 3c. 15 翻译 skill 结构层级（H1-H4 标题数）
@@ -241,6 +250,8 @@ else
     # "0\n0"，后续整数比较直接报错、检查静默失效。用 `; true` 只吞退出码。
     declared=$(grep -c "$FORK_MARK" "skills/$s/SKILL.md" 2>/dev/null; true)
     declared=${declared:-0}
+    reviewed_delta=$(fork_allowance "skills/$s/SKILL.md" headingDelta || echo 0)
+    declared=$((declared + reviewed_delta))
     delta=$((our - up))
     if [ "$delta" = "$declared" ]; then
       ok
@@ -312,6 +323,7 @@ else
       const pat = /(--[a-z][a-z0-9-]{2,}|\$\{?[A-Z_]{3,}\}?|[\w./-]+\.(?:sh|js|mjs|md|json|py|ts|html)\b|scripts\/[\w-]+)/g;
       let allow = {};
       try { allow = JSON.parse(fs.readFileSync(".upstream-sync.json", "utf8")).identifierAllow || {}; } catch {}
+      for (const [f, e] of Object.entries(JSON.parse(process.env.FORK_AUDIT_ALLOWANCES || "{}"))) { allow[f] = [...(allow[f] || []), ...(e.identifiers || [])]; }
       const files = execSync("git ls-tree -r --name-only upstream/main skills").toString().split("\n")
         .filter(f => f.endsWith(".md") && fs.existsSync(f));
       const out = [];

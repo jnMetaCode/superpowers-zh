@@ -90,6 +90,9 @@ jobs:
       - name: Validate install script
         run: node bin/superpowers-zh.js --help
 
+      - name: Test reviewed fork audit boundaries
+        run: node --test tests/audit/*.mjs
+
       - name: Check release metadata versions
         run: |
           # 旧版 bash 发版路径依赖 jq；CI 不允许静默跳过这项集成测试。
